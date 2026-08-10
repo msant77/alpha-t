@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Roteiro de testes — Cut A Vid</title>
+<meta name="robots" content="noindex">
+<style>
+  :root {
+    --bg: #f6f7fb; --card: #ffffff; --text: #1b1e28; --muted: #5b6172;
+    --accent: #1d4ed8; --border: #e3e6ef; --ok: #16a34a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #12141c; --card: #1b1e28; --text: #e9ebf2; --muted: #9aa1b5;
+      --accent: #4c6ef5; --border: #2a2e3d; --ok: #4ade80;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+         font: 16px/1.65 -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 40px 20px 96px; }
+  .brand { display: inline-block; font-weight: 800; letter-spacing: .04em;
+           color: var(--accent); border: 2px solid var(--accent);
+           border-radius: 8px; padding: 2px 10px; font-size: 14px; }
+  h1 { margin: 14px 0 4px; font-size: 28px; }
+  .sub { color: var(--muted); margin: 0 0 28px; }
+  .howto { background: var(--card); border: 1px solid var(--accent);
+           border-radius: 12px; padding: 16px 20px; margin-bottom: 28px; }
+  .howto strong { color: var(--accent); }
+  section { background: var(--card); border: 1px solid var(--border);
+            border-radius: 12px; padding: 18px 22px; margin-bottom: 16px; }
+  h2 { margin: 0 0 10px; font-size: 18px; }
+  ol { margin: 0; padding-left: 22px; }
+  li { margin: 7px 0; }
+  li::marker { color: var(--accent); font-weight: 700; }
+  .check { color: var(--ok); font-weight: 600; }
+  code { background: rgba(125,125,125,.12); padding: 1px 6px;
+         border-radius: 6px; font-size: 14px; }
+  .note { color: var(--muted); font-size: 14px; }
+  footer { margin-top: 32px; color: var(--muted); font-size: 14px; }
+  footer a { color: inherit; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="brand">ALPHA T</span>
+  <h1>Roteiro de testes — Cut A Vid v1.2.1 (Windows)</h1>
+  <p class="sub">— by and to Ju ARV —</p>
+
+  <div class="howto">
+    <strong>Como reportar:</strong> use o botão azul de feedback no canto
+    inferior direito <em>desta página</em>. Para cada achado, diga o número
+    do passo, o que você esperava e o que aconteceu. Bug, melhoria ou
+    sugestão — tudo vale. Cada envio fica registrado e você acompanha o
+    andamento.
+  </div>
+
+  <section>
+    <h2>1 · Instalação</h2>
+    <ol>
+      <li>Baixe o zip na <a href="https://apps.alphatester.app">página de apps</a>.</li>
+      <li>Botão direito → <em>Extrair Tudo…</em> → abra a pasta <code>CutAVid</code>.</li>
+      <li><span class="check">Confira:</span> existe um <code>LEIA-ME.txt</code> dentro da pasta.</li>
+      <li>Abra o <code>cutavid.exe</code>. Se o Windows avisar, <em>Mais informações → Executar assim mesmo</em>.</li>
+      <li><span class="check">Confira:</span> o título da janela diz <code>Cut A Vid 1.2.1</code> e há um <code>v1.2.1</code> no canto do cabeçalho.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>2 · Corte simples</h2>
+    <ol>
+      <li>Arraste um vídeo para a janela (ou clique para selecionar).</li>
+      <li><span class="check">Confira:</span> a duração aparece e o vídeo carrega no reprodutor.</li>
+      <li>Escolha início e fim (digitando ou pelas alças do controle deslizante).</li>
+      <li><span class="check">Confira:</span> alças e campos ficam sempre iguais, mexa onde mexer.</li>
+      <li><em>Prever corte</em> — deve tocar só o trecho e parar sozinho no fim.</li>
+      <li><em>Cortar e salvar…</em> no modo <em>Corte rápido</em>; abra o arquivo salvo.</li>
+      <li>Repita com <em>Corte preciso</em> e compare o começo dos dois resultados.</li>
+      <li><em>Reproduzir resultado</em> — o corte toca dentro do app; <em>Voltar ao vídeo original</em> funciona.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>3 · Composição (vários trechos)</h2>
+    <ol>
+      <li>Defina um trecho e clique <em>Adicionar trecho</em>. Repita — monte 3 trechos.</li>
+      <li>Arraste as linhas para reordenar; teste <em>Inverter ordem</em>.</li>
+      <li>Edite um trecho (lápis), mude os tempos, <em>Salvar trecho</em>.</li>
+      <li><em>Exportar composição…</em> e confira se o vídeo final segue a ordem da lista.</li>
+      <li>Durante uma exportação demorada, teste <em>Cancelar</em>.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>4 · Vários vídeos na mesma composição</h2>
+    <ol>
+      <li>Com trechos na lista, clique <em>Trocar vídeo…</em> e carregue OUTRO arquivo.</li>
+      <li><span class="check">Confira:</span> os trechos anteriores continuam na lista, agora com o nome do vídeo de origem.</li>
+      <li>Adicione trechos do segundo vídeo e exporte.</li>
+      <li><span class="check">Confira:</span> o resultado junta tudo em um vídeo só, sem travar nas emendas.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>5 · Erros e cantos</h2>
+    <ol>
+      <li>Digite tempos inválidos (<code>abc</code>, fim menor que início) — as mensagens fazem sentido?</li>
+      <li>Estreite bastante a janela — o layout vira uma coluna única e continua usável?</li>
+      <li>Tente carregar um arquivo que não é vídeo — o app avisa e continua funcionando?</li>
+    </ol>
+    <p class="note">Qualquer coisa estranha que não esteja no roteiro também
+    conta — velocidade, textos, visual, o que for.</p>
+  </section>
+
+  <footer>Alpha T · <a href="https://apps.alphatester.app">apps</a> ·
+  <a href="https://alphatester.app">alphatester.app</a></footer>
+</div>
+
+<script src="alpha-tester.umd.js"></script>
+<script>
+  AlphaTester.init({
+    projectId: "e934b8b4-d015-4334-8cca-7b5d4ff08334",
+    apiKey: "at_pub_Zzn0ILakn-7ei-riETQC9Tywg9IsXEJO",
+    endpoint: "https://dev.alphatester.app",
+    user: { name: "Ju ARV" }
+  });
+</script>
+</body>
+</html>
