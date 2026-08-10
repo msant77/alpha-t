@@ -108,24 +108,28 @@
       rápido sem recodificar ou preciso quadro a quadro — com ffmpeg
       embutido, nada mais para instalar.</p>
       <ul class="meta">
-        <li><strong>Versão</strong>1.2.0 · 07/08/2026</li>
+        <li><strong>Versão</strong>1.2.0 · 10/08/2026</li>
         <li><strong>Sistema</strong>Windows 10 ou superior, 64 bits</li>
         <li><strong>Tamanho</strong>~148 MB</li>
       </ul>
-      <!-- Botão de download desativado até o arquivo estar hospedado (R2).
-           NUNCA reativar sem verificar a URL com curl (status + tamanho +
-           bytes PK): o fallback do Pages devolve o index com 200 para
-           qualquer caminho — um link sem arquivo baixa HTML com nome de
-           zip. Foi exatamente o que aconteceu em 2026-08-10. -->
-      <span class="btn" style="opacity:.55; cursor:default;">
-        Download em breve — peça o arquivo diretamente
-      </span>
+      <!-- Link verificado em 2026-08-10 (status 200 + tamanho exato +
+           bytes PK). NUNCA trocar este href sem repetir a verificação:
+           um caminho sem arquivo no Pages devolve o index com 200 e
+           baixa HTML com nome de zip. -->
+      <a class="btn"
+         href="https://github.com/msant77/alpha-t/releases/download/cutavid-v1.2.0/cutavid-windows-x64-v1.2.0.zip">
+        Baixar para Windows
+      </a>
       <details>
         <summary>Como instalar</summary>
         <ol>
           <li>Baixe o arquivo <code>.zip</code>.</li>
           <li>Clique com o botão direito → <em>Extrair Tudo…</em></li>
-          <li>Abra a pasta extraída e execute <code>cutavid.exe</code>.</li>
+          <li>Abra a pasta <code>CutAVid</code> extraída e execute
+          <code>cutavid.exe</code> de dentro dela — os arquivos da pasta
+          trabalham juntos, não mova o <code>.exe</code> sozinho.</li>
+          <li>Instruções completas no <code>LEIA-ME.txt</code> dentro da
+          pasta.</li>
           <li class="note">Na primeira execução o Windows pode exibir
           “O Windows protegeu o computador”. Clique em
           <em>Mais informações</em> e depois em <em>Executar assim
@@ -135,7 +139,7 @@
       </details>
       <div class="sha">
         <span class="label">SHA-256</span>
-        <code id="sha-cutavid">5bc917015ad6b3e2af82354796b12158d713a77d050ccaaaf6de59ccc23786e3</code>
+        <code id="sha-cutavid">9c385b1d79be402fd67eac3591df7e40cf0a704448ee4b1241c333a167749308</code>
         <button type="button" onclick="copySha('sha-cutavid', this)">Copiar</button>
         <p class="verify note">Para conferir, no PowerShell:
         <code>Get-FileHash .\cutavid-windows-x64-v1.2.0.zip</code>
