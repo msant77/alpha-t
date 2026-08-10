@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alpha T — feedback com contexto, de dentro do app</title>
+<meta name="description" content="Alpha T: widget de feedback embutido para apps em teste — capturas por região, triagem e acompanhamento para quem reportou.">
+<style>
+  :root {
+    --bg: #f6f7fb; --card: #ffffff; --text: #1b1e28; --muted: #5b6172;
+    --accent: #1d4ed8; --accent-text: #ffffff; --border: #e3e6ef;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #12141c; --card: #1b1e28; --text: #e9ebf2; --muted: #9aa1b5;
+      --accent: #4c6ef5; --accent-text: #ffffff; --border: #2a2e3d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.65 -apple-system, "Segoe UI", Roboto, Ubuntu, sans-serif;
+  }
+  .wrap { max-width: 680px; margin: 0 auto; padding: 64px 20px; }
+  .brand {
+    display: inline-block; font-weight: 800; letter-spacing: .04em;
+    color: var(--accent); border: 2px solid var(--accent);
+    border-radius: 10px; padding: 4px 14px; font-size: 18px;
+  }
+  h1 { margin: 20px 0 8px; font-size: 34px; line-height: 1.2; }
+  .tagline { margin: 0 0 36px; color: var(--muted); font-size: 19px; }
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 20px 24px; margin-bottom: 16px;
+  }
+  .card h2 { margin: 0 0 6px; font-size: 17px; }
+  .card p { margin: 0; color: var(--muted); font-size: 15px; }
+  .links { margin-top: 32px; display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn {
+    display: inline-block; background: var(--accent); color: var(--accent-text);
+    text-decoration: none; font-weight: 700; padding: 12px 22px;
+    border-radius: 10px;
+  }
+  .btn.ghost {
+    background: transparent; color: var(--accent);
+    border: 2px solid var(--accent);
+  }
+  .status { margin-top: 28px; color: var(--muted); font-size: 14px; }
+  footer { margin-top: 48px; color: var(--muted); font-size: 14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="brand">ALPHA T</span>
+  <h1>Feedback com contexto, de dentro do app</h1>
+  <p class="tagline">Um widget embutido para apps em fase de teste: quem usa
+  reporta na hora, com captura da região exata da tela — e acompanha o que
+  aconteceu com o que reportou.</p>
+
+  <div class="card">
+    <h2>Captura por região</h2>
+    <p>A pessoa marca um retângulo sobre o problema. Sem prints inteiros,
+    sem explicação por mensagem: o contexto vai junto do relato.</p>
+  </div>
+  <div class="card">
+    <h2>Triagem em um só lugar</h2>
+    <p>Bugs, melhorias e sugestões chegam classificados por projeto, com
+    histórico de status e vínculo com issues.</p>
+  </div>
+  <div class="card">
+    <h2>Retorno para quem reportou</h2>
+    <p>Do "Enviado" ao "Entregue": quem contribuiu vê o andamento, como
+    rastreio de encomenda.</p>
+  </div>
+
+  <div class="links">
+    <a class="btn" href="https://apps.alphatester.app">Apps distribuídos</a>
+    <a class="btn ghost" href="https://github.com/msant77/alpha-t">GitHub</a>
+  </div>
+
+  <p class="status">Em preparação para os primeiros projetos-piloto.</p>
+
+  <footer>Alpha T · alphatester.app</footer>
+</div>
+</body>
+</html>

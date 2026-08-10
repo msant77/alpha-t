@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alpha T — Apps</title>
+<meta name="description" content="Aplicativos distribuídos e testados com o Alpha T.">
+<style>
+  :root {
+    --bg: #f6f7fb; --card: #ffffff; --text: #1b1e28; --muted: #5b6172;
+    --accent: #1d4ed8; --accent-text: #ffffff; --border: #e3e6ef;
+    --code-bg: #eef1f8; --soon: #8a5a00; --soon-bg: #fff3d6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #12141c; --card: #1b1e28; --text: #e9ebf2; --muted: #9aa1b5;
+      --accent: #4c6ef5; --accent-text: #ffffff; --border: #2a2e3d;
+      --code-bg: #232736; --soon: #ffd479; --soon-bg: #3a3320;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.6 -apple-system, "Segoe UI", Roboto, Ubuntu, sans-serif;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 40px 20px 64px; }
+  header .brand {
+    display: inline-block; font-weight: 800; letter-spacing: .04em;
+    color: var(--accent); border: 2px solid var(--accent);
+    border-radius: 8px; padding: 2px 10px; font-size: 14px;
+  }
+  h1 { margin: 14px 0 4px; font-size: 32px; }
+  .tagline { margin: 0 0 32px; color: var(--muted); }
+  section.app {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 24px; margin-bottom: 20px;
+  }
+  .app-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  h2 { margin: 0; font-size: 22px; }
+  .badge {
+    font-size: 12px; font-weight: 700; padding: 2px 10px; border-radius: 999px;
+    background: var(--accent); color: var(--accent-text);
+  }
+  .badge.soon { background: var(--soon-bg); color: var(--soon); }
+  .dedication {
+    margin: 2px 0 0; color: var(--muted); font-style: italic; font-size: 14px;
+  }
+  .app-icon { border-radius: 14px; display: block; }
+  .meta { list-style: none; padding: 0; margin: 12px 0 20px; color: var(--muted); font-size: 14.5px; }
+  .meta li { margin: 2px 0; }
+  .meta strong { color: var(--text); font-weight: 600; margin-right: 6px; }
+  .btn {
+    display: inline-block; background: var(--accent); color: var(--accent-text);
+    text-decoration: none; font-weight: 700; padding: 12px 22px;
+    border-radius: 10px;
+  }
+  .btn:hover { filter: brightness(1.1); }
+  details { margin: 18px 0 0; }
+  summary { cursor: pointer; font-weight: 600; }
+  details ol { margin: 10px 0 0; padding-left: 22px; }
+  details li { margin: 6px 0; }
+  .note { color: var(--muted); font-size: 14px; }
+  .sha {
+    margin-top: 20px; padding: 12px 14px; background: var(--code-bg);
+    border-radius: 10px; font-size: 13px;
+  }
+  .sha .label { font-weight: 700; margin-right: 8px; }
+  .sha code {
+    font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+    word-break: break-all; display: block; margin: 6px 0 10px;
+  }
+  .sha button {
+    font: inherit; font-weight: 600; padding: 4px 12px; border-radius: 8px;
+    border: 1px solid var(--border); background: var(--card); color: var(--text);
+    cursor: pointer;
+  }
+  .verify { margin-top: 8px; }
+  .verify code {
+    font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+    background: var(--code-bg); padding: 1px 6px; border-radius: 6px;
+    font-size: 13px;
+  }
+  footer { margin-top: 40px; color: var(--muted); font-size: 14px; }
+  footer a { color: inherit; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="brand">ALPHA T</span>
+    <h1>Apps</h1>
+    <p class="tagline">Aplicativos distribuídos e testados com o Alpha T.</p>
+  </header>
+
+  <main>
+    <section class="app" id="cutavid">
+      <div class="app-head">
+        <img class="app-icon" src="data:image/png;base64,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" alt=""
+             width="56" height="56">
+        <h2>Cut A Vid</h2>
+        <span class="badge">Windows</span>
+      </div>
+      <p class="dedication">— by and to Ju ARV —</p>
+      <p>Corte e monte vídeos em segundos: assista no reprodutor embutido,
+      escolha os trechos com o controle deslizante duplo, faça a prévia e
+      exporte. Componha vários trechos — de um ou de vários vídeos —,
+      reordene ou inverta a ordem e salve tudo em um único arquivo. Corte
+      rápido sem recodificar ou preciso quadro a quadro — com ffmpeg
+      embutido, nada mais para instalar.</p>
+      <ul class="meta">
+        <li><strong>Versão</strong>1.2.0 · 07/08/2026</li>
+        <li><strong>Sistema</strong>Windows 10 ou superior, 64 bits</li>
+        <li><strong>Tamanho</strong>~148 MB</li>
+      </ul>
+      <!-- Botão de download desativado até o arquivo estar hospedado (R2).
+           NUNCA reativar sem verificar a URL com curl (status + tamanho +
+           bytes PK): o fallback do Pages devolve o index com 200 para
+           qualquer caminho — um link sem arquivo baixa HTML com nome de
+           zip. Foi exatamente o que aconteceu em 2026-08-10. -->
+      <span class="btn" style="opacity:.55; cursor:default;">
+        Download em breve — peça o arquivo diretamente
+      </span>
+      <details>
+        <summary>Como instalar</summary>
+        <ol>
+          <li>Baixe o arquivo <code>.zip</code>.</li>
+          <li>Clique com o botão direito → <em>Extrair Tudo…</em></li>
+          <li>Abra a pasta extraída e execute <code>cutavid.exe</code>.</li>
+          <li class="note">Na primeira execução o Windows pode exibir
+          “O Windows protegeu o computador”. Clique em
+          <em>Mais informações</em> e depois em <em>Executar assim
+          mesmo</em> — o aviso aparece porque o aplicativo ainda não é
+          assinado digitalmente.</li>
+        </ol>
+      </details>
+      <div class="sha">
+        <span class="label">SHA-256</span>
+        <code id="sha-cutavid">5bc917015ad6b3e2af82354796b12158d713a77d050ccaaaf6de59ccc23786e3</code>
+        <button type="button" onclick="copySha('sha-cutavid', this)">Copiar</button>
+        <p class="verify note">Para conferir, no PowerShell:
+        <code>Get-FileHash .\cutavid-windows-x64-v1.2.0.zip</code>
+        (maiúsculas e minúsculas não importam).</p>
+      </div>
+    </section>
+
+    <section class="app" id="widget">
+      <div class="app-head">
+        <h2>Widget de feedback Alpha T</h2>
+        <span class="badge soon">em breve</span>
+      </div>
+      <p>O widget do Alpha T para aplicativos em fase de teste — relatos de
+      bugs e sugestões enviados de dentro do próprio app, com captura de tela
+      e acompanhamento do status pelo testador. Disponível para web e, em
+      breve, para Flutter.</p>
+    </section>
+  </main>
+
+  <footer>
+    Alpha T · <a href="https://alphatester.app">alphatester.app</a>
+  </footer>
+</div>
+<script>
+  function copySha(id, button) {
+    const value = document.getElementById(id).textContent.trim();
+    navigator.clipboard.writeText(value).then(() => {
+      const original = button.textContent;
+      button.textContent = 'Copiado!';
+      setTimeout(() => { button.textContent = original; }, 1600);
+    });
+  }
+</script>
+</body>
+</html>
