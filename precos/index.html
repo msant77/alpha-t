@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="meta.precos.title">Preços — Alpha Tester</title>
+<meta name="description" content="Planos do Alpha Tester em proposta: somente feedback, sem agente, agente de triagem, agente implementador e o ciclo completo, com créditos para a IA." data-i18n-attr="content:meta.precos.description">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#CDBCA1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#17333A" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://alphatester.app/precos/" data-canonical="precos/">
+<link rel="alternate" hreflang="pt-BR" href="https://alphatester.app/precos/">
+<link rel="alternate" hreflang="en" href="https://alphatester.app/en/precos/">
+<link rel="alternate" hreflang="es" href="https://alphatester.app/es/precos/">
+<link rel="alternate" hreflang="x-default" href="https://alphatester.app/precos/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Alpha Tester">
+<meta property="og:locale" content="pt_BR" data-i18n-attr="content:meta.locale">
+<meta property="og:url" content="https://alphatester.app/precos/" data-canonical="precos/">
+<meta property="og:title" content="Preços — Alpha Tester" data-i18n-attr="content:meta.precos.ogTitle">
+<meta property="og:description" content="Planos em proposta: a plataforma por mês e a IA pelo que usar, com créditos e limite diário por projeto." data-i18n-attr="content:meta.precos.ogDescription">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('alphatester-theme');
+      if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+    } catch (e) { /* storage unavailable: follow the system preference */ }
+  })();
+</script>
+<link rel="stylesheet" href="/assets/site.css">
+<script src="/assets/i18n.js" defer></script>
+<script src="/assets/theme.js" defer></script>
+
+</head>
+<body>
+<a class="skip" href="#conteudo" data-i18n="common.skip">Pular para o conteúdo</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/" data-href="home">ALPHA TESTER</a>
+    <nav class="site-nav" aria-label="Principal" data-i18n-attr="aria-label:common.nav.main">
+      <a href="/como-funciona/" data-href="como" data-i18n="common.nav.como">Como funciona</a>
+      <a href="/precos/" data-href="precos" data-i18n="common.nav.precos" aria-current="page">Preços</a>
+    </nav>
+    <div class="header-actions">
+      <div class="lang-switch" role="group" aria-label="Idioma" data-i18n-attr="aria-label:common.lang.label">
+        <button type="button" data-lang-btn="pt-BR" lang="pt-BR" aria-label="Português" aria-pressed="true">PT</button>
+        <button type="button" data-lang-btn="en" lang="en" aria-label="English" aria-pressed="false">EN</button>
+        <button type="button" data-lang-btn="es" lang="es" aria-label="Español" aria-pressed="false">ES</button>
+      </div>
+      <button type="button" class="theme-toggle" data-theme-toggle hidden>
+        <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg><span data-theme-label>Usar tema escuro</span>
+      </button>
+      <button type="button" class="btn small" aria-disabled="true" title="em breve" data-i18n="common.signIn" data-i18n-attr="title:common.soon">Entrar</button>
+      <button type="button" class="btn small" aria-disabled="true" title="em breve" data-i18n="common.signOut" data-i18n-attr="title:common.soon">Sair</button>
+    </div>
+  </div>
+</header>
+
+<main id="conteudo" class="precos">
+  <section class="precos-intro" aria-labelledby="precos-titulo">
+    <div class="wrap">
+      <p class="eyebrow" data-i18n="precos.eyebrow">Planos</p>
+      <h1 id="precos-titulo"><span data-i18n="precos.title">Preços</span> <span class="badge soon" data-i18n="common.soon">em breve</span></h1>
+      <p class="small-print"><strong data-i18n="precos.noteLabel">Valores em proposta:</strong> <span data-i18n="precos.note">podem mudar antes do lançamento.</span></p>
+      <p class="small-print" data-i18n="meta.currency.note">Preços em reais. Em inglês e espanhol: dólares convertidos pela PTAX do BCB de 13/11/2026 (1 USD = 5,6518 BRL), arredondados para valores terminados em 9.</p>
+      <p class="lead" data-i18n="precos.lead">Você paga a plataforma por mês e a IA pelo que usar: custo do modelo mais uma taxa transparente, debitado de créditos da sua empresa. Sem surpresa na fatura.</p>
+      <div class="grid three plans">
+        <article class="card plan">
+          <div class="plan-head"><h2 class="plan-name" data-i18n="precos.plans.feedback.name">Somente feedback</h2><span class="badge soon" data-i18n="common.soon">em breve</span></div>
+          <p class="plan-price" data-i18n="precos.plans.feedback.price">A partir de R$ 29/mês</p>
+          <p data-i18n="precos.plans.feedback.desc">Widget com contexto (elemento marcado, captura de tela, erros do console, fila offline) e painel para acompanhar tudo.</p>
+          <ul>
+            <li data-i18n="precos.plans.feedback.items.0">Pacotes de 100, 500 ou 2.000 feedbacks por mês (R$ 29, R$ 79, R$ 199)</li>
+            <li data-i18n="precos.plans.feedback.items.1">Até 3 projetos e 5 assentos</li>
+            <li data-i18n="precos.plans.feedback.items.2">Anexos guardados por 30 dias</li>
+          </ul>
+          <button type="button" class="btn plan-cta" aria-disabled="true" title="em breve" data-i18n="common.soonButton" data-i18n-attr="title:common.soon">Em breve</button>
+        </article>
+        <article class="card plan">
+          <div class="plan-head"><h2 class="plan-name" data-i18n="precos.plans.noAgent.name">Sem agente</h2><span class="badge soon" data-i18n="common.soon">em breve</span></div>
+          <p class="plan-price" data-i18n="precos.plans.noAgent.price">R$ 99/mês · R$ 149/mês com GitHub</p>
+          <p data-i18n="precos.plans.noAgent.desc">Triagem manual no painel, status para quem relatou, CLI e servidor MCP.</p>
+          <ul>
+            <li data-i18n="precos.plans.noAgent.items.0">1.000 feedbacks por mês, 5 projetos, 5 assentos</li>
+            <li data-i18n="precos.plans.noAgent.items.1">Com GitHub: crie a issue direto do feedback, com link e rótulos</li>
+            <li data-i18n="precos.plans.noAgent.items.2">Anexos guardados por 90 dias</li>
+          </ul>
+          <button type="button" class="btn plan-cta" aria-disabled="true" title="em breve" data-i18n="common.soonButton" data-i18n-attr="title:common.soon">Em breve</button>
+        </article>
+        <article class="card plan">
+          <div class="plan-head"><h2 class="plan-name" data-i18n="precos.plans.triage.name">Agente de triagem</h2><span class="badge soon" data-i18n="common.soon">em breve</span></div>
+          <p class="plan-price" data-i18n="precos.plans.triage.price">R$ 149/mês + pacote de triagens a partir de R$ 50</p>
+          <p data-i18n="precos.plans.triage.desc">A IA filtra conteúdo malicioso, encontra duplicados, classifica, estima o esforço e abre a issue no GitHub.</p>
+          <ul>
+            <li data-i18n="precos.plans.triage.items.0">Pacotes de R$ 50, R$ 150 ou R$ 450 (cerca de 160, 500 ou 1.550 triagens)</li>
+            <li data-i18n="precos.plans.triage.items.1">2.000 feedbacks por mês, 10 projetos, 10 assentos</li>
+            <li data-i18n="precos.plans.triage.items.2">Anexos guardados por 180 dias</li>
+          </ul>
+          <button type="button" class="btn plan-cta" aria-disabled="true" title="em breve" data-i18n="common.soonButton" data-i18n-attr="title:common.soon">Em breve</button>
+        </article>
+        <article class="card plan">
+          <div class="plan-head"><h2 class="plan-name" data-i18n="precos.plans.implementer.name">Agente implementador</h2><span class="badge soon" data-i18n="common.soon">em breve</span></div>
+          <p class="plan-price" data-i18n="precos.plans.implementer.price">R$ 149/mês + pacote de jobs a partir de R$ 200</p>
+          <p data-i18n="precos.plans.implementer.desc">A IA lê a issue e o código, faz a alteração, roda as verificações e abre um pull request em rascunho para o seu time revisar.</p>
+          <ul>
+            <li data-i18n="precos.plans.implementer.items.0">Pacotes de R$ 200, R$ 600 ou R$ 1.800 (cerca de 11, 36 ou 112 PRs de porte médio)</li>
+            <li data-i18n="precos.plans.implementer.items.1">Cada job começa só depois da sua aprovação</li>
+            <li data-i18n="precos.plans.implementer.items.2">2.000 feedbacks por mês, 10 projetos, 10 assentos</li>
+            <li data-i18n="precos.plans.implementer.items.3">Em breve: compor uma release com um conjunto de feedbacks implementados</li>
+          </ul>
+          <button type="button" class="btn plan-cta" aria-disabled="true" title="em breve" data-i18n="common.soonButton" data-i18n-attr="title:common.soon">Em breve</button>
+        </article>
+        <article class="card plan">
+          <div class="plan-head"><h2 class="plan-name" data-i18n="precos.plans.both.name">Ciclo completo · os dois agentes</h2><span class="badge soon" data-i18n="common.soon">em breve</span></div>
+          <p class="plan-price" data-i18n="precos.plans.both.price">R$ 149/mês + pacote a partir de R$ 300</p>
+          <p data-i18n="precos.plans.both.desc">Do feedback ao pull request: triagem e implementação na mesma carteira de créditos.</p>
+          <ul>
+            <li data-i18n="precos.plans.both.items.0">Pacotes de R$ 300, R$ 900 ou R$ 2.400</li>
+            <li data-i18n="precos.plans.both.items.1">5.000 feedbacks por mês, 20 projetos, 15 assentos</li>
+            <li data-i18n="precos.plans.both.items.2">Anexos guardados por 1 ano</li>
+            <li data-i18n="precos.plans.both.items.3">Em breve: compor uma release com um conjunto de feedbacks implementados</li>
+          </ul>
+          <button type="button" class="btn plan-cta" aria-disabled="true" title="em breve" data-i18n="common.soonButton" data-i18n-attr="title:common.soon">Em breve</button>
+        </article>
+        <div class="card credits">
+          <h2 class="plan-name" data-i18n="precos.credits.title">Como funcionam os créditos</h2>
+          <p data-i18n="precos.credits.text">Cada execução de agente debita o custo real do modelo de IA mais uma taxa de 30 % a 40 %, conforme o pacote. As quantidades acima são estimativas para execuções típicas; você acompanha cada débito no extrato. Créditos não usados passam para o mês seguinte. Você define um limite diário por projeto, e o agente para quando o saldo acaba, sem cobrança extra.</p>
+          <p data-i18n="precos.credits.annual">Pagamento anual: 2 meses grátis na assinatura.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p data-i18n="common.footer">Alpha Tester · alphatester.app</p>
+    <nav aria-label="Rodapé" data-i18n-attr="aria-label:common.nav.footer">
+      <a href="/" data-href="home" data-i18n="common.nav.home">Início</a>
+      <a href="/como-funciona/" data-href="como" data-i18n="common.nav.como">Como funciona</a>
+      <a href="https://github.com/msant77/alpha-t">GitHub</a>
+    </nav>
+  </div>
+</footer>
+<!-- Alpha Tester feedback widget: hidden unless this browser opted in.
+     ?alpha=1 turns it on (localStorage.alpha = "1"), ?alpha=0 turns it off.
+     Same SDK and dashboard as the testing script (/teste/), on the
+     landing's own project; the key alone selects the project. -->
+<script>
+  (function () {
+    var on = false;
+    try {
+      var q = new URLSearchParams(location.search).get("alpha");
+      if (q === "1") localStorage.setItem("alpha", "1");
+      if (q === "0") localStorage.removeItem("alpha");
+      on = localStorage.getItem("alpha") === "1";
+    } catch (e) { /* storage unavailable: the widget stays hidden */ }
+    if (!on) return;
+    var s = document.createElement("script");
+    s.src = "https://apps.alphatester.app/teste/alpha-tester.umd.js";
+    s.onload = function () {
+      if (!window.AlphaTester) return;
+      AlphaTester.init({
+        projectId: "alpha-tester-landing",
+        apiKey: "at_pub_r1SFXHb8yXUh_sXqehXW86E3AuGcxyxy",
+        endpoint: "https://dev.alphatester.app"
+      });
+    };
+    document.body.appendChild(s);
+  })();
+</script>
+</body>
+</html>

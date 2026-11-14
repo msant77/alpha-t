@@ -1,0 +1,1395 @@
+{
+  "meta": {
+    "locale": "en_US",
+    "home": {
+      "title": "Alpha Tester — feedback with context, from inside the app",
+      "description": "Alpha Tester: a feedback widget for apps in testing. Reports arrive with the screen, the console and the environment; one agent triages them and opens the GitHub issue, another proposes the fix in a draft PR.",
+      "ogTitle": "Alpha Tester — feedback with context, from inside the app",
+      "ogDescription": "From the widget to a draft PR: feedback with context, agent triage, a GitHub issue and a person deciding the merge."
+    },
+    "como": {
+      "title": "How it works — Alpha Tester",
+      "description": "How Alpha Tester works, in scenes: widget and SDK, dashboard, triage agent, GitHub, implementer, review, CLI and MCP server, security and privacy.",
+      "ogTitle": "How it works — Alpha Tester",
+      "ogDescription": "From the widget to a draft PR, step by step: what works today, what is coming soon and where the trust boundaries are."
+    },
+    "apps": {
+      "title": "Alpha Tester — Apps",
+      "description": "Apps distributed and tested with Alpha Tester.",
+      "ogTitle": "Alpha Tester — Apps",
+      "ogDescription": "Apps distributed and tested with Alpha Tester."
+    },
+    "precos": {
+      "title": "Pricing — Alpha Tester",
+      "description": "Proposed Alpha Tester plans: feedback only, no agent, triage agent, implementer agent and the full loop, with credits for the AI.",
+      "ogTitle": "Pricing — Alpha Tester",
+      "ogDescription": "Proposed plans: the platform monthly and the AI by use, with credits and a daily limit per project."
+    },
+    "currency": {
+      "code": "USD",
+      "symbol": "US$",
+      "decimal": ".",
+      "note": "Prices in US dollars, converted from the proposed BRL prices at the Central Bank of Brazil PTAX rate of 2026-11-13 (1 USD = 5.6518 BRL) and rounded to price points ending in 9."
+    }
+  },
+  "common": {
+    "skip": "Skip to content",
+    "nav": {
+      "main": "Main",
+      "footer": "Footer",
+      "como": "How it works",
+      "apps": "Apps",
+      "precos": "Pricing",
+      "home": "Home",
+      "github": "GitHub"
+    },
+    "theme": {
+      "toDark": "Use dark theme",
+      "toLight": "Use light theme"
+    },
+    "lang": {
+      "label": "Language",
+      "pt": "Português",
+      "en": "English",
+      "es": "Español"
+    },
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "soon": "coming soon",
+    "soonButton": "Coming soon",
+    "available": "available",
+    "footer": "Alpha Tester · alphatester.app",
+    "pause": "pause",
+    "resume": "resume",
+    "pauseScene": "Pause the animation: {name}",
+    "resumeScene": "Resume the animation: {name}",
+    "closeCaption": "Close caption",
+    "taskLog": "task log",
+    "log": {
+      "head": "session log",
+      "pinned": "log · {name} · pinned",
+      "empty": "nothing yet in this round; the next line shows up here."
+    },
+    "kicker": {
+      "edge": "link",
+      "step": "step"
+    },
+    "status": {
+      "wait": "waiting",
+      "run": "running",
+      "done": "done",
+      "skip": "skipped"
+    },
+    "rail": {
+      "label": "Steps of the loop",
+      "relato": "Report",
+      "triagem": "Triage",
+      "issue": "Issue",
+      "impl": "Implementation",
+      "revisao": "Review",
+      "deploy": "Deployed"
+    }
+  },
+  "home": {
+    "h1": "Feedback with context, from inside the app",
+    "hint": "hover or tap the cards · Tab walks the steps · Esc goes back",
+    "clients": {
+      "eyebrow": "Who uses it",
+      "title": "Clients",
+      "lead": "Sites already receiving feedback with Alpha Tester."
+    },
+    "levels": {
+      "tech": "Tech Level"
+    },
+    "hintTouch": "tap a card to read · swipe to change step"
+  },
+  "precos": {
+    "eyebrow": "Plans",
+    "title": "Pricing",
+    "noteLabel": "Proposed prices:",
+    "note": "they may change before launch.",
+    "lead": "You pay for the platform monthly and for the AI by use: the model's cost plus a transparent fee, charged to your company's credits. No surprises on the invoice.",
+    "plans": {
+      "feedback": {
+        "name": "Feedback only",
+        "price": "From US$ 9/month",
+        "desc": "Widget with context (marked element, screenshot, console errors, offline queue) and a dashboard to follow everything.",
+        "items": [
+          "Packs of 100, 500 or 2,000 feedback items a month (US$ 9, US$ 19, US$ 39)",
+          "Up to 3 projects and 5 seats",
+          "Attachments kept for 30 days"
+        ]
+      },
+      "noAgent": {
+        "name": "No agent",
+        "price": "US$ 19/month · US$ 29/month with GitHub",
+        "desc": "Manual triage in the dashboard, status for the reporter, CLI and MCP server.",
+        "items": [
+          "1,000 feedback items a month, 5 projects, 5 seats",
+          "With GitHub: create the issue straight from the feedback, with link and labels",
+          "Attachments kept for 90 days"
+        ]
+      },
+      "triage": {
+        "name": "Triage agent",
+        "price": "US$ 29/month + triage pack from US$ 9",
+        "desc": "The AI filters malicious content, finds duplicates, classifies, estimates the effort and opens the GitHub issue.",
+        "items": [
+          "Packs of US$ 9, US$ 29 or US$ 79 (about 160, 500 or 1,550 triages)",
+          "2,000 feedback items a month, 10 projects, 10 seats",
+          "Attachments kept for 180 days"
+        ]
+      },
+      "implementer": {
+        "name": "Implementer agent",
+        "price": "US$ 29/month + job pack from US$ 39",
+        "desc": "The AI reads the issue and the code, makes the change, runs the checks and opens a draft pull request for your team to review.",
+        "items": [
+          "Packs of US$ 39, US$ 109 or US$ 319 (about 11, 36 or 112 medium-sized PRs)",
+          "Every job starts only after your approval",
+          "2,000 feedback items a month, 10 projects, 10 seats",
+          "Coming soon: compose a release from a set of implemented feedback"
+        ]
+      },
+      "both": {
+        "name": "Full loop · both agents",
+        "price": "US$ 29/month + pack from US$ 49",
+        "desc": "From feedback to pull request: triage and implementation on the same credit wallet.",
+        "items": [
+          "Packs of US$ 49, US$ 159 or US$ 429",
+          "5,000 feedback items a month, 20 projects, 15 seats",
+          "Attachments kept for 1 year",
+          "Coming soon: compose a release from a set of implemented feedback"
+        ]
+      }
+    },
+    "credits": {
+      "title": "How credits work",
+      "text": "Each agent run charges the real cost of the AI model plus a 30 % to 40 % fee, depending on the pack. The amounts above are estimates for typical runs; you follow every charge on the statement. Unused credits roll over to the next month. You set a daily limit per project, and the agent stops when the balance runs out, with no extra charge.",
+      "annual": "Annual billing: 2 months free on the subscription."
+    }
+  },
+  "hero": {
+    "title": "the loop",
+    "summary": "Animation of the Alpha Tester loop: the widget sends feedback with a screenshot to the dashboard; the dashboard notifies the triage agent, which opens the GitHub issue; a person approves the implementer, which opens a draft PR; the team reviews and merges, and the new version goes back to the tester.",
+    "legend": {
+      "client": "client site",
+      "core": "dashboard · CLI · MCP",
+      "agent": "agents",
+      "github": "GitHub",
+      "human": "your team"
+    },
+    "node": {
+      "widget": {
+        "title": "Widget",
+        "short": "widget",
+        "sub": "on the client site",
+        "m": {
+          "feedbacks": "feedback today",
+          "t1": "screen · console · environment"
+        },
+        "cap": [
+          "The tester marks a region and the report carries the screen, the console and the environment.",
+          "Public key: it only sends feedback. Offline, it waits in the browser's queue.",
+          "SDKs available for the web and Flutter."
+        ]
+      },
+      "painel": {
+        "title": "Dashboard",
+        "short": "dashboard",
+        "sub": "companies · projects",
+        "m": {
+          "fila": "queued",
+          "anexos": "attachments"
+        },
+        "cap": [
+          "Companies, projects and members with roles; feedback with filters and history.",
+          "Screenshots in private storage. Notifies the agents with a signed webhook.",
+          "Coming soon: compose a release from a set of implemented feedback (depends on the plan)."
+        ]
+      },
+      "cli": {
+        "title": "CLI",
+        "short": "CLI",
+        "sub": "secret key",
+        "m": {
+          "cli": "calls"
+        },
+        "cap": [
+          "Feedback in the terminal, with the project's secret key: list, read, triage and open issues.",
+          "Coming soon."
+        ]
+      },
+      "mcp": {
+        "title": "MCP server",
+        "short": "mcp",
+        "sub": "tiers T0 to T2",
+        "m": {
+          "mcp": "tools"
+        },
+        "cap": [
+          "For any agent that speaks MCP: T0 reads, T1 annotates, T2 proposes.",
+          "No tool returns who reported. Coming soon."
+        ]
+      },
+      "triagem": {
+        "title": "Triage agent",
+        "short": "triage",
+        "sub": "project key and cap",
+        "m": {
+          "seg": "filters abuse",
+          "dup": "detects duplicates",
+          "cls": "classifies type",
+          "triagens": "triages"
+        },
+        "cap": [
+          "Security first: the tester's text is data, never an instruction.",
+          "Then duplicates, type and size, within the project's daily budget. Coming soon."
+        ]
+      },
+      "issue": {
+        "title": "GitHub issue",
+        "short": "github",
+        "sub": "alpha-tester · type:bug · size:S",
+        "m": {
+          "issues": "issues today",
+          "t1": "latest: #{issueNo}"
+        },
+        "cap": [
+          "One issue per feedback, in the project's repository, with labels.",
+          "A fine-grained token for one repository, encrypted in the dashboard."
+        ]
+      },
+      "impl": {
+        "title": "Implementer",
+        "short": "implementer",
+        "sub": "approved in the dashboard",
+        "m": {
+          "clone": "clones the repo",
+          "edit": "edits static files",
+          "check": "checks HTML",
+          "custo": "cost today"
+        },
+        "cap": [
+          "It starts only with an owner's or admin's approval, within a cost limit.",
+          "Shallow clone, up to three rounds, HTML and links checked. Coming soon."
+        ]
+      },
+      "pr": {
+        "title": "Draft PR",
+        "short": "github",
+        "sub": "client/issue-{issueNo}",
+        "m": {
+          "prs": "open PRs",
+          "t1": "never merges"
+        },
+        "cap": [
+          "One draft PR per job, on its own branch.",
+          "Never on the default branch, never force-pushed, never merged. Coming soon."
+        ]
+      },
+      "revisao": {
+        "title": "Merge",
+        "short": "your team",
+        "sub": "approve · merge",
+        "m": {
+          "aprovacoes": "approvals",
+          "merges": "merges"
+        },
+        "cap": [
+          "Your team approves the job, reviews the diff and merges.",
+          "No agent ever merges."
+        ]
+      },
+      "reviewer": {
+        "title": "Reviewer agent",
+        "short": "reviewer",
+        "sub": "coming soon",
+        "m": {
+          "rev": "reviews the diff",
+          "t1": "coming soon"
+        },
+        "cap": [
+          "An agent reviews the draft PR's diff and comments before your team.",
+          "Coming soon."
+        ]
+      },
+      "ci": {
+        "title": "CI",
+        "short": "CI",
+        "sub": "GitHub Actions",
+        "m": {
+          "ci": "runs the CI",
+          "t1": "GitHub Actions"
+        },
+        "cap": [
+          "After the merge, the repository's CI runs and ships the new version."
+        ]
+      },
+      "deployed": {
+        "title": "Deployed",
+        "short": "deployed",
+        "sub": "feedback status",
+        "m": {
+          "entregues": "deployed",
+          "t1": "the reporter is told"
+        },
+        "cap": [
+          "A webhook marks the feedback as Deployed.",
+          "The reporter is told in the widget."
+        ]
+      }
+    },
+    "edge": {
+      "w-p": {
+        "title": "feedback + screenshot",
+        "cap": [
+          "HTTPS with the project's public key, screenshot included."
+        ]
+      },
+      "cli-p": {
+        "title": "CLI → dashboard",
+        "cap": [
+          "Secret key with the manage scope; 30 requests a minute."
+        ]
+      },
+      "mcp-p": {
+        "title": "MCP → dashboard",
+        "cap": [
+          "Tools above the maximum tier are not even listed."
+        ]
+      },
+      "p-t": {
+        "title": "signed webhook",
+        "cap": [
+          "Ids only: the agent reads the feedback again at the source before acting."
+        ]
+      },
+      "t-i": {
+        "title": "GitHub issue",
+        "cap": [
+          "With the project's token; missing labels are created, existing ones are left alone."
+        ]
+      },
+      "i-m": {
+        "title": "accepted issue",
+        "cap": [
+          "The implementer reads the size S issue, accepted and approved."
+        ]
+      },
+      "ok": {
+        "title": "approval",
+        "cap": [
+          "The owner confirms the cost limit. Nothing else starts a job."
+        ]
+      },
+      "m-pr": {
+        "title": "push + draft PR",
+        "cap": [
+          "Branch client/issue-N; the PR closes the issue when someone merges it."
+        ]
+      },
+      "pr-rv": {
+        "label": "agent review",
+        "title": "agent review",
+        "cap": [
+          "The draft PR goes to the reviewer agent. Coming soon."
+        ]
+      },
+      "rv-r": {
+        "label": "comments",
+        "title": "comments",
+        "cap": [
+          "The reviewer comments; your team decides."
+        ]
+      },
+      "r-ci": {
+        "label": "merge",
+        "title": "merge",
+        "cap": [
+          "A person approves and merges; CI starts."
+        ]
+      },
+      "ci-d": {
+        "label": "webhook",
+        "title": "webhook",
+        "cap": [
+          "The finished CI tells Alpha Tester with a webhook."
+        ]
+      },
+      "d-w": {
+        "label": "notice",
+        "title": "notice",
+        "cap": [
+          "The reporter sees “Deployed” in the widget: the loop closes."
+        ]
+      }
+    },
+    "step": {
+      "relato": [
+        "The report arrives with context: screen, console and environment."
+      ],
+      "triagem": [
+        "Security, duplicates, type and size."
+      ],
+      "issue": [
+        "One issue per feedback, with labels."
+      ],
+      "impl": [
+        "A draft PR, after an approval."
+      ],
+      "revisao": [
+        "Your team reviews and merges."
+      ],
+      "deploy": [
+        "The merge goes through CI and the feedback becomes Deployed; the reporter is told."
+      ]
+    },
+    "log": {
+      "w1": "button opened on /checkout · type bug",
+      "w2": "region marked 412×180 · 2 console errors",
+      "p1": "feedback received · screenshot stored",
+      "p2": "signed webhook → triage agent",
+      "t1": "security: clean verdict",
+      "t2": "duplicates: none in 20 open issues",
+      "t3": "type:bug · size:S · US$ 0.04",
+      "i1": "issue #{issueNo} opened · alpha-tester, type:bug, size:S",
+      "c1": "feedback list --status triaged · 1 item",
+      "m1": "get_feedback (T0) · no reporter data",
+      "r1": "owner approves the job · limit US$ 2.00",
+      "x1": "shallow clone of the default branch · 3.2 MB",
+      "x2": "round 1/3 · 2 static files",
+      "x3": "valid HTML · 0 broken links · US$ 0.38",
+      "pr1": "draft PR #{prNo} · client/issue-{issueNo}",
+      "r2": "reviews the diff and the checks",
+      "r3": "merged by a person",
+      "w3": "the reporter is told: “Deployed”",
+      "rv1": "reviewer: 0 blockers · 2 suggestions",
+      "ci1": "GitHub Actions: build · tests · deploy",
+      "ci2": "CI green · deploy done",
+      "d1": "feedback marked “Deployed”"
+    }
+  },
+  "tech": {
+    "group": {
+      "events": "Events",
+      "platform": "Alpha Tester",
+      "agent": "Agent",
+      "tri": "Pipeline · Triage",
+      "imp": "Pipeline · Implementation",
+      "results": "Results on GitHub",
+      "rev": "Review · coming soon"
+    },
+    "node": {
+      "ev-fb": {
+        "title": "Feedback sent",
+        "short": "widget",
+        "sub": "from the widget",
+        "cap": [
+          "The tester reports from inside the app, with screen, console and environment.",
+          "SDKs available for the web and Flutter."
+        ]
+      },
+      "ev-acc": {
+        "title": "Feedback accepted",
+        "short": "dashboard",
+        "sub": "in the dashboard",
+        "cap": [
+          "Someone on the team accepts the feedback in the dashboard; the issue can be created right away."
+        ]
+      },
+      "ev-impl": {
+        "title": "“Implement”",
+        "short": "approval",
+        "sub": "approved by owner/admin",
+        "cap": [
+          "Only an owner or admin approves a job, with a cost limit. Coming soon."
+        ]
+      },
+      "api": {
+        "title": "Dashboard / API",
+        "short": "dashboard",
+        "sub": "POST /api/v1/feedback",
+        "cap": [
+          "Receives feedback with the public key, stores screenshots in private storage and notifies the agent with a signed webhook.",
+          "Coming soon: compose a release from a set of implemented feedback (depends on the plan)."
+        ]
+      },
+      "cli": {
+        "title": "CLI",
+        "short": "CLI",
+        "sub": "secret key",
+        "cap": [
+          "An API client in the terminal: list, read, triage and open issues. Coming soon."
+        ]
+      },
+      "mcp": {
+        "title": "MCP",
+        "short": "MCP",
+        "sub": "T0 to T2",
+        "cap": [
+          "The MCP server as an API client; tools by tier. Coming soon."
+        ]
+      },
+      "db": {
+        "title": "Database per company",
+        "short": "database",
+        "sub": "feedback · attachments",
+        "cap": [
+          "Data kept apart per company and project; attachments in private storage.",
+          "Coming soon: with the GitHub integration, images and attachments are stored in the repository and referenced from the original feedback instead of expiring."
+        ]
+      },
+      "keys": {
+        "title": "Keys per project",
+        "short": "keys",
+        "sub": "encrypted",
+        "cap": [
+          "Each project's model key and GitHub token, encrypted (AES-256-GCM)."
+        ]
+      },
+      "model": {
+        "title": "Model",
+        "short": "model",
+        "sub": "Anthropic API · budget",
+        "cap": [
+          "The agent calls the model with the project's key, within the daily budget."
+        ]
+      },
+      "t1": {
+        "title": "Fetch context",
+        "short": "triage",
+        "sub": "feedback + repo",
+        "cap": [
+          "Reads the feedback again at the source and the project's open issues."
+        ]
+      },
+      "t2": {
+        "title": "Classify and estimate",
+        "short": "triage",
+        "sub": "type · size · duplicates",
+        "cap": [
+          "Security, duplicates, type and size, with the model."
+        ]
+      },
+      "t3": {
+        "title": "Create issue",
+        "short": "triage",
+        "sub": "GitHub API",
+        "cap": [
+          "One issue per feedback, with the project's labels."
+        ]
+      },
+      "t4": {
+        "title": "Record cost",
+        "short": "triage",
+        "sub": "daily budget",
+        "cap": [
+          "Every run adds to the project's daily budget."
+        ]
+      },
+      "i1": {
+        "title": "Shallow clone",
+        "short": "implementer",
+        "sub": "default branch",
+        "cap": [
+          "Only the default branch, in a temporary folder. Coming soon."
+        ]
+      },
+      "i2": {
+        "title": "Read the issue",
+        "short": "implementer",
+        "sub": "accepted issue · size:S",
+        "cap": [
+          "The implementer starts from the accepted issue. Coming soon."
+        ]
+      },
+      "i3": {
+        "title": "Change files",
+        "short": "implementer",
+        "sub": "static only",
+        "cap": [
+          "HTML, CSS, text and images; never code or CI. Coming soon."
+        ]
+      },
+      "i4": {
+        "title": "Checks",
+        "short": "implementer",
+        "sub": "HTML · links",
+        "cap": [
+          "Valid HTML and no broken internal links. Coming soon."
+        ]
+      },
+      "i5": {
+        "title": "Open draft PR",
+        "short": "implementer",
+        "sub": "git push · API",
+        "cap": [
+          "One draft PR per job, on its own branch. Coming soon."
+        ]
+      },
+      "r-issue": {
+        "title": "Issue",
+        "short": "github",
+        "sub": "with labels",
+        "cap": [
+          "alpha-tester, type:… and size:… in the project's repository."
+        ]
+      },
+      "r-comment": {
+        "title": "Comment",
+        "short": "github",
+        "sub": "+1 on the original issue",
+        "cap": [
+          "A repeated report becomes a +1 on the issue that already exists."
+        ]
+      },
+      "r-pr": {
+        "title": "Draft PR",
+        "short": "github",
+        "sub": "client/issue-N",
+        "cap": [
+          "Waits for your team's review; never merges. Coming soon."
+        ]
+      },
+      "v1": {
+        "title": "Review the diff",
+        "short": "reviewer",
+        "sub": "coming soon",
+        "cap": [
+          "The reviewer agent reads the draft PR's diff. Coming soon."
+        ]
+      },
+      "v2": {
+        "title": "Comment on the PR",
+        "short": "reviewer",
+        "sub": "coming soon",
+        "cap": [
+          "It comments on the PR; your team decides. Coming soon."
+        ]
+      },
+      "st-dep": {
+        "title": "Deployed",
+        "short": "dashboard",
+        "sub": "feedback status",
+        "cap": [
+          "The CI webhook marks the feedback as Deployed."
+        ]
+      },
+      "ev-notify": {
+        "title": "Notice",
+        "short": "widget",
+        "sub": "to the reporter",
+        "cap": [
+          "The reporter sees “Deployed” in the widget."
+        ]
+      },
+      "r-merge": {
+        "title": "Merge",
+        "short": "your team",
+        "sub": "a person approves",
+        "cap": [
+          "A person approves and merges; no agent ever merges."
+        ]
+      },
+      "r-ci": {
+        "title": "GitHub Actions",
+        "short": "CI",
+        "sub": "build · tests · deploy",
+        "cap": [
+          "The repository's CI runs after the merge and ships the version."
+        ]
+      }
+    },
+    "edge": {
+      "e-fb": {
+        "label": "HTTPS",
+        "title": "HTTPS",
+        "cap": [
+          "With the public key at_pub_; offline, the report waits in the browser's queue."
+        ]
+      },
+      "e-acc": {
+        "label": "accept",
+        "title": "accept",
+        "cap": [
+          "Accepted feedback can open the issue automatically."
+        ]
+      },
+      "e-impl": {
+        "label": "approval",
+        "title": "approval",
+        "cap": [
+          "The owner confirms the cost limit."
+        ]
+      },
+      "e-db": {
+        "label": "",
+        "title": "",
+        "cap": [
+          "Every query filtered by company and project."
+        ]
+      },
+      "e-cli": {
+        "label": "",
+        "title": "",
+        "cap": [
+          "Secret key with the manage scope."
+        ]
+      },
+      "e-mcp": {
+        "label": "",
+        "title": "",
+        "cap": [
+          "Tools above the maximum tier are not even listed."
+        ]
+      },
+      "e-hook": {
+        "label": "webhook",
+        "title": "webhook",
+        "cap": [
+          "Signed webhook: ids only; the agent reads the feedback again at the source."
+        ]
+      },
+      "e-ev": {
+        "label": "event",
+        "title": "event",
+        "cap": [
+          "Signed event for an approved implementation."
+        ]
+      },
+      "e-keys": {
+        "label": "key",
+        "title": "key",
+        "cap": [
+          "The project's key is decrypted only for the call."
+        ]
+      },
+      "e-mtri": {
+        "label": "prompt / tokens",
+        "title": "prompt / tokens",
+        "cap": [
+          "The tester's text goes in marked as data."
+        ]
+      },
+      "e-mimp": {
+        "label": "",
+        "title": "",
+        "cap": [
+          "Up to three rounds, within the cost limit."
+        ]
+      },
+      "e-issue": {
+        "label": "GitHub API",
+        "title": "GitHub API",
+        "cap": [
+          "With the project's token, limited to one repository."
+        ]
+      },
+      "e-comment": {
+        "label": "+1 · API",
+        "title": "+1 · API",
+        "cap": [
+          "The duplicate adds a +1 to the original issue instead of opening another."
+        ]
+      },
+      "e-pr": {
+        "label": "git push · API",
+        "title": "git push · API",
+        "cap": [
+          "Branch client/issue-N and a draft PR."
+        ]
+      },
+      "e-rv": {
+        "label": "PR",
+        "title": "PR",
+        "cap": [
+          "The draft PR goes on to the reviewer agent. Coming soon."
+        ]
+      },
+      "e-rvm": {
+        "label": "approval",
+        "title": "approval",
+        "cap": [
+          "The comments help your team decide the merge."
+        ]
+      },
+      "e-ci": {
+        "label": "merge",
+        "title": "merge",
+        "cap": [
+          "The merge triggers GitHub Actions."
+        ]
+      },
+      "e-hook2": {
+        "label": "webhook",
+        "title": "webhook",
+        "cap": [
+          "The finished CI tells Alpha Tester with a webhook."
+        ]
+      },
+      "e-notify": {
+        "label": "notice",
+        "title": "notice",
+        "cap": [
+          "The status goes back to the reporter."
+        ]
+      }
+    },
+    "step": {
+      "s1": [
+        "New feedback: triage and a GitHub issue."
+      ],
+      "s2": [
+        "Approval: implementation, draft PR, review, merge, CI and “Deployed”."
+      ],
+      "s3": [
+        "Duplicate: no new issue, +1 on the original, status in the dashboard."
+      ]
+    },
+    "stepLabel": {
+      "s1": "Issue",
+      "s2": "PR → Deployed",
+      "s3": "Duplicate"
+    },
+    "log": {
+      "w1": "feedback sent · screenshot + 2 errors",
+      "a1": "POST /api/v1/feedback · 201",
+      "t1": "context: feedback + 20 open issues",
+      "t2": "type:bug · size:S · clean verdict",
+      "i1": "issue #42 opened with labels",
+      "t4": "cost recorded · US$ 0.04",
+      "m1": "get_feedback (T0) answered",
+      "c1": "feedback accepted in the dashboard",
+      "p1": "owner approves “Implement” · limit US$ 2.00",
+      "x1": "shallow clone · 3.2 MB",
+      "x2": "valid HTML · 0 broken links",
+      "pr1": "draft PR #18 opened",
+      "w2": "feedback sent · same problem",
+      "d1": "duplicate of #42 · no issue created",
+      "d2": "+1 posted on issue #42",
+      "d3": "status in the dashboard: duplicate",
+      "c2": "the CLI lists the duplicate",
+      "rv1": "reviewer reads the diff (coming soon)",
+      "mg1": "a person approves and merges",
+      "ci1": "GitHub Actions: build · tests · deploy",
+      "dp1": "feedback marked “Deployed”",
+      "nt1": "the reporter is told in the widget"
+    },
+    "scenario": {
+      "s1": "Scenario 1 · feedback becomes an issue",
+      "s2": "Scenario 2 · from approval to “Deployed”",
+      "s3": "Scenario 3 · a duplicate, no new issue"
+    }
+  },
+  "como": {
+    "intro": {
+      "eyebrow": "How it works",
+      "h1": "From report to pull request",
+      "hint": "each scene plays on its own · hover or tap the objects to read · Esc closes",
+      "hintTouch": "each scene plays on its own · tap the objects to read"
+    },
+    "widget": {
+      "path": ">_ alpha tester / report",
+      "h2": "The widget and the SDK",
+      "foot1": "widget · at_pub_",
+      "foot2": "feedback.json",
+      "ui": {
+        "url": "shop.example/checkout",
+        "price": "US$ 34.90",
+        "buy": "Place order",
+        "fab": "feedback",
+        "formType": "bug",
+        "formText": "button does nothing",
+        "console": "console",
+        "c1": "✕ TypeError: total is undefined",
+        "c2": "✕ POST /api/cart → 500",
+        "online": "online · queue 0",
+        "offline": "offline · queue 1",
+        "back": "back online · sent"
+      },
+      "cap": {
+        "fab": {
+          "title": "Feedback button",
+          "lines": [
+            "A button in your web app: type (bug, improvement, suggestion), title and description.",
+            "SDKs available: web (script tag or ESM import, with the public key at_pub_) and Flutter."
+          ]
+        },
+        "captura": {
+          "title": "Capture",
+          "lines": [
+            "Mark elements, crop a region or capture the full page.",
+            "PNG, JPEG, WebP, GIF or PDF attachments, up to 5 MB."
+          ]
+        },
+        "console": {
+          "title": "Console",
+          "lines": [
+            "Console errors, unhandled errors and rejected promises travel with the report."
+          ]
+        },
+        "ambiente": {
+          "title": "Environment",
+          "lines": [
+            "Page, marked element and its position, browser, window size and time."
+          ]
+        },
+        "fila": {
+          "title": "Offline",
+          "lines": [
+            "The report waits in a queue in the browser and goes out when the connection is back, without duplicates."
+          ]
+        }
+      },
+      "log": [
+        "open the widget",
+        "mark the region",
+        "attach the console",
+        "send with context"
+      ]
+    },
+    "painel": {
+      "path": ">_ alpha tester / dashboard",
+      "h2": "The dashboard",
+      "foot1": "dashboard · companies / projects",
+      "foot2": "feedback.status",
+      "ui": {
+        "company": "Shop",
+        "members": "3 members",
+        "bug": "bug",
+        "imp": "improvement",
+        "sug": "suggestion",
+        "r1": "Button does nothing",
+        "r2": "Filter by date",
+        "r3": "Dark mode",
+        "new": "new",
+        "triaged": "triaged",
+        "accepted": "accepted",
+        "hist": "capture-1.png · new →",
+        "key": "at_pub_••••3f2a ·",
+        "revoke": "revoke"
+      },
+      "cap": {
+        "org": {
+          "title": "Companies and projects",
+          "lines": [
+            "Each company has its projects; each project, members with the roles owner, admin, editor and viewer."
+          ]
+        },
+        "lista": {
+          "title": "Feedback",
+          "lines": [
+            "Filters by status, type and priority; status changes with history and internal notes."
+          ]
+        },
+        "anexos": {
+          "title": "Attachments",
+          "lines": [
+            "Kept in private storage, opened in the dashboard and in the issue through signed links.",
+            "Coming soon: with the GitHub integration, images and attachments are stored in the repository and referenced from the original feedback instead of expiring."
+          ]
+        },
+        "chaves": {
+          "title": "API keys",
+          "lines": [
+            "Public for the widget, secret for servers and terminals.",
+            "Shown once and revocable on the spot."
+          ]
+        },
+        "tracker": {
+          "title": "My feedback",
+          "lines": [
+            "The reporter follows along: Submitted, Under review, In progress, Resolved, Deployed.",
+            "No login: the link lives in the browser."
+          ]
+        }
+      },
+      "log": [
+        "receive the feedback",
+        "store the screenshot",
+        "move to triaged",
+        "notify the reporter"
+      ]
+    },
+    "tracker": [
+      "Submitted",
+      "Under review",
+      "In progress",
+      "Resolved",
+      "Deployed"
+    ],
+    "triagem": {
+      "path": ">_ alpha tester / triage",
+      "h2": "The triage agent",
+      "foot1": "agent · project key",
+      "foot2": "issue.labels",
+      "ui": {
+        "quote": "“Checkout button does nothing”",
+        "clean": "clean verdict ✓",
+        "privacyLabel": "name and email:",
+        "privacyValue": "never read",
+        "open": "open issues",
+        "dups": "0 duplicates in 20",
+        "budget": "daily budget",
+        "budgetValue": "US$ 0.04 of US$ 2.00"
+      },
+      "cap": {
+        "seguranca": {
+          "title": "Security screening",
+          "lines": [
+            "The tester's text is data, never an instruction.",
+            "No clean verdict, no issue."
+          ]
+        },
+        "duplicados": {
+          "title": "Duplicates",
+          "lines": [
+            "Compares with the project's feedback and open issues, even in another language.",
+            "A repeat becomes a +1 on the original issue."
+          ]
+        },
+        "etiquetas": {
+          "title": "Type and size",
+          "lines": [
+            "Labels alpha-tester, type:… and size:…",
+            "Creates the missing ones, never changes existing ones."
+          ]
+        },
+        "orcamento": {
+          "title": "Budget per project",
+          "lines": [
+            "A daily cap for everything the agent spends on the project, with its own encrypted key.",
+            "At the cap, feedback waits for the next day; other projects carry on."
+          ]
+        },
+        "privacidade": {
+          "title": "No personal data",
+          "lines": [
+            "The agent never reads the reporter's name or email."
+          ]
+        }
+      },
+      "log": [
+        "security screening",
+        "look for duplicates",
+        "classify and estimate",
+        "open the issue"
+      ]
+    },
+    "github": {
+      "path": ">_ alpha tester / github",
+      "h2": "GitHub integration",
+      "foot1": "github · one repository",
+      "foot2": "issue #42",
+      "ui": {
+        "title": "[bug] “Place order” button does nothing",
+        "author": "opened by the automation account",
+        "kType": "type",
+        "vType": "bug",
+        "kPriority": "priority",
+        "vPriority": "high",
+        "kPage": "page",
+        "kEnv": "environment",
+        "kFiles": "attachments",
+        "token": "project token",
+        "scope": "shop/shop-web · Issues ✓ · Workflows ✕",
+        "encrypted": "encrypted on save",
+        "create": "Create GitHub issue",
+        "onAccept": "create on accept"
+      },
+      "cap": {
+        "token": {
+          "title": "One token per project",
+          "lines": [
+            "Fine-grained, limited to one repository: Metadata and Issues.",
+            "Contents and Pull requests only for the implementer; never Workflows."
+          ]
+        },
+        "cifrado": {
+          "title": "Stored encrypted",
+          "lines": [
+            "Encrypted on save and never sent back to the browser: the dashboard shows only the last four characters."
+          ]
+        },
+        "criar": {
+          "title": "Create issue",
+          "lines": [
+            "By hand on each feedback, or automatically when the feedback is accepted.",
+            "One issue per feedback."
+          ]
+        },
+        "corpo": {
+          "title": "Issue body",
+          "lines": [
+            "Type, priority, page, description, attachments and environment, with the project's labels.",
+            "In a public repository, the issue is public too."
+          ]
+        },
+        "autor": {
+          "title": "Author",
+          "lines": [
+            "Issues and PRs appear under the account that created the token; an account dedicated to automation keeps personal names out."
+          ]
+        }
+      },
+      "log": [
+        "read the encrypted token",
+        "build the body",
+        "apply labels",
+        "issue #42 opened"
+      ]
+    },
+    "implementador": {
+      "path": ">_ alpha tester / implementation",
+      "h2": "The implementer",
+      "foot1": "implementer · shallow clone",
+      "foot2": "client/issue-42",
+      "ui": {
+        "approveTitle": "Implement #42",
+        "limit": "limit US$ 2.00",
+        "approve": "Approve",
+        "html": "valid HTML",
+        "links": "internal links",
+        "round": "round 1/3",
+        "cost": "job cost",
+        "costValue": "US$ 0.38 of US$ 2.00"
+      },
+      "cap": {
+        "aprovacao": {
+          "title": "Approval in the dashboard",
+          "lines": [
+            "Only an owner or admin starts it, on an accepted feedback that already has an issue.",
+            "Neither a label nor a schedule starts a job."
+          ]
+        },
+        "clone": {
+          "title": "Shallow clone",
+          "lines": [
+            "Only the default branch, in a temporary folder deleted at the end; above 50 MB, no clone.",
+            "Nothing from the repository is executed."
+          ]
+        },
+        "diff": {
+          "title": "What may change",
+          "lines": [
+            "In the first version, static content: HTML, CSS, text and images, on size S issues.",
+            "Never code, build, CI or new scripts."
+          ]
+        },
+        "verificacoes": {
+          "title": "Checks",
+          "lines": [
+            "Valid HTML in the changed files and no broken internal links; up to three rounds."
+          ]
+        },
+        "custo": {
+          "title": "Cost limit",
+          "lines": [
+            "Stops at the job's limit or the day's budget, whichever comes first; 15-minute deadline.",
+            "The project's own key: no key, no run."
+          ]
+        }
+      },
+      "log": [
+        "approve the job",
+        "shallow clone",
+        "edit static files",
+        "check HTML and links"
+      ]
+    },
+    "revisao": {
+      "path": ">_ alpha tester / review",
+      "h2": "Draft PR and review",
+      "foot1": "github · pull request",
+      "foot2": "draft → merge",
+      "ui": {
+        "prTitle": "Fix the checkout button",
+        "checks": "valid HTML ✓ · links ✓",
+        "team": "your team",
+        "merged": "merged by a person",
+        "ifFail": "if it fails",
+        "failText": "comment on the issue · no PR"
+      },
+      "cap": {
+        "pr": {
+          "title": "Draft PR",
+          "lines": [
+            "One per job, on its own branch; never on the default branch, never force-pushed."
+          ]
+        },
+        "merge": {
+          "title": "Merge",
+          "lines": [
+            "Always your team's: Alpha Tester never merges."
+          ]
+        },
+        "falha": {
+          "title": "If it fails",
+          "lines": [
+            "No PR; one comment on the issue with the reason, and the details only in the dashboard."
+          ]
+        },
+        "entregue": {
+          "title": "Deployed",
+          "lines": [
+            "The reporter sees the status change in the widget."
+          ]
+        }
+      },
+      "log": [
+        "push the branch",
+        "open the draft PR",
+        "your team's review",
+        "status: Deployed"
+      ]
+    },
+    "terminal": {
+      "path": ">_ alpha tester / terminal",
+      "h2Html": "The CLI and the MCP server",
+      "foot1": "at · at-mcp",
+      "foot2": "mcp-audit.jsonl",
+      "ui": {
+        "o1": "3f2a… bug         Button does nothing",
+        "o2": "9b1c… suggestion  Dark mode",
+        "ok": "ok · triaged",
+        "refused": "✕ above the tier"
+      },
+      "cap": {
+        "cli": {
+          "title": "CLI",
+          "lines": [
+            "feedback list, show, set and issue.",
+            "Never prints the key, speaks HTTPS only and does not follow redirects."
+          ]
+        },
+        "chave": {
+          "title": "Project secret key",
+          "lines": [
+            "at_sec_…, created in the dashboard by an admin, shown once, revocable on the spot.",
+            "Never in a web page or a repository."
+          ]
+        },
+        "escopos": {
+          "title": "Scopes",
+          "lines": [
+            "ingest only sends feedback.",
+            "manage acts as a project editor and never manages keys, members or GitHub."
+          ]
+        },
+        "niveis": {
+          "title": "MCP tiers",
+          "lines": [
+            "T0 reads, T1 annotates, T2 proposes status changes and opens the issue.",
+            "Above the maximum tier, the tool is not even listed."
+          ]
+        },
+        "auditoria": {
+          "title": "Audit",
+          "lines": [
+            "Every write goes to a local log.",
+            "No tool returns who reported; the tester's text arrives marked as data."
+          ]
+        }
+      },
+      "log": [
+        "set up the key",
+        "list new feedback",
+        "call MCP tools",
+        "log the write"
+      ]
+    },
+    "seguranca": {
+      "path": ">_ alpha tester / security",
+      "h2": "Security and privacy",
+      "foot1": "AES-256-GCM · per company",
+      "foot2": "nothing shared",
+      "ui": {
+        "out": "outside",
+        "modelKey": "model key",
+        "secretHash": "at_sec (hash)",
+        "companyA": "company A",
+        "companyB": "company B",
+        "denied": "denied",
+        "name": "name",
+        "email": "email",
+        "limits": "30 req/min per key · 2FA",
+        "projectToken": "project token"
+      },
+      "cap": {
+        "fora": {
+          "title": "Outside Alpha Tester",
+          "lines": [
+            "The public key only sends feedback; the secret one stays on servers and terminals."
+          ]
+        },
+        "cofre": {
+          "title": "Encrypted keys",
+          "lines": [
+            "GitHub tokens and model keys encrypted (AES-256-GCM) and never sent back.",
+            "API keys stored only as a hash."
+          ]
+        },
+        "empresas": {
+          "title": "Data per company",
+          "lines": [
+            "Every query is filtered by the key's project or by the role in the dashboard.",
+            "Nothing is shared between clients."
+          ]
+        },
+        "identidade": {
+          "title": "Who reports",
+          "lines": [
+            "Agents and the MCP server never read or return a name or email."
+          ]
+        },
+        "limites": {
+          "title": "Limits",
+          "lines": [
+            "Rate limits per key and two-step verification in the dashboard."
+          ]
+        },
+        "repo": {
+          "title": "GitHub",
+          "lines": [
+            "Reached only with that project's token, limited to one repository; workflow changes stay with people."
+          ]
+        }
+      },
+      "log": [
+        "validate the key",
+        "encrypt the token",
+        "filter by company",
+        "hide the identity"
+      ]
+    }
+  },
+  "apps": {
+    "h1": "Apps",
+    "tagline": "Apps distributed and tested with Alpha Tester.",
+    "cutavid": {
+      "descHtml": "Cut and assemble videos in seconds: watch in the built-in player, pick the segments with the dual slider, preview and export — and now <strong>watch the whole composition before exporting</strong>. Combine several segments — from one or many videos —, reorder or reverse them and save everything in a single file. Fast cut without re-encoding or frame-accurate — with ffmpeg built in, nothing else to install.",
+      "version": "Version",
+      "system": "System",
+      "systemValue": "Windows 10 or later, 64-bit",
+      "size": "Size",
+      "download": "Download for Windows",
+      "testing": "Testing script",
+      "install": "How to install",
+      "steps": [
+        "Download the <code>.zip</code> file.",
+        "Right-click → <em>Extract All…</em>",
+        "Open the extracted <code>CutAVid</code> folder and run <code>cutavid.exe</code> from inside it — the files in the folder work together, do not move the <code>.exe</code> on its own.",
+        "Full instructions in <code>LEIA-ME.txt</code> inside the folder.",
+        "On the first run Windows may show “Windows protected your PC”. Click <em>More info</em> and then <em>Run anyway</em> — the warning appears because the app is not digitally signed yet."
+      ],
+      "copy": "Copy",
+      "copied": "Copied!",
+      "verifyHtml": "To check, in PowerShell: <code>Get-FileHash .\\cutavid-windows-x64-v1.3.0.zip</code> (upper or lower case does not matter)."
+    },
+    "widget": {
+      "title": "Alpha Tester feedback widget",
+      "text": "The Alpha Tester widget for apps in testing — bug reports and suggestions sent from inside the app, with screenshots and status tracking for the tester. Available for the web and, soon, for Flutter."
+    }
+  }
+}

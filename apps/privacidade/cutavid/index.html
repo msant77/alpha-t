@@ -47,7 +47,7 @@
 </head>
 <body>
 <div class="wrap">
-  <span class="brand">ALPHA T</span>
+  <span class="brand">ALPHA TESTER</span>
   <h1>Política de Privacidade — Cut A Vid</h1>
   <p class="updated">Última atualização: 11 de agosto de 2026</p>
 
@@ -119,8 +119,35 @@
     <a href="https://alphatester.app">alphatester.app</a>.</p>
   </div>
 
-  <footer>Alpha T · <a href="https://apps.alphatester.app">apps</a> ·
+  <footer>Alpha Tester · <a href="https://apps.alphatester.app">apps</a> ·
   <a href="https://alphatester.app">alphatester.app</a></footer>
 </div>
+<!-- Alpha Tester feedback widget: hidden unless this browser opted in.
+     ?alpha=1 turns it on (localStorage.alpha = "1"), ?alpha=0 turns it off.
+     Same SDK and dashboard as the testing script (/teste/), on the
+     landing's own project; the key alone selects the project. -->
+<script>
+  (function () {
+    var on = false;
+    try {
+      var q = new URLSearchParams(location.search).get("alpha");
+      if (q === "1") localStorage.setItem("alpha", "1");
+      if (q === "0") localStorage.removeItem("alpha");
+      on = localStorage.getItem("alpha") === "1";
+    } catch (e) { /* storage unavailable: the widget stays hidden */ }
+    if (!on) return;
+    var s = document.createElement("script");
+    s.src = "https://apps.alphatester.app/teste/alpha-tester.umd.js";
+    s.onload = function () {
+      if (!window.AlphaTester) return;
+      AlphaTester.init({
+        projectId: "alpha-tester-landing",
+        apiKey: "at_pub_r1SFXHb8yXUh_sXqehXW86E3AuGcxyxy",
+        endpoint: "https://dev.alphatester.app"
+      });
+    };
+    document.body.appendChild(s);
+  })();
+</script>
 </body>
 </html>

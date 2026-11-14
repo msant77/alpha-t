@@ -1,0 +1,1395 @@
+{
+  "meta": {
+    "locale": "pt_BR",
+    "home": {
+      "title": "Alpha Tester — feedback com contexto, de dentro do app",
+      "description": "Alpha Tester: widget de feedback para apps em teste. O relato chega com tela, console e ambiente; um agente faz a triagem e abre a issue no GitHub, outro propõe a correção em um PR em rascunho.",
+      "ogTitle": "Alpha Tester — feedback com contexto, de dentro do app",
+      "ogDescription": "Do widget ao PR em rascunho: feedback com contexto, triagem por agente, issue no GitHub e uma pessoa decidindo o merge."
+    },
+    "como": {
+      "title": "Como funciona — Alpha Tester",
+      "description": "Como o Alpha Tester funciona, em cenas: widget e SDK, painel, agente de triagem, GitHub, implementador, revisão, CLI e servidor MCP, segurança e privacidade.",
+      "ogTitle": "Como funciona — Alpha Tester",
+      "ogDescription": "Do widget ao PR em rascunho, passo a passo: o que já funciona, o que chega em breve e onde ficam os limites de confiança."
+    },
+    "apps": {
+      "title": "Alpha Tester — Apps",
+      "description": "Aplicativos distribuídos e testados com o Alpha Tester.",
+      "ogTitle": "Alpha Tester — Apps",
+      "ogDescription": "Aplicativos distribuídos e testados com o Alpha Tester."
+    },
+    "precos": {
+      "title": "Preços — Alpha Tester",
+      "description": "Planos do Alpha Tester em proposta: somente feedback, sem agente, agente de triagem, agente implementador e o ciclo completo, com créditos para a IA.",
+      "ogTitle": "Preços — Alpha Tester",
+      "ogDescription": "Planos em proposta: a plataforma por mês e a IA pelo que usar, com créditos e limite diário por projeto."
+    },
+    "currency": {
+      "code": "BRL",
+      "symbol": "R$",
+      "decimal": ",",
+      "note": "Preços em reais. Em inglês e espanhol: dólares convertidos pela PTAX do BCB de 13/11/2026 (1 USD = 5,6518 BRL), arredondados para valores terminados em 9."
+    }
+  },
+  "common": {
+    "skip": "Pular para o conteúdo",
+    "nav": {
+      "main": "Principal",
+      "footer": "Rodapé",
+      "como": "Como funciona",
+      "apps": "Apps",
+      "precos": "Preços",
+      "home": "Início",
+      "github": "GitHub"
+    },
+    "theme": {
+      "toDark": "Usar tema escuro",
+      "toLight": "Usar tema claro"
+    },
+    "lang": {
+      "label": "Idioma",
+      "pt": "Português",
+      "en": "English",
+      "es": "Español"
+    },
+    "signIn": "Entrar",
+    "signOut": "Sair",
+    "soon": "em breve",
+    "soonButton": "Em breve",
+    "available": "disponível",
+    "footer": "Alpha Tester · alphatester.app",
+    "pause": "pausar",
+    "resume": "continuar",
+    "pauseScene": "Pausar a animação: {name}",
+    "resumeScene": "Continuar a animação: {name}",
+    "closeCaption": "Fechar legenda",
+    "taskLog": "task log",
+    "log": {
+      "head": "registro da sessão",
+      "pinned": "registro · {name} · fixado",
+      "empty": "nada ainda nesta volta; a próxima linha aparece aqui."
+    },
+    "kicker": {
+      "edge": "conexão",
+      "step": "etapa"
+    },
+    "status": {
+      "wait": "aguardando",
+      "run": "rodando",
+      "done": "concluído",
+      "skip": "ignorado"
+    },
+    "rail": {
+      "label": "Etapas do ciclo",
+      "relato": "Relato",
+      "triagem": "Triagem",
+      "issue": "Issue",
+      "impl": "Implementação",
+      "revisao": "Revisão",
+      "deploy": "Implantado"
+    }
+  },
+  "home": {
+    "h1": "Feedback com contexto, de dentro do app",
+    "hint": "passe o mouse ou toque nos cartões · Tab percorre as etapas · Esc volta",
+    "clients": {
+      "eyebrow": "Quem já usa",
+      "title": "Clientes",
+      "lead": "Sites que já recebem feedback com o Alpha Tester."
+    },
+    "levels": {
+      "tech": "Tech Level"
+    },
+    "hintTouch": "toque num cartão para ler · deslize para mudar de etapa"
+  },
+  "precos": {
+    "eyebrow": "Planos",
+    "title": "Preços",
+    "noteLabel": "Valores em proposta:",
+    "note": "podem mudar antes do lançamento.",
+    "lead": "Você paga a plataforma por mês e a IA pelo que usar: custo do modelo mais uma taxa transparente, debitado de créditos da sua empresa. Sem surpresa na fatura.",
+    "plans": {
+      "feedback": {
+        "name": "Somente feedback",
+        "price": "A partir de R$ 29/mês",
+        "desc": "Widget com contexto (elemento marcado, captura de tela, erros do console, fila offline) e painel para acompanhar tudo.",
+        "items": [
+          "Pacotes de 100, 500 ou 2.000 feedbacks por mês (R$ 29, R$ 79, R$ 199)",
+          "Até 3 projetos e 5 assentos",
+          "Anexos guardados por 30 dias"
+        ]
+      },
+      "noAgent": {
+        "name": "Sem agente",
+        "price": "R$ 99/mês · R$ 149/mês com GitHub",
+        "desc": "Triagem manual no painel, status para quem relatou, CLI e servidor MCP.",
+        "items": [
+          "1.000 feedbacks por mês, 5 projetos, 5 assentos",
+          "Com GitHub: crie a issue direto do feedback, com link e rótulos",
+          "Anexos guardados por 90 dias"
+        ]
+      },
+      "triage": {
+        "name": "Agente de triagem",
+        "price": "R$ 149/mês + pacote de triagens a partir de R$ 50",
+        "desc": "A IA filtra conteúdo malicioso, encontra duplicados, classifica, estima o esforço e abre a issue no GitHub.",
+        "items": [
+          "Pacotes de R$ 50, R$ 150 ou R$ 450 (cerca de 160, 500 ou 1.550 triagens)",
+          "2.000 feedbacks por mês, 10 projetos, 10 assentos",
+          "Anexos guardados por 180 dias"
+        ]
+      },
+      "implementer": {
+        "name": "Agente implementador",
+        "price": "R$ 149/mês + pacote de jobs a partir de R$ 200",
+        "desc": "A IA lê a issue e o código, faz a alteração, roda as verificações e abre um pull request em rascunho para o seu time revisar.",
+        "items": [
+          "Pacotes de R$ 200, R$ 600 ou R$ 1.800 (cerca de 11, 36 ou 112 PRs de porte médio)",
+          "Cada job começa só depois da sua aprovação",
+          "2.000 feedbacks por mês, 10 projetos, 10 assentos",
+          "Em breve: compor uma release com um conjunto de feedbacks implementados"
+        ]
+      },
+      "both": {
+        "name": "Ciclo completo · os dois agentes",
+        "price": "R$ 149/mês + pacote a partir de R$ 300",
+        "desc": "Do feedback ao pull request: triagem e implementação na mesma carteira de créditos.",
+        "items": [
+          "Pacotes de R$ 300, R$ 900 ou R$ 2.400",
+          "5.000 feedbacks por mês, 20 projetos, 15 assentos",
+          "Anexos guardados por 1 ano",
+          "Em breve: compor uma release com um conjunto de feedbacks implementados"
+        ]
+      }
+    },
+    "credits": {
+      "title": "Como funcionam os créditos",
+      "text": "Cada execução de agente debita o custo real do modelo de IA mais uma taxa de 30 % a 40 %, conforme o pacote. As quantidades acima são estimativas para execuções típicas; você acompanha cada débito no extrato. Créditos não usados passam para o mês seguinte. Você define um limite diário por projeto, e o agente para quando o saldo acaba, sem cobrança extra.",
+      "annual": "Pagamento anual: 2 meses grátis na assinatura."
+    }
+  },
+  "hero": {
+    "title": "o ciclo",
+    "summary": "Animação do ciclo do Alpha Tester: o widget envia um feedback com captura ao painel; o painel avisa o agente de triagem, que abre a issue no GitHub; uma pessoa aprova o implementador, que abre um PR em rascunho; o time revisa e faz o merge, e a nova versão volta para quem testou.",
+    "legend": {
+      "client": "site do cliente",
+      "core": "painel · CLI · MCP",
+      "agent": "agentes",
+      "github": "GitHub",
+      "human": "seu time"
+    },
+    "node": {
+      "widget": {
+        "title": "Widget",
+        "short": "widget",
+        "sub": "no site do cliente",
+        "m": {
+          "feedbacks": "feedbacks hoje",
+          "t1": "tela · console · ambiente"
+        },
+        "cap": [
+          "Quem testa marca a região e o relato leva a tela, o console e o ambiente.",
+          "Chave pública: só envia feedback. Sem conexão, espera na fila do navegador.",
+          "SDKs disponíveis para web e Flutter."
+        ]
+      },
+      "painel": {
+        "title": "Painel",
+        "short": "painel",
+        "sub": "empresas · projetos",
+        "m": {
+          "fila": "na fila",
+          "anexos": "anexos"
+        },
+        "cap": [
+          "Empresas, projetos e membros com papéis; feedback com filtros e histórico.",
+          "Capturas em armazenamento privado. Avisa os agentes por um webhook assinado.",
+          "Em breve: compor uma release com um conjunto de feedbacks implementados (depende do plano)."
+        ]
+      },
+      "cli": {
+        "title": "CLI",
+        "short": "CLI",
+        "sub": "chave secreta",
+        "m": {
+          "cli": "chamadas"
+        },
+        "cap": [
+          "A CLI leva o feedback ao terminal, com a chave secreta do projeto: lista, lê, faz a triagem e abre issues.",
+          "Em breve."
+        ]
+      },
+      "mcp": {
+        "title": "Servidor MCP",
+        "short": "mcp",
+        "sub": "níveis T0 a T2",
+        "m": {
+          "mcp": "ferramentas"
+        },
+        "cap": [
+          "Para qualquer agente que fale MCP: T0 lê, T1 anota, T2 propõe.",
+          "Nenhuma ferramenta devolve quem reportou. Em breve."
+        ]
+      },
+      "triagem": {
+        "title": "Agente de triagem",
+        "short": "triagem",
+        "sub": "chave e teto do projeto",
+        "m": {
+          "seg": "filtra abuso",
+          "dup": "detecta duplicados",
+          "cls": "classifica tipo",
+          "triagens": "triagens"
+        },
+        "cap": [
+          "Segurança primeiro: o texto de quem testa é dado, nunca instrução.",
+          "Depois duplicados, tipo e tamanho, dentro do orçamento diário do projeto. Em breve."
+        ]
+      },
+      "issue": {
+        "title": "Issue no GitHub",
+        "short": "github",
+        "sub": "alpha-tester · type:bug · size:S",
+        "m": {
+          "issues": "issues hoje",
+          "t1": "última: #{issueNo}"
+        },
+        "cap": [
+          "Uma issue por feedback, no repositório do projeto, com etiquetas.",
+          "Token fine-grained de um só repositório, cifrado no painel."
+        ]
+      },
+      "impl": {
+        "title": "Implementador",
+        "short": "implementador",
+        "sub": "aprovado no painel",
+        "m": {
+          "clone": "clona o repo",
+          "edit": "edita estáticos",
+          "check": "verifica HTML",
+          "custo": "custo hoje"
+        },
+        "cap": [
+          "Só começa com a aprovação de um owner ou admin, dentro de um limite de custo.",
+          "Clone raso, até três rodadas, HTML e links verificados. Em breve."
+        ]
+      },
+      "pr": {
+        "title": "PR em rascunho",
+        "short": "github",
+        "sub": "client/issue-{issueNo}",
+        "m": {
+          "prs": "PRs abertos",
+          "t1": "nunca faz merge"
+        },
+        "cap": [
+          "Um PR em rascunho por job, num branch próprio.",
+          "Nunca no branch padrão, nunca com push forçado, nunca com merge. Em breve."
+        ]
+      },
+      "revisao": {
+        "title": "Merge",
+        "short": "seu time",
+        "sub": "aprova · faz o merge",
+        "m": {
+          "aprovacoes": "aprovações",
+          "merges": "merges"
+        },
+        "cap": [
+          "Seu time aprova o job, revisa o diff e faz o merge.",
+          "Nenhum agente faz merge."
+        ]
+      },
+      "reviewer": {
+        "title": "Agente revisor",
+        "short": "revisor",
+        "sub": "em breve",
+        "m": {
+          "rev": "revisa o diff",
+          "t1": "em breve"
+        },
+        "cap": [
+          "Um agente revisa o diff do PR em rascunho e comenta antes do seu time.",
+          "Em breve."
+        ]
+      },
+      "ci": {
+        "title": "CI",
+        "short": "CI",
+        "sub": "GitHub Actions",
+        "m": {
+          "ci": "roda o CI",
+          "t1": "GitHub Actions"
+        },
+        "cap": [
+          "Depois do merge, o CI do repositório roda e publica a nova versão."
+        ]
+      },
+      "deployed": {
+        "title": "Implantado",
+        "short": "implantado",
+        "sub": "status do feedback",
+        "m": {
+          "entregues": "implantados",
+          "t1": "quem reportou é avisado"
+        },
+        "cap": [
+          "Um webhook marca o feedback como Implantado.",
+          "Quem reportou é avisado no widget."
+        ]
+      }
+    },
+    "edge": {
+      "w-p": {
+        "title": "feedback + captura",
+        "cap": [
+          "HTTPS com a chave pública do projeto, a captura junto."
+        ]
+      },
+      "cli-p": {
+        "title": "CLI → painel",
+        "cap": [
+          "Chave secreta com escopo manage; 30 requisições por minuto."
+        ]
+      },
+      "mcp-p": {
+        "title": "MCP → painel",
+        "cap": [
+          "Ferramentas acima do nível máximo nem aparecem."
+        ]
+      },
+      "p-t": {
+        "title": "webhook assinado",
+        "cap": [
+          "Só ids: o agente relê o feedback na fonte antes de agir."
+        ]
+      },
+      "t-i": {
+        "title": "issue no GitHub",
+        "cap": [
+          "Com o token do projeto; etiquetas que faltam são criadas, as que existem ficam."
+        ]
+      },
+      "i-m": {
+        "title": "issue aceita",
+        "cap": [
+          "O implementador lê a issue de tamanho S, aceita e aprovada."
+        ]
+      },
+      "ok": {
+        "title": "aprovação",
+        "cap": [
+          "O owner confirma o limite de custo. Nada mais inicia um job."
+        ]
+      },
+      "m-pr": {
+        "title": "push + PR em rascunho",
+        "cap": [
+          "Branch client/issue-N; o PR fecha a issue quando alguém fizer o merge."
+        ]
+      },
+      "pr-rv": {
+        "label": "revisão do agente",
+        "title": "revisão do agente",
+        "cap": [
+          "O PR em rascunho vai para o agente revisor. Em breve."
+        ]
+      },
+      "rv-r": {
+        "label": "comentários",
+        "title": "comentários",
+        "cap": [
+          "O revisor comenta; quem decide é o seu time."
+        ]
+      },
+      "r-ci": {
+        "label": "merge",
+        "title": "merge",
+        "cap": [
+          "Uma pessoa aprova e faz o merge; o CI começa."
+        ]
+      },
+      "ci-d": {
+        "label": "webhook",
+        "title": "webhook",
+        "cap": [
+          "O CI terminado avisa o Alpha Tester por webhook."
+        ]
+      },
+      "d-w": {
+        "label": "aviso",
+        "title": "aviso",
+        "cap": [
+          "Quem reportou vê “Implantado” no widget: o ciclo fecha."
+        ]
+      }
+    },
+    "step": {
+      "relato": [
+        "O relato chega com contexto: tela, console e ambiente."
+      ],
+      "triagem": [
+        "Segurança, duplicados, tipo e tamanho."
+      ],
+      "issue": [
+        "Uma issue por feedback, com etiquetas."
+      ],
+      "impl": [
+        "Um PR em rascunho, depois de uma aprovação."
+      ],
+      "revisao": [
+        "Seu time revisa e faz o merge."
+      ],
+      "deploy": [
+        "O merge passa pelo CI e o feedback vira Implantado; quem reportou é avisado."
+      ]
+    },
+    "log": {
+      "w1": "botão aberto em /checkout · tipo bug",
+      "w2": "região marcada 412×180 · 2 erros do console",
+      "p1": "feedback recebido · captura guardada",
+      "p2": "webhook assinado → agente de triagem",
+      "t1": "segurança: veredito limpo",
+      "t2": "duplicados: nenhum em 20 issues abertas",
+      "t3": "type:bug · size:S · R$ 0,04",
+      "i1": "issue #{issueNo} aberta · alpha-tester, type:bug, size:S",
+      "c1": "feedback list --status triaged · 1 item",
+      "m1": "get_feedback (T0) · sem dados de quem reportou",
+      "r1": "owner aprova o job · limite R$ 2,00",
+      "x1": "clone raso do branch padrão · 3,2 MB",
+      "x2": "rodada 1/3 · 2 arquivos estáticos",
+      "x3": "HTML válido · 0 links quebrados · R$ 0,38",
+      "pr1": "PR em rascunho #{prNo} · client/issue-{issueNo}",
+      "r2": "revisa o diff e as verificações",
+      "r3": "merge feito por uma pessoa",
+      "w3": "quem reportou é avisado: “Implantado”",
+      "rv1": "revisor: 0 bloqueios · 2 sugestões",
+      "ci1": "GitHub Actions: build · testes · deploy",
+      "ci2": "CI verde · deploy concluído",
+      "d1": "feedback marcado “Implantado”"
+    }
+  },
+  "tech": {
+    "group": {
+      "events": "Eventos",
+      "platform": "Alpha Tester",
+      "agent": "Agente",
+      "tri": "Pipeline · Triagem",
+      "imp": "Pipeline · Implementação",
+      "results": "Resultados no GitHub",
+      "rev": "Revisão · em breve"
+    },
+    "node": {
+      "ev-fb": {
+        "title": "Feedback enviado",
+        "short": "widget",
+        "sub": "pelo widget",
+        "cap": [
+          "Quem testa envia o relato de dentro do app, com tela, console e ambiente.",
+          "SDKs disponíveis para web e Flutter."
+        ]
+      },
+      "ev-acc": {
+        "title": "Feedback aceito",
+        "short": "painel",
+        "sub": "no painel",
+        "cap": [
+          "Alguém do time aceita o feedback no painel; a issue pode ser criada na hora."
+        ]
+      },
+      "ev-impl": {
+        "title": "“Implementar”",
+        "short": "aprovação",
+        "sub": "aprovado por owner/admin",
+        "cap": [
+          "Só um owner ou admin aprova um job, com limite de custo. Em breve."
+        ]
+      },
+      "api": {
+        "title": "Painel / API",
+        "short": "painel",
+        "sub": "POST /api/v1/feedback",
+        "cap": [
+          "Recebe o feedback com a chave pública, guarda capturas em armazenamento privado e avisa o agente por webhook assinado.",
+          "Em breve: compor uma release com um conjunto de feedbacks implementados (depende do plano)."
+        ]
+      },
+      "cli": {
+        "title": "CLI",
+        "short": "CLI",
+        "sub": "chave secreta",
+        "cap": [
+          "Cliente da API no terminal: lista, lê, faz a triagem e abre issues. Em breve."
+        ]
+      },
+      "mcp": {
+        "title": "MCP",
+        "short": "MCP",
+        "sub": "T0 a T2",
+        "cap": [
+          "Servidor MCP como cliente da API; ferramentas por nível. Em breve."
+        ]
+      },
+      "db": {
+        "title": "Banco por empresa",
+        "short": "banco",
+        "sub": "feedback · anexos",
+        "cap": [
+          "Dados separados por empresa e projeto; anexos em armazenamento privado.",
+          "Em breve: com a integração do GitHub, imagens e anexos passam a ser guardados no repositório e referenciados no feedback original, em vez de expirar."
+        ]
+      },
+      "keys": {
+        "title": "Chaves por projeto",
+        "short": "chaves",
+        "sub": "cifradas",
+        "cap": [
+          "Chave do modelo e token do GitHub de cada projeto, cifrados (AES-256-GCM)."
+        ]
+      },
+      "model": {
+        "title": "Modelo",
+        "short": "modelo",
+        "sub": "Anthropic API · orçamento",
+        "cap": [
+          "O agente chama o modelo com a chave do projeto, dentro do orçamento diário."
+        ]
+      },
+      "t1": {
+        "title": "Buscar contexto",
+        "short": "triagem",
+        "sub": "feedback + repo",
+        "cap": [
+          "Relê o feedback na fonte e as issues abertas do projeto."
+        ]
+      },
+      "t2": {
+        "title": "Classificar e estimar",
+        "short": "triagem",
+        "sub": "tipo · tamanho · duplicados",
+        "cap": [
+          "Segurança, duplicados, tipo e tamanho, com o modelo."
+        ]
+      },
+      "t3": {
+        "title": "Criar issue",
+        "short": "triagem",
+        "sub": "API do GitHub",
+        "cap": [
+          "Uma issue por feedback, com as etiquetas do projeto."
+        ]
+      },
+      "t4": {
+        "title": "Registrar custo",
+        "short": "triagem",
+        "sub": "orçamento do dia",
+        "cap": [
+          "Cada execução soma no orçamento diário do projeto."
+        ]
+      },
+      "i1": {
+        "title": "Clone raso",
+        "short": "implementador",
+        "sub": "branch padrão",
+        "cap": [
+          "Só o branch padrão, numa pasta temporária. Em breve."
+        ]
+      },
+      "i2": {
+        "title": "Ler a issue",
+        "short": "implementador",
+        "sub": "issue aceita · size:S",
+        "cap": [
+          "O implementador parte da issue aceita. Em breve."
+        ]
+      },
+      "i3": {
+        "title": "Alterar arquivos",
+        "short": "implementador",
+        "sub": "só estáticos",
+        "cap": [
+          "HTML, CSS, textos e imagens; nunca código ou CI. Em breve."
+        ]
+      },
+      "i4": {
+        "title": "Verificações",
+        "short": "implementador",
+        "sub": "HTML · links",
+        "cap": [
+          "HTML válido e nenhum link interno quebrado. Em breve."
+        ]
+      },
+      "i5": {
+        "title": "Abrir PR em rascunho",
+        "short": "implementador",
+        "sub": "git push · API",
+        "cap": [
+          "Um PR em rascunho por job, num branch próprio. Em breve."
+        ]
+      },
+      "r-issue": {
+        "title": "Issue",
+        "short": "github",
+        "sub": "com etiquetas",
+        "cap": [
+          "alpha-tester, type:… e size:… no repositório do projeto."
+        ]
+      },
+      "r-comment": {
+        "title": "Comentário",
+        "short": "github",
+        "sub": "+1 na issue original",
+        "cap": [
+          "Um feedback repetido vira +1 na issue que já existe."
+        ]
+      },
+      "r-pr": {
+        "title": "PR em rascunho",
+        "short": "github",
+        "sub": "client/issue-N",
+        "cap": [
+          "Espera a revisão do seu time; nunca faz merge. Em breve."
+        ]
+      },
+      "v1": {
+        "title": "Revisar o diff",
+        "short": "revisor",
+        "sub": "em breve",
+        "cap": [
+          "O agente revisor lê o diff do PR em rascunho. Em breve."
+        ]
+      },
+      "v2": {
+        "title": "Comentar no PR",
+        "short": "revisor",
+        "sub": "em breve",
+        "cap": [
+          "Comenta no PR; a decisão é do seu time. Em breve."
+        ]
+      },
+      "st-dep": {
+        "title": "Implantado",
+        "short": "painel",
+        "sub": "status do feedback",
+        "cap": [
+          "O webhook do CI marca o feedback como Implantado."
+        ]
+      },
+      "ev-notify": {
+        "title": "Aviso",
+        "short": "widget",
+        "sub": "quem reportou",
+        "cap": [
+          "Quem reportou vê “Implantado” no widget."
+        ]
+      },
+      "r-merge": {
+        "title": "Merge",
+        "short": "seu time",
+        "sub": "uma pessoa aprova",
+        "cap": [
+          "Uma pessoa aprova e faz o merge; nenhum agente faz merge."
+        ]
+      },
+      "r-ci": {
+        "title": "GitHub Actions",
+        "short": "CI",
+        "sub": "build · testes · deploy",
+        "cap": [
+          "O CI do repositório roda depois do merge e publica a versão."
+        ]
+      }
+    },
+    "edge": {
+      "e-fb": {
+        "label": "HTTPS",
+        "title": "HTTPS",
+        "cap": [
+          "Com a chave pública at_pub_; sem conexão, o relato espera na fila do navegador."
+        ]
+      },
+      "e-acc": {
+        "label": "aceitar",
+        "title": "aceitar",
+        "cap": [
+          "O feedback aceito pode abrir a issue automaticamente."
+        ]
+      },
+      "e-impl": {
+        "label": "aprovação",
+        "title": "aprovação",
+        "cap": [
+          "O owner confirma o limite de custo."
+        ]
+      },
+      "e-db": {
+        "label": "",
+        "title": "",
+        "cap": [
+          "Cada consulta filtrada pela empresa e pelo projeto."
+        ]
+      },
+      "e-cli": {
+        "label": "",
+        "title": "",
+        "cap": [
+          "Chave secreta com escopo manage."
+        ]
+      },
+      "e-mcp": {
+        "label": "",
+        "title": "",
+        "cap": [
+          "Ferramentas acima do nível máximo nem aparecem."
+        ]
+      },
+      "e-hook": {
+        "label": "webhook",
+        "title": "webhook",
+        "cap": [
+          "Webhook assinado: só ids; o agente relê o feedback na fonte."
+        ]
+      },
+      "e-ev": {
+        "label": "evento",
+        "title": "evento",
+        "cap": [
+          "Evento assinado de implementação aprovado."
+        ]
+      },
+      "e-keys": {
+        "label": "chave",
+        "title": "chave",
+        "cap": [
+          "A chave do projeto é decifrada só para a chamada."
+        ]
+      },
+      "e-mtri": {
+        "label": "prompt / tokens",
+        "title": "prompt / tokens",
+        "cap": [
+          "O texto de quem testa vai marcado como dado."
+        ]
+      },
+      "e-mimp": {
+        "label": "",
+        "title": "",
+        "cap": [
+          "Até três rodadas, dentro do limite de custo."
+        ]
+      },
+      "e-issue": {
+        "label": "API do GitHub",
+        "title": "API do GitHub",
+        "cap": [
+          "Com o token do projeto, restrito a um repositório."
+        ]
+      },
+      "e-comment": {
+        "label": "+1 · API",
+        "title": "+1 · API",
+        "cap": [
+          "O duplicado soma um +1 na issue original, sem abrir outra."
+        ]
+      },
+      "e-pr": {
+        "label": "git push · API",
+        "title": "git push · API",
+        "cap": [
+          "Branch client/issue-N e PR em rascunho."
+        ]
+      },
+      "e-rv": {
+        "label": "PR",
+        "title": "PR",
+        "cap": [
+          "O PR em rascunho segue para o agente revisor. Em breve."
+        ]
+      },
+      "e-rvm": {
+        "label": "aprovação",
+        "title": "aprovação",
+        "cap": [
+          "Os comentários ajudam o seu time a decidir o merge."
+        ]
+      },
+      "e-ci": {
+        "label": "merge",
+        "title": "merge",
+        "cap": [
+          "O merge dispara o GitHub Actions."
+        ]
+      },
+      "e-hook2": {
+        "label": "webhook",
+        "title": "webhook",
+        "cap": [
+          "O CI concluído avisa o Alpha Tester por webhook."
+        ]
+      },
+      "e-notify": {
+        "label": "aviso",
+        "title": "aviso",
+        "cap": [
+          "O status volta para quem reportou."
+        ]
+      }
+    },
+    "step": {
+      "s1": [
+        "Feedback novo: triagem e issue no GitHub."
+      ],
+      "s2": [
+        "Aprovação: implementação, PR em rascunho, revisão, merge, CI e “Implantado”."
+      ],
+      "s3": [
+        "Duplicado: nenhuma issue nova, +1 na original, status no painel."
+      ]
+    },
+    "stepLabel": {
+      "s1": "Issue",
+      "s2": "PR → Implantado",
+      "s3": "Duplicado"
+    },
+    "log": {
+      "w1": "feedback enviado · captura + 2 erros",
+      "a1": "POST /api/v1/feedback · 201",
+      "t1": "contexto: feedback + 20 issues abertas",
+      "t2": "type:bug · size:S · veredito limpo",
+      "i1": "issue #42 aberta com etiquetas",
+      "t4": "custo registrado · R$ 0,04",
+      "m1": "get_feedback (T0) respondido",
+      "c1": "feedback aceito no painel",
+      "p1": "owner aprova “Implementar” · limite R$ 2,00",
+      "x1": "clone raso · 3,2 MB",
+      "x2": "HTML válido · 0 links quebrados",
+      "pr1": "PR em rascunho #18 aberto",
+      "w2": "feedback enviado · mesmo problema",
+      "d1": "duplicado de #42 · issue não criada",
+      "d2": "+1 comentado na issue #42",
+      "d3": "status no painel: duplicado",
+      "c2": "CLI lista o feedback duplicado",
+      "rv1": "revisor lê o diff (em breve)",
+      "mg1": "uma pessoa aprova e faz o merge",
+      "ci1": "GitHub Actions: build · testes · deploy",
+      "dp1": "feedback marcado “Implantado”",
+      "nt1": "quem reportou é avisado no widget"
+    },
+    "scenario": {
+      "s1": "Cenário 1 · feedback vira issue",
+      "s2": "Cenário 2 · aprovação até “Implantado”",
+      "s3": "Cenário 3 · duplicado, sem issue nova"
+    }
+  },
+  "como": {
+    "intro": {
+      "eyebrow": "Como funciona",
+      "h1": "Do relato ao pull request",
+      "hint": "cada cena roda sozinha · passe o mouse ou toque nos objetos para ler · Esc fecha",
+      "hintTouch": "cada cena roda sozinha · toque nos objetos para ler"
+    },
+    "widget": {
+      "path": ">_ alpha tester / relato",
+      "h2": "O widget e o SDK",
+      "foot1": "widget · at_pub_",
+      "foot2": "feedback.json",
+      "ui": {
+        "url": "loja.exemplo/checkout",
+        "price": "R$ 189,90",
+        "buy": "Finalizar compra",
+        "fab": "feedback",
+        "formType": "bug",
+        "formText": "botão não responde",
+        "console": "console",
+        "c1": "✕ TypeError: total is undefined",
+        "c2": "✕ POST /api/cart → 500",
+        "online": "online · fila 0",
+        "offline": "sem conexão · fila 1",
+        "back": "conexão voltou · enviado"
+      },
+      "cap": {
+        "fab": {
+          "title": "Botão de feedback",
+          "lines": [
+            "Um botão no seu app web: tipo (bug, melhoria, sugestão), título e descrição.",
+            "SDKs disponíveis: web (tag script ou import ESM, com a chave pública at_pub_) e Flutter."
+          ]
+        },
+        "captura": {
+          "title": "Captura",
+          "lines": [
+            "Marque elementos, recorte uma região ou capture a página inteira.",
+            "Anexos PNG, JPEG, WebP, GIF ou PDF, até 5 MB."
+          ]
+        },
+        "console": {
+          "title": "Console",
+          "lines": [
+            "Erros do console, erros não tratados e promessas rejeitadas vão junto do relato."
+          ]
+        },
+        "ambiente": {
+          "title": "Ambiente",
+          "lines": [
+            "Página, elemento marcado e posição, navegador, tamanho da janela e horário."
+          ]
+        },
+        "fila": {
+          "title": "Sem conexão",
+          "lines": [
+            "O relato espera numa fila no navegador e sai quando a conexão volta, sem duplicar."
+          ]
+        }
+      },
+      "log": [
+        "abrir o widget",
+        "marcar a região",
+        "anexar o console",
+        "enviar com contexto"
+      ]
+    },
+    "painel": {
+      "path": ">_ alpha tester / painel",
+      "h2": "O painel",
+      "foot1": "painel · empresas / projetos",
+      "foot2": "feedback.status",
+      "ui": {
+        "company": "Loja",
+        "members": "3 membros",
+        "bug": "bug",
+        "imp": "melhoria",
+        "sug": "sugestão",
+        "r1": "Botão não responde",
+        "r2": "Filtro por data",
+        "r3": "Modo escuro",
+        "new": "novo",
+        "triaged": "triado",
+        "accepted": "aceito",
+        "hist": "captura-1.png · novo →",
+        "key": "at_pub_••••3f2a ·",
+        "revoke": "revogar"
+      },
+      "cap": {
+        "org": {
+          "title": "Empresas e projetos",
+          "lines": [
+            "Cada empresa tem seus projetos; cada projeto, membros com papéis owner, admin, editor e viewer."
+          ]
+        },
+        "lista": {
+          "title": "Feedback",
+          "lines": [
+            "Filtros por status, tipo e prioridade; mudança de status com histórico e notas internas."
+          ]
+        },
+        "anexos": {
+          "title": "Anexos",
+          "lines": [
+            "Guardados em armazenamento privado, abertos no painel e na issue por links assinados.",
+            "Em breve: com a integração do GitHub, imagens e anexos passam a ser guardados no repositório e referenciados no feedback original, em vez de expirar."
+          ]
+        },
+        "chaves": {
+          "title": "Chaves de API",
+          "lines": [
+            "Pública para o widget, secreta para servidor e terminal.",
+            "Aparecem uma vez e podem ser revogadas na hora."
+          ]
+        },
+        "tracker": {
+          "title": "Meus feedbacks",
+          "lines": [
+            "Quem reportou acompanha: Enviado, Em análise, Em andamento, Resolvido, Implantado.",
+            "Sem login: o vínculo fica no navegador."
+          ]
+        }
+      },
+      "log": [
+        "receber o feedback",
+        "guardar a captura",
+        "mover para triado",
+        "avisar quem reportou"
+      ]
+    },
+    "tracker": [
+      "Enviado",
+      "Em análise",
+      "Em andamento",
+      "Resolvido",
+      "Implantado"
+    ],
+    "triagem": {
+      "path": ">_ alpha tester / triagem",
+      "h2": "O agente de triagem",
+      "foot1": "agente · chave do projeto",
+      "foot2": "issue.labels",
+      "ui": {
+        "quote": "“Botão de finalizar não responde”",
+        "clean": "veredito limpo ✓",
+        "privacyLabel": "nome e e-mail:",
+        "privacyValue": "não lidos",
+        "open": "issues abertas",
+        "dups": "0 duplicados em 20",
+        "budget": "orçamento do dia",
+        "budgetValue": "R$ 0,04 de R$ 2,00"
+      },
+      "cap": {
+        "seguranca": {
+          "title": "Triagem de segurança",
+          "lines": [
+            "O texto de quem testa é dado, nunca instrução.",
+            "Sem veredito limpo, não há issue."
+          ]
+        },
+        "duplicados": {
+          "title": "Duplicados",
+          "lines": [
+            "Compara com feedbacks e issues abertas do projeto, até em outro idioma.",
+            "Um repetido vira +1 na issue original."
+          ]
+        },
+        "etiquetas": {
+          "title": "Tipo e tamanho",
+          "lines": [
+            "Etiquetas alpha-tester, type:… e size:…",
+            "Cria as que faltam, nunca altera as que já existem."
+          ]
+        },
+        "orcamento": {
+          "title": "Orçamento por projeto",
+          "lines": [
+            "Um teto diário para tudo o que o agente gasta no projeto, com chave própria cifrada.",
+            "No teto, o feedback espera o dia seguinte; os outros projetos seguem."
+          ]
+        },
+        "privacidade": {
+          "title": "Sem dados pessoais",
+          "lines": [
+            "O agente nunca lê o nome nem o e-mail de quem reportou."
+          ]
+        }
+      },
+      "log": [
+        "triagem de segurança",
+        "procurar duplicados",
+        "classificar e estimar",
+        "abrir a issue"
+      ]
+    },
+    "github": {
+      "path": ">_ alpha tester / github",
+      "h2": "Integração com o GitHub",
+      "foot1": "github · um repositório",
+      "foot2": "issue #42",
+      "ui": {
+        "title": "[bug] Botão “Finalizar compra” não responde",
+        "author": "aberta pela conta da automação",
+        "kType": "tipo",
+        "vType": "bug",
+        "kPriority": "prioridade",
+        "vPriority": "alta",
+        "kPage": "página",
+        "kEnv": "ambiente",
+        "kFiles": "anexos",
+        "token": "token do projeto",
+        "scope": "loja/loja-web · Issues ✓ · Workflows ✕",
+        "encrypted": "cifrado ao salvar",
+        "create": "Criar Issue no GitHub",
+        "onAccept": "criar ao aceitar"
+      },
+      "cap": {
+        "token": {
+          "title": "Um token por projeto",
+          "lines": [
+            "Fine-grained, restrito a um repositório: Metadata e Issues.",
+            "Contents e Pull requests só para o implementador; Workflows nunca."
+          ]
+        },
+        "cifrado": {
+          "title": "Guardado cifrado",
+          "lines": [
+            "Cifrado ao salvar e nunca devolvido ao navegador: o painel mostra só os quatro últimos caracteres."
+          ]
+        },
+        "criar": {
+          "title": "Criar issue",
+          "lines": [
+            "À mão em cada feedback, ou automática quando o feedback é aceito.",
+            "Uma issue por feedback."
+          ]
+        },
+        "corpo": {
+          "title": "Corpo da issue",
+          "lines": [
+            "Tipo, prioridade, página, descrição, anexos e ambiente, com as etiquetas do projeto.",
+            "Num repositório público, a issue também é pública."
+          ]
+        },
+        "autor": {
+          "title": "Autor",
+          "lines": [
+            "Issues e PRs saem em nome da conta que criou o token; uma conta dedicada à automação evita nomes pessoais."
+          ]
+        }
+      },
+      "log": [
+        "ler o token cifrado",
+        "montar o corpo",
+        "aplicar etiquetas",
+        "issue #42 aberta"
+      ]
+    },
+    "implementador": {
+      "path": ">_ alpha tester / implementação",
+      "h2": "O implementador",
+      "foot1": "implementador · clone raso",
+      "foot2": "client/issue-42",
+      "ui": {
+        "approveTitle": "Implementar #42",
+        "limit": "limite R$ 2,00",
+        "approve": "Aprovar",
+        "html": "HTML válido",
+        "links": "links internos",
+        "round": "rodada 1/3",
+        "cost": "custo do job",
+        "costValue": "R$ 0,38 de R$ 2,00"
+      },
+      "cap": {
+        "aprovacao": {
+          "title": "Aprovação no painel",
+          "lines": [
+            "Só um owner ou admin inicia, num feedback aceito que já tem issue.",
+            "Nem etiqueta nem agendamento disparam um job."
+          ]
+        },
+        "clone": {
+          "title": "Clone raso",
+          "lines": [
+            "Só o branch padrão, numa pasta temporária apagada no fim; acima de 50 MB, não clona.",
+            "Nada do repositório é executado."
+          ]
+        },
+        "diff": {
+          "title": "O que pode mudar",
+          "lines": [
+            "Na primeira versão, conteúdo estático: HTML, CSS, textos e imagens, em issues de tamanho S.",
+            "Nunca código, build, CI ou scripts novos."
+          ]
+        },
+        "verificacoes": {
+          "title": "Verificações",
+          "lines": [
+            "HTML válido nos arquivos alterados e nenhum link interno quebrado; até três rodadas."
+          ]
+        },
+        "custo": {
+          "title": "Limite de custo",
+          "lines": [
+            "Para no limite do job ou no orçamento do dia, o que vier primeiro; prazo de 15 minutos.",
+            "Chave do próprio projeto: sem chave, sem execução."
+          ]
+        }
+      },
+      "log": [
+        "aprovar o job",
+        "clone raso",
+        "editar arquivos estáticos",
+        "verificar HTML e links"
+      ]
+    },
+    "revisao": {
+      "path": ">_ alpha tester / revisão",
+      "h2": "PR em rascunho e revisão",
+      "foot1": "github · pull request",
+      "foot2": "draft → merge",
+      "ui": {
+        "prTitle": "Corrige o botão de finalizar",
+        "checks": "HTML válido ✓ · links ✓",
+        "team": "seu time",
+        "merged": "merge feito por uma pessoa",
+        "ifFail": "se falhar",
+        "failText": "comentário na issue · nenhum PR"
+      },
+      "cap": {
+        "pr": {
+          "title": "PR em rascunho",
+          "lines": [
+            "Um por job, num branch próprio; nunca no branch padrão, nunca com push forçado."
+          ]
+        },
+        "merge": {
+          "title": "Merge",
+          "lines": [
+            "Sempre do seu time: o Alpha Tester nunca faz merge."
+          ]
+        },
+        "falha": {
+          "title": "Se falhar",
+          "lines": [
+            "Nenhum PR; um comentário na issue com o motivo, e os detalhes só no painel."
+          ]
+        },
+        "entregue": {
+          "title": "Implantado",
+          "lines": [
+            "Quem reportou vê o status mudar no widget."
+          ]
+        }
+      },
+      "log": [
+        "push do branch",
+        "abrir PR em rascunho",
+        "revisão do seu time",
+        "status: Implantado"
+      ]
+    },
+    "terminal": {
+      "path": ">_ alpha tester / terminal",
+      "h2Html": "A CLI e o servidor MCP",
+      "foot1": "at · at-mcp",
+      "foot2": "mcp-audit.jsonl",
+      "ui": {
+        "o1": "3f2a… bug       Botão não responde",
+        "o2": "9b1c… sugestão  Modo escuro",
+        "ok": "ok · triado",
+        "refused": "✕ acima do nível"
+      },
+      "cap": {
+        "cli": {
+          "title": "CLI",
+          "lines": [
+            "feedback list, show, set e issue.",
+            "Nunca imprime a chave, só fala HTTPS e não segue redirecionamentos."
+          ]
+        },
+        "chave": {
+          "title": "Chave secreta do projeto",
+          "lines": [
+            "at_sec_…, criada no painel por um admin, mostrada uma vez, revogável na hora.",
+            "Nunca numa página web ou num repositório."
+          ]
+        },
+        "escopos": {
+          "title": "Escopos",
+          "lines": [
+            "ingest só envia feedback.",
+            "manage age como editor do projeto e nunca gerencia chaves, membros ou o GitHub."
+          ]
+        },
+        "niveis": {
+          "title": "Níveis do MCP",
+          "lines": [
+            "T0 lê, T1 anota, T2 propõe mudanças de status e abre a issue.",
+            "Acima do nível máximo, a ferramenta nem aparece."
+          ]
+        },
+        "auditoria": {
+          "title": "Auditoria",
+          "lines": [
+            "Cada escrita fica num registro local.",
+            "Nenhuma ferramenta devolve quem reportou; o texto de quem testa chega marcado como dado."
+          ]
+        }
+      },
+      "log": [
+        "configurar a chave",
+        "listar feedback novo",
+        "chamar ferramentas MCP",
+        "registrar a escrita"
+      ]
+    },
+    "seguranca": {
+      "path": ">_ alpha tester / segurança",
+      "h2": "Segurança e privacidade",
+      "foot1": "AES-256-GCM · por empresa",
+      "foot2": "nada compartilhado",
+      "ui": {
+        "out": "fora",
+        "modelKey": "chave de modelo",
+        "secretHash": "at_sec (hash)",
+        "companyA": "empresa A",
+        "companyB": "empresa B",
+        "denied": "negado",
+        "name": "nome",
+        "email": "e-mail",
+        "limits": "30 req/min por chave · 2FA",
+        "projectToken": "token do projeto"
+      },
+      "cap": {
+        "fora": {
+          "title": "Fora do Alpha Tester",
+          "lines": [
+            "A chave pública só envia feedback; a secreta fica em servidores e terminais."
+          ]
+        },
+        "cofre": {
+          "title": "Chaves cifradas",
+          "lines": [
+            "Tokens do GitHub e chaves de modelo cifrados (AES-256-GCM) e nunca devolvidos.",
+            "Chaves de API guardadas só como hash."
+          ]
+        },
+        "empresas": {
+          "title": "Dados por empresa",
+          "lines": [
+            "Cada consulta é filtrada pelo projeto da chave ou pelo papel no painel.",
+            "Nada é compartilhado entre clientes."
+          ]
+        },
+        "identidade": {
+          "title": "Quem reporta",
+          "lines": [
+            "Agentes e servidor MCP nunca leem nem devolvem nome ou e-mail."
+          ]
+        },
+        "limites": {
+          "title": "Limites",
+          "lines": [
+            "Taxa de requisições por chave e verificação em duas etapas no painel."
+          ]
+        },
+        "repo": {
+          "title": "GitHub",
+          "lines": [
+            "Alcançado só com o token daquele projeto, limitado a um repositório; mudanças em workflows ficam com pessoas."
+          ]
+        }
+      },
+      "log": [
+        "validar a chave",
+        "cifrar o token",
+        "filtrar por empresa",
+        "ocultar identidade"
+      ]
+    }
+  },
+  "apps": {
+    "h1": "Apps",
+    "tagline": "Aplicativos distribuídos e testados com o Alpha Tester.",
+    "cutavid": {
+      "descHtml": "Corte e monte vídeos em segundos: assista no reprodutor embutido, escolha os trechos com o controle deslizante duplo, faça a prévia e exporte — e agora <strong>assista à composição inteira antes de exportar</strong>. Componha vários trechos — de um ou de vários vídeos —, reordene ou inverta a ordem e salve tudo em um único arquivo. Corte rápido sem recodificar ou preciso quadro a quadro — com ffmpeg embutido, nada mais para instalar.",
+      "version": "Versão",
+      "system": "Sistema",
+      "systemValue": "Windows 10 ou superior, 64 bits",
+      "size": "Tamanho",
+      "download": "Baixar para Windows",
+      "testing": "Roteiro de testes",
+      "install": "Como instalar",
+      "steps": [
+        "Baixe o arquivo <code>.zip</code>.",
+        "Clique com o botão direito → <em>Extrair Tudo…</em>",
+        "Abra a pasta <code>CutAVid</code> extraída e execute <code>cutavid.exe</code> de dentro dela — os arquivos da pasta trabalham juntos, não mova o <code>.exe</code> sozinho.",
+        "Instruções completas no <code>LEIA-ME.txt</code> dentro da pasta.",
+        "Na primeira execução o Windows pode exibir “O Windows protegeu o computador”. Clique em <em>Mais informações</em> e depois em <em>Executar assim mesmo</em> — o aviso aparece porque o aplicativo ainda não é assinado digitalmente."
+      ],
+      "copy": "Copiar",
+      "copied": "Copiado!",
+      "verifyHtml": "Para conferir, no PowerShell: <code>Get-FileHash .\\cutavid-windows-x64-v1.3.0.zip</code> (maiúsculas e minúsculas não importam)."
+    },
+    "widget": {
+      "title": "Widget de feedback Alpha Tester",
+      "text": "O widget do Alpha Tester para aplicativos em fase de teste — relatos de bugs e sugestões enviados de dentro do próprio app, com captura de tela e acompanhamento do status pelo testador. Disponível para web e, em breve, para Flutter."
+    }
+  }
+}
