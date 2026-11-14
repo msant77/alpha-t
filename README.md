@@ -58,7 +58,7 @@ locale file, and commit its output. The generated pages under `en/` and
 ## Palettes
 
 `assets/site.css` defines two named palettes as CSS custom properties on
-`:root`, sampled from the owner's swatches: light **sage / charcoal /
+`:root`, sampled from the brand swatches: light **sage / charcoal /
 oatmeal** and dark **peacock / tobacco / parchment**, plus one gold from
 the swatches' lettering. The system preference picks one; the header
 toggle overrides it per browser (`localStorage`). Every text, link and
