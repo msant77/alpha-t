@@ -199,8 +199,8 @@
         ]
       },
       "cli": {
-        "title": "at CLI",
-        "short": "at",
+        "title": "CLI",
+        "short": "CLI",
         "sub": "secret key",
         "m": {
           "cli": "calls"
@@ -300,7 +300,7 @@
         ]
       },
       "cli-p": {
-        "title": "at → dashboard",
+        "title": "CLI → dashboard",
         "cap": [
           "Secret key with the manage scope; 30 requests a minute."
         ]
@@ -754,7 +754,7 @@
     },
     "terminal": {
       "path": ">_ alpha tester / terminal",
-      "h2Html": "The <code>at</code> CLI and the MCP server",
+      "h2Html": "The CLI and the MCP server",
       "foot1": "at · at-mcp",
       "foot2": "mcp-audit.jsonl",
       "ui": {
@@ -765,7 +765,7 @@
       },
       "cap": {
         "cli": {
-          "title": "at",
+          "title": "CLI",
           "lines": [
             "feedback list, show, set and issue.",
             "Never prints the key, speaks HTTPS only and does not follow redirects."

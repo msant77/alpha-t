@@ -199,14 +199,14 @@
         ]
       },
       "cli": {
-        "title": "at CLI",
-        "short": "at",
+        "title": "CLI",
+        "short": "CLI",
         "sub": "clave secreta",
         "m": {
           "cli": "llamadas"
         },
         "cap": [
-          "El feedback en la terminal, con la clave secreta del proyecto: lista, lee, hace el triaje y abre issues.",
+          "La CLI lleva el feedback a la terminal, con la clave secreta del proyecto: lista, lee, hace el triaje y abre issues.",
           "Próximamente."
         ]
       },
@@ -300,7 +300,7 @@
         ]
       },
       "cli-p": {
-        "title": "at → panel",
+        "title": "CLI → panel",
         "cap": [
           "Clave secreta con el alcance manage; 30 solicitudes por minuto."
         ]
@@ -754,7 +754,7 @@
     },
     "terminal": {
       "path": ">_ alpha tester / terminal",
-      "h2Html": "El CLI <code>at</code> y el servidor MCP",
+      "h2Html": "La CLI y el servidor MCP",
       "foot1": "at · at-mcp",
       "foot2": "mcp-audit.jsonl",
       "ui": {
@@ -765,7 +765,7 @@
       },
       "cap": {
         "cli": {
-          "title": "at",
+          "title": "CLI",
           "lines": [
             "feedback list, show, set e issue.",
             "Nunca imprime la clave, solo habla HTTPS y no sigue redirecciones."
