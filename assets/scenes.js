@@ -12,8 +12,9 @@
  * Structure:
  *   nodes   cards. role = colour (client | core | agent | github | human);
  *           at / order / half = place in the flat fallback layout.
- *   ring    node ids around the 3D loop, in order; floating = extra cards.
- *   edges   from -> to; across = arc over the ring; float = short drop.
+ *   ring    the loop's steps, in order, on the 3D carousel (the running one
+ *           turns to the front); satellites = fixed cards outside it.
+ *   edges   from -> to; across = arc over the ring.
  *   steps   the progress rail; focus = the card the camera goes to.
  *   events  what happens at t seconds: status, bar ("node.meter": 0-100
  *           over dur), add (counters, kept across loops), packet (an edge),
@@ -47,10 +48,9 @@ window.AlphaScenes.hero = {
     entregues: { value: 3 }
   },
   ring: ['widget', 'painel', 'triagem', 'issue', 'impl', 'pr', 'revisao'],
-  floating: [
-    { id: 'cli', wide: [2.2, 2.35, -3.9], narrow: [-0.95, 4.9, -1.2] },
-    { id: 'mcp', wide: [5.3, 2.35, -3.2], narrow: [0.95, 4.9, -1.2] }
-  ],
+  // tools that are not steps: fixed cards outside the 3D carousel, tied to the Painel
+  satellites: ['cli', 'mcp'],
+  satelliteAnchor: 'painel',
   nodes: [
     { id: 'widget', role: 'client', at: [2, 1], order: 0,
       meters: [{ kind: 'stat', stat: 'feedbacks' }, { kind: 'text', key: 't1' }] },
@@ -75,8 +75,8 @@ window.AlphaScenes.hero = {
   ],
   edges: [
     { id: 'w-p', from: 'widget', to: 'painel' },
-    { id: 'cli-p', from: 'cli', to: 'painel', float: true },
-    { id: 'mcp-p', from: 'mcp', to: 'painel', float: true },
+    { id: 'cli-p', from: 'cli', to: 'painel' },
+    { id: 'mcp-p', from: 'mcp', to: 'painel' },
     { id: 'p-t', from: 'painel', to: 'triagem' },
     { id: 't-i', from: 'triagem', to: 'issue' },
     { id: 'i-m', from: 'issue', to: 'impl' },
@@ -106,11 +106,8 @@ window.AlphaScenes.hero = {
     { t: 12.4, packet: 't-i', dur: 1.6, add: { issueNo: 1, fila: -1 } },
     { t: 14.0, step: 'issue', status: { triagem: 'concluído', issue: 'concluído' }, add: { issues: 1 },
       log: { n: 'issue', k: 'i1' } },
-    { t: 15.0, status: { cli: 'rodando' }, packet: 'cli-p', dur: 1.2, add: { cli: 1 }, log: { n: 'cli', k: 'c1' } },
-    { t: 16.3, status: { cli: 'concluído', mcp: 'rodando' }, packet: 'mcp-p', dur: 1.2, add: { mcp: 1 },
-      log: { n: 'mcp', k: 'm1' } },
-    { t: 17.8, status: { mcp: 'concluído', revisao: 'rodando' }, add: { aprovacoes: 1 }, log: { n: 'revisao', k: 'r1' } },
-    { t: 18.4, packet: 'ok', dur: 1.8, step: 'impl' },
+    { t: 16.2, status: { revisao: 'rodando' }, add: { aprovacoes: 1 }, log: { n: 'revisao', k: 'r1' } },
+    { t: 17.6, packet: 'ok', dur: 1.8, step: 'impl' },
     { t: 19.4, packet: 'i-m', dur: 1.5 },
     { t: 21.0, status: { revisao: 'aguardando', impl: 'rodando' }, bar: { 'impl.clone': 100 }, dur: 1.2,
       log: { n: 'impl', k: 'x1' } },
@@ -121,8 +118,12 @@ window.AlphaScenes.hero = {
     { t: 28.9, status: { impl: 'concluído', pr: 'concluído' }, add: { prs: 1 }, log: { n: 'pr', k: 'pr1' } },
     { t: 29.8, packet: 'pr-r', dur: 1.5, step: 'revisao' },
     { t: 31.3, status: { revisao: 'rodando' }, log: { n: 'revisao', k: 'r2' } },
-    { t: 33.4, status: { revisao: 'concluído' }, add: { prs: -1 }, log: { n: 'revisao', k: 'r3' } },
-    { t: 34.0, packet: 'r-w', dur: 2.4 },
-    { t: 36.4, pulse: 'widget', add: { entregues: 1 }, log: { n: 'widget', k: 'w3' } }
+    // during the review the satellites answer: the CLI lists, the MCP server serves a tool call
+    { t: 31.8, status: { cli: 'rodando' }, packet: 'cli-p', dur: 1.3, add: { cli: 1 }, log: { n: 'cli', k: 'c1' } },
+    { t: 32.7, status: { cli: 'concluído', mcp: 'rodando' }, packet: 'mcp-p', dur: 1.3, add: { mcp: 1 },
+      log: { n: 'mcp', k: 'm1' } },
+    { t: 33.9, status: { mcp: 'concluído', revisao: 'concluído' }, add: { prs: -1 }, log: { n: 'revisao', k: 'r3' } },
+    { t: 34.4, packet: 'r-w', dur: 2.4 },
+    { t: 36.8, pulse: 'widget', add: { entregues: 1 }, log: { n: 'widget', k: 'w3' } }
   ]
 };
