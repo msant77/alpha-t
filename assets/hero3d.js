@@ -1,12 +1,17 @@
 /*
  * Alpha Tester hero: the loop in real 3D (three.js r169, vendored).
  *
- * A ThreeView for the story engine in assets/loop.js. Node cards are raised
- * slabs with a canvas-drawn face, standing on a ring; edges are curved tubes
- * through space; packets are lit points with a trail and a moving light. The
- * camera drifts slowly, follows a little parallax from the pointer and eases
- * to whatever the visitor selects (the rest dims). On narrow screens the
- * camera follows the step that is running, close enough to read the card.
+ * A ThreeView for the story engine in assets/loop.js. The loop's steps are
+ * raised cards on a carousel: whichever step is running (or selected) turns
+ * to the front, nearest the camera, lifted and lit, so nothing ever covers
+ * it; idle cards stay readable but dimmed. Edges are curved tubes that turn
+ * with the carousel, packets are lit points with a trail and a moving light.
+ * The camera drifts slowly, follows a little pointer parallax and moves in
+ * on a selection.
+ *
+ * Side tools that are not steps (the CLI and the MCP server) are fixed HTML
+ * "satellites" outside the 3D area: they never turn or scale, and a thin
+ * leader joins each one to the Painel's current position on screen.
  *
  * Colours are read from the CSS variables in site.css (and re-read when the
  * theme changes); nothing here defines a colour of its own.
@@ -17,14 +22,17 @@ const loop = window.AlphaLoop;
 const ease = loop ? loop.ease : (p) => p;
 const SPIN = ['◐', '◓', '◑', '◒'];
 const GLYPH = { aguardando: '◌', rodando: '◐', 'concluído': '✓' };
+const SVGNS = 'http://www.w3.org/2000/svg';
 
 const CARD_W = 2.7;          // world units
 const PX = 640;              // canvas pixels across a card
 const UNIT = PX / CARD_W;
+const TAU = Math.PI * 2;
 
 function css(name) {
   return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || '#888888';
 }
+function wrap(a) { return Math.atan2(Math.sin(a), Math.cos(a)); }
 
 function roundRect(ctx, x, y, w, h, r) {
   ctx.beginPath();
@@ -91,11 +99,11 @@ class ThreeView {
     this.s = story;
     this.host = story.stageEl;
     this.host.classList.add('is-3d');
+    story.root.classList.add('cap-docks');
     this.cards = {};
     this.edges = {};
     this.packets = [];
     this.dirty = new Set();
-    this.hoverId = null;
     this.sel = null;
     this.focusNode = null;
     this.actor = null;
@@ -103,7 +111,9 @@ class ThreeView {
     this.parallax = new THREE.Vector2(0, 0);
     this.pointerIn = false;
     this.spinFrame = -1;
-    this.fontsReady = false;
+    this.spin = 0;              // carousel angle
+    this.ringIds = (story.d.ring || []).slice();
+    this.satIds = (story.d.satellites || []).slice();
 
     const narrowDevice = window.matchMedia && window.matchMedia('(hover: none)').matches;
     const renderer = this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
@@ -127,6 +137,8 @@ class ThreeView {
     this.scene.add(this.ambient, this.key, this.packetLight);
 
     this.world = new THREE.Group();
+    this.ring = new THREE.Group();   // turns: cards, edges, packets, shadows
+    this.world.add(this.ring);
     this.scene.add(this.world);
     this.glowTex = glowTexture(false);
     this.cardGlowTex = glowTexture(true);
@@ -134,8 +146,11 @@ class ThreeView {
 
     this.readColors();
     this.buildFloor();
-    for (const n of story.d.nodes) this.buildCard(n);
-    for (const e of story.d.edges) this.buildEdge(e);
+    const byId = {};
+    for (const n of story.d.nodes) byId[n.id] = n;
+    for (const id of this.ringIds) if (byId[id]) this.buildCard(byId[id]);
+    for (const e of story.d.edges) if (this.cards[e.from] && this.cards[e.to]) this.buildEdge(e);
+    this.buildSatellites(byId);
 
     this.raycaster = new THREE.Raycaster();
     this.bindEvents();
@@ -154,7 +169,7 @@ class ThreeView {
         document.fonts.load('600 40px "Cormorant Garamond"'),
         document.fonts.load('400 24px "JetBrains Mono"'),
         document.fonts.load('700 24px "JetBrains Mono"')
-      ]).then(() => { this.fontsReady = true; this.markAll(); }, () => {});
+      ]).then(() => this.markAll(), () => {});
     }
   }
 
@@ -172,37 +187,29 @@ class ThreeView {
 
   applyColors() {
     for (const id in this.cards) {
-      const k = this.cards[id];
-      k.slab.material.color.set(this.c.panel);
-      k.glow.material.color.set(this.c.gold);
+      this.cards[id].slab.material.color.set(this.c.panel);
+      this.cards[id].glow.material.color.set(this.c.gold);
     }
-    for (const id in this.edges) {
-      const e = this.edges[id];
-      e.base.material.color.set(this.c.line);
-    }
+    for (const id in this.edges) this.edges[id].base.material.color.set(this.c.line);
     this.track.material.color.set(this.c.gold);
     this.packetLight.color.set(this.c.gold);
     this.markAll();
   }
 
-  /* ---------- floor: the loop's track and soft shadows ---------- */
+  /* ---------- floor: the carousel's track ---------- */
   buildFloor() {
-    const pts = new THREE.EllipseCurve(0, 0, 1, 1, 0, Math.PI * 2).getPoints(160);
+    const pts = new THREE.EllipseCurve(0, 0, 1, 1, 0, TAU).getPoints(160);
     const geo = new THREE.BufferGeometry().setFromPoints(pts.map((p) => new THREE.Vector3(p.x, 0, p.y)));
     this.track = new THREE.LineLoop(geo, new THREE.LineDashedMaterial({
       color: this.c.gold, dashSize: 0.02, gapSize: 0.025, transparent: true, opacity: 0.55
     }));
     this.track.computeLineDistances();
-    this.world.add(this.track);
+    this.ring.add(this.track);
   }
 
   /* ---------- cards ---------- */
-  rows(n) {
-    return 2 + (n.meters ? n.meters.length : 0) + 1;
-  }
-
   buildCard(n) {
-    const rows = this.rows(n);
+    const rows = 2 + (n.meters ? n.meters.length : 0) + 1;
     const hpx = 36 + 60 + (rows - 1) * 46 + 28;
     const h = hpx / UNIT;
     const canvas = document.createElement('canvas');
@@ -237,12 +244,14 @@ class ThreeView {
       map: this.shadowTex, transparent: true, opacity: 0.35, depthWrite: false
     }));
     shadow.rotation.x = -Math.PI / 2;
-    this.world.add(group, shadow);
+    this.ring.add(group, shadow);
 
+    const i = this.ringIds.indexOf(n.id);
     this.cards[n.id] = {
       d: n, group, slab, face, glow, shadow, canvas, ctx: canvas.getContext('2d'), tex, h,
-      status: n.status || 'aguardando', bars: {}, lift: 0, liftTo: 0, glowNow: 0, dim: 1, dimTo: 1,
-      home: new THREE.Vector3(), pulseUntil: 0
+      angle: -i * TAU / this.ringIds.length,
+      status: n.status || 'aguardando', bars: {}, lift: 0, liftTo: 0, pull: 0, glowNow: 0,
+      dim: 1, home: new THREE.Vector3(), pulseUntil: 0
     };
     this.dirty.add(n.id);
   }
@@ -255,6 +264,7 @@ class ThreeView {
     const n = k.d, g = k.ctx, W = k.canvas.width, H = k.canvas.height, c = this.c;
     const role = c.role[n.role] || c.gold;
     const s = this.s;
+    const tt = (f) => s.tt('node.' + n.id + '.' + f);
     g.clearRect(0, 0, W, H);
     roundRect(g, 3, 3, W - 6, H - 6, 26);
     g.fillStyle = c.panel;
@@ -262,34 +272,29 @@ class ThreeView {
     g.lineWidth = 4;
     g.strokeStyle = role;
     g.stroke();
-    // inner hairline for the raised, stitched-leather edge
-    roundRect(g, 13, 13, W - 26, H - 26, 18);
+    roundRect(g, 13, 13, W - 26, H - 26, 18);   // stitched inner edge
     g.lineWidth = 1;
     g.globalAlpha = 0.35;
     g.strokeStyle = c.gold;
     g.stroke();
     g.globalAlpha = 1;
 
-    const x = 34;
+    const x = 34, mono = '"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace';
     let y = 36 + 44;
     g.textBaseline = 'alphabetic';
     g.fillStyle = role;
     g.font = '600 48px "Cormorant Garamond", Georgia, serif';
-    const tt = (f) => s.tt('node.' + n.id + '.' + f);
     g.fillText(tt('title'), x, y);
-    const mono = '"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace';
     g.font = '400 27px ' + mono;
-    if (n.sub) {
-      y += 42;
-      g.fillStyle = c.muted;
-      g.fillText(s.fill(tt('sub')), x, y);
-    }
+    y += 42;
+    g.fillStyle = c.muted;
+    g.fillText(s.fill(tt('sub')), x, y);
     for (const m of (n.meters || [])) {
       y += 46;
       if (m.kind === 'bar') {
         const v = k.bars[m.id] || 0;
         g.fillStyle = c.text;
-        g.fillText(tt('m.' + (m.id || m.stat)), x, y);
+        g.fillText(tt('m.' + m.id), x, y);
         const bx = W * 0.5, bw = W * 0.28, bh = 18;
         g.strokeStyle = c.line;
         g.lineWidth = 2;
@@ -303,7 +308,7 @@ class ThreeView {
         g.font = '400 27px ' + mono;
       } else if (m.kind === 'stat') {
         g.fillStyle = c.text;
-        g.fillText(tt('m.' + (m.id || m.stat)), x, y);
+        g.fillText(tt('m.' + m.stat), x, y);
         g.font = '700 27px ' + mono;
         g.fillStyle = role;
         g.textAlign = 'right';
@@ -323,33 +328,27 @@ class ThreeView {
     k.tex.needsUpdate = true;
   }
 
-  /* ---------- edges ---------- */
+  /* ---------- edges (in the ring's own frame, so they turn with it) ---------- */
   buildEdge(e) {
     const mat = new THREE.MeshBasicMaterial({ color: this.c.line, transparent: true, opacity: 0.55, toneMapped: false });
     const hot = new THREE.MeshBasicMaterial({ color: this.c.gold, transparent: true, opacity: 0, toneMapped: false });
-    const hitMat = new THREE.MeshBasicMaterial({ visible: false });
     const base = new THREE.Mesh(new THREE.BufferGeometry(), mat);
     const glow = new THREE.Mesh(new THREE.BufferGeometry(), hot);
-    const hit = new THREE.Mesh(new THREE.BufferGeometry(), hitMat);
+    const hit = new THREE.Mesh(new THREE.BufferGeometry(), new THREE.MeshBasicMaterial({ visible: false }));
     hit.userData = { kind: 'edge', id: e.id };
-    this.world.add(base, glow, hit);
-    this.edges[e.id] = { d: e, base, glow, hit, curve: null, hot: 0, heat: 0, role: 'core', dim: 1, dimTo: 1 };
+    this.ring.add(base, glow, hit);
+    this.edges[e.id] = { d: e, base, glow, hit, curve: null, hot: 0, heat: 0, dim: 1 };
   }
 
   curveFor(e) {
     const a = this.cards[e.from].home, b = this.cards[e.to].home;
     const mid = a.clone().add(b).multiplyScalar(0.5);
     const ctrl = mid.clone();
-    if (this.narrow) {
-      const out = new THREE.Vector3(mid.x, 0, 0).normalize().multiplyScalar(e.across ? 0 : 0.9);
-      ctrl.add(out).add(new THREE.Vector3(0, 0, e.across ? 2.2 : 1.1));
-    } else if (e.across) {
-      ctrl.y += 2.2;
-    } else if (e.float) {
-      ctrl.z += 0.8;
+    if (e.across) {
+      ctrl.y += 2.4;
     } else {
       const out = new THREE.Vector3(mid.x, 0, mid.z);
-      if (out.lengthSq() > 0.01) out.normalize().multiplyScalar(1.1);
+      if (out.lengthSq() > 0.01) out.normalize().multiplyScalar(1.2);
       ctrl.add(out);
       ctrl.y += 0.9;
     }
@@ -367,35 +366,99 @@ class ThreeView {
     }
   }
 
+  /* ---------- satellites: fixed HTML cards outside the 3D area ---------- */
+  buildSatellites(byId) {
+    if (!this.satIds.length || !loop.htmlCard) return;
+    const root = this.s.root;
+    const box = document.createElement('div');
+    box.className = 'satellites';
+    const svg = document.createElementNS(SVGNS, 'svg');
+    svg.setAttribute('class', 'sat-leaders');
+    svg.setAttribute('aria-hidden', 'true');
+    this.sats = {};
+    for (const id of this.satIds) {
+      const n = byId[id];
+      if (!n) continue;
+      const k = loop.htmlCard(this.s, n);
+      k.el.classList.add('is-satellite');
+      box.appendChild(k.el);
+      const path = document.createElementNS(SVGNS, 'path');
+      path.setAttribute('class', 'sat-leader r-' + n.role);
+      const dot = document.createElementNS(SVGNS, 'circle');
+      dot.setAttribute('r', '3.5');
+      dot.setAttribute('class', 'sat-packet r-' + n.role);
+      svg.appendChild(path);
+      svg.appendChild(dot);
+      k.path = path;
+      k.dot = dot;
+      k.packet = null;
+      this.sats[id] = k;
+    }
+    root.appendChild(svg);
+    root.appendChild(box);
+    this.satBox = box;
+    this.satSvg = svg;
+  }
+
+  satFor(edge) {
+    if (!this.sats || !edge) return null;
+    return this.sats[edge.from] || this.sats[edge.to] || null;
+  }
+
+  updateLeaders(t) {
+    if (!this.sats) return;
+    const painel = this.cards[this.s.d.satelliteAnchor || 'painel'];
+    if (!painel) return;
+    const root = this.s.root.getBoundingClientRect();
+    const cv = this.renderer.domElement.getBoundingClientRect();
+    const wp = new THREE.Vector3();
+    painel.group.getWorldPosition(wp);
+    const p = wp.clone().project(this.camera);
+    const px = cv.left - root.left + (p.x + 1) / 2 * cv.width;
+    const py = cv.top - root.top + (1 - p.y) / 2 * cv.height;
+    // fade the leaders while the Painel is on the far side of the carousel
+    const r = this.radius || 4;
+    const front = Math.max(0, Math.min(1, (wp.z / r + 0.35) / 0.9));
+    this.satSvg.setAttribute('width', Math.round(root.width));
+    this.satSvg.setAttribute('height', Math.round(root.height));
+    for (const id in this.sats) {
+      const k = this.sats[id];
+      const b = k.el.getBoundingClientRect();
+      const stacked = this.narrow;
+      const sx = stacked ? b.left - root.left + b.width / 2 : b.left - root.left;
+      const sy = stacked ? b.top - root.top : b.top - root.top + b.height / 2;
+      const c1x = stacked ? sx : sx - 80, c1y = stacked ? sy - 60 : sy;
+      const d = `M${sx.toFixed(1)} ${sy.toFixed(1)}C${c1x.toFixed(1)} ${c1y.toFixed(1)} ${(px + (stacked ? 0 : 60)).toFixed(1)} ${(py + (stacked ? 40 : 0)).toFixed(1)} ${px.toFixed(1)} ${py.toFixed(1)}`;
+      k.path.setAttribute('d', d);
+      const lit = k.status === 'rodando' || k.packet ? 1 : 0.55;
+      k.path.style.opacity = (front * lit).toFixed(2);
+      if (k.packet) {
+        const q = (t - k.packet.start) / k.packet.dur;
+        if (q >= 1 || q < 0) { k.packet = null; k.dot.style.opacity = '0'; continue; }
+        const L = k.path.getTotalLength();
+        const pt = k.path.getPointAtLength(ease(q) * L);
+        k.dot.setAttribute('cx', pt.x.toFixed(1));
+        k.dot.setAttribute('cy', pt.y.toFixed(1));
+        k.dot.style.opacity = String(Math.max(0.35, front));
+      } else {
+        k.dot.style.opacity = '0';
+      }
+    }
+  }
+
   /* ---------- layout ---------- */
   layout() {
-    const d = this.s.d;
-    const ring = d.ring || [];
-    const narrow = this.narrow;
-    const rx = narrow ? 1.25 : 4.9, ry = narrow ? 4.4 : 0, rz = narrow ? 0 : 3.5;
-    ring.forEach((id, i) => {
-      const k = this.cards[id];
-      if (!k) return;
-      const a = Math.PI / 2 - (i * Math.PI * 2) / ring.length;
-      if (narrow) k.home.set(rx * Math.cos(a), ry * Math.sin(a), 0.9 * Math.cos(a));
-      else k.home.set(rx * Math.cos(a), 0, -rz * Math.sin(a));
-    });
-    for (const f of (d.floating || [])) {
-      const k = this.cards[f.id];
-      if (!k) continue;
-      const p = narrow ? f.narrow : f.wide;
-      k.home.set(p[0], p[1], p[2]);
-    }
-    const scale = narrow ? 0.86 : 1.3;
+    const r = this.radius = this.narrow ? 3.2 : 4.4;
+    const scale = this.cardScale = this.narrow ? 0.86 : 1.25;
     for (const id in this.cards) {
       const k = this.cards[id];
-      k.group.scale.setScalar(scale * (k.d.small ? 0.82 : 1));
+      k.home.set(r * Math.sin(k.angle), 0, r * Math.cos(k.angle));
+      k.group.scale.setScalar(scale);
       k.group.position.copy(k.home);
-      k.shadow.visible = !narrow;
-      k.shadow.position.set(k.home.x, -1.32, k.home.z + 0.2);
+      k.shadow.position.set(k.home.x, -1.32, k.home.z);
+      k.shadow.rotation.z = -k.angle;
     }
-    this.track.visible = !narrow;
-    this.track.scale.set(rx, 1, rz || 1);
+    this.track.scale.set(r, 1, r);
     this.track.position.y = -1.3;
     this.rebuildEdges();
   }
@@ -407,15 +470,16 @@ class ThreeView {
     this.renderer.setSize(w, h, false);
     this.camera.aspect = w / h;
     this.camera.updateProjectionMatrix();
-    const narrow = w < 700 || w / h < 0.95;
+    const narrow = w < 900 || w / h < 0.95;
     if (narrow !== this.narrow) { this.narrow = narrow; this.layout(); }
-    // distance that fits the whole ring (wide) on this aspect
+    // distance that fits the carousel in the middle column (the caption docks
+    // on the left, the satellites on the right) or the whole width on phones
     const t = Math.tan(THREE.MathUtils.degToRad(this.camera.fov / 2));
-    // the ring gets the area right of the title and above the dock
-    const availW = narrow ? 1 : 0.7, availH = narrow ? 1 : 0.64;
-    const fitW = 2 * 4.9 + CARD_W * 1.3 + 1.0, fitH = 7.4;
+    const availW = narrow ? 1 : 0.6, availH = narrow ? 0.7 : 0.62;
+    const span = 2 * this.radius + CARD_W * (narrow ? 0.86 : 1.25);
+    const fitW = narrow ? CARD_W * 0.86 / 0.8 : span, fitH = narrow ? 6 : 6.4;
     this.fitDist = Math.max(fitH / 2 / (t * availH), fitW / 2 / (t * this.camera.aspect * availW));
-    this.offTo = narrow ? { x: 0, y: 0.03 } : { x: -0.12, y: 0.075 };
+    this.offTo = narrow ? { x: 0, y: 0.06 } : { x: 0.02, y: -0.06 };
     if (!this.off) this.off = { x: this.offTo.x, y: this.offTo.y };
     this.snap = true;
   }
@@ -431,7 +495,7 @@ class ThreeView {
     });
     el.addEventListener('pointerleave', () => {
       this.pointerIn = false;
-      if (this.hoverId) { this.hoverId = null; this.s.hover(null); el.style.cursor = ''; }
+      if (this.hoverKey && !this.s.selection) { this.hoverKey = null; this.s.hover(null); el.style.cursor = ''; }
     });
     el.addEventListener('pointerdown', (e) => { down = { x: e.clientX, y: e.clientY }; });
     el.addEventListener('pointerup', (e) => {
@@ -458,15 +522,22 @@ class ThreeView {
   hover(h) {
     this.hoverId = h && h.kind === 'node' ? h.id : null;
     this.hoverEdge = h && h.kind === 'edge' ? h.id : null;
+    if (this.sats) for (const id in this.sats) this.sats[id].el.classList.toggle('is-hover', this.hoverId === id);
   }
 
   select(sel, focusNode) {
     this.sel = sel;
     this.focusNode = focusNode && this.cards[focusNode] ? focusNode : null;
+    if (this.sats) for (const id in this.sats) this.sats[id].el.classList.toggle('is-sel', !!sel && sel.kind === 'node' && sel.id === id);
   }
 
   anchorRect(kind, id) {
     const root = this.s.root.getBoundingClientRect();
+    if (kind === 'node' && this.sats && this.sats[id]) {
+      const r = this.sats[id].el.getBoundingClientRect();
+      return { left: r.left - root.left, top: r.top - root.top, right: r.right - root.left,
+               bottom: r.bottom - root.top, width: r.width, height: r.height };
+    }
     const cv = this.renderer.domElement.getBoundingClientRect();
     const project = (v) => {
       const p = v.clone().project(this.camera);
@@ -475,15 +546,21 @@ class ThreeView {
     let pts = [];
     if (kind === 'node' && this.cards[id]) {
       const k = this.cards[id];
-      const hw = CARD_W / 2 * k.group.scale.x, hh = k.h / 2 * k.group.scale.y;
+      const hw = CARD_W / 2, hh = k.h / 2;
+      k.group.updateWorldMatrix(true, false);
       for (const [sx, sy] of [[-1, -1], [1, -1], [1, 1], [-1, 1]]) {
         pts.push(project(new THREE.Vector3(sx * hw, sy * hh, 0).applyMatrix4(k.group.matrixWorld)));
       }
     } else if (kind === 'edge' && this.edges[id] && this.edges[id].curve) {
       const live = this.packets.find((p) => p.edge === this.edges[id]);
-      const at = live ? live.core.position : this.edges[id].curve.getPointAt(0.5);
+      const at = new THREE.Vector3();
+      if (live) live.core.getWorldPosition(at);
+      else at.copy(this.edges[id].curve.getPointAt(0.5)).applyMatrix4(this.ring.matrixWorld);
       const p = project(at);
       pts = [{ x: p.x - 10, y: p.y - 10 }, { x: p.x + 10, y: p.y + 10 }];
+    } else if (kind === 'edge' && this.sats) {
+      const sat = this.satFor(this.s.edgeById[id]);
+      if (sat) return this.anchorRect('node', sat.d.id);
     }
     if (!pts.length) return null;
     const xs = pts.map((p) => p.x), ys = pts.map((p) => p.y);
@@ -494,11 +571,13 @@ class ThreeView {
 
   /* ---------- story hooks ---------- */
   setStatus(id, s) {
+    if (this.sats && this.sats[id]) { loop.cardStatus(this.sats[id], s); return; }
     const k = this.cards[id];
     if (!k) return;
     k.status = s;
     k.liftTo = s === 'rodando' ? 0.32 : 0;
-    if (s === 'rodando') this.actor = id;
+    // the card that just started or just finished is the one the carousel shows
+    if (s === 'rodando' || s === 'concluído') this.actor = id;
     this.dirty.add(id);
   }
 
@@ -511,21 +590,27 @@ class ThreeView {
 
   statsChanged() { this.markAll(); }
 
-  relocale() { this.markAll(); }
+  relocale() {
+    this.markAll();
+    if (this.sats) for (const id in this.sats) loop.cardStatus(this.sats[id], this.sats[id].status);
+  }
 
   pulse(id) {
     const k = this.cards[id];
-    if (k) k.pulseUntil = this.s.elapsed + 1.4;
-    this.actor = id;
+    if (k) { k.pulseUntil = this.s.elapsed + 1.4; this.actor = id; }
   }
 
   reset() {
     for (const p of this.packets) this.disposePacket(p);
     this.packets = [];
     for (const id in this.edges) this.edges[id].hot = 0;
+    if (this.sats) for (const id in this.sats) this.sats[id].packet = null;
   }
 
   launch(edgeId, o) {
+    const edge = this.s.edgeById[edgeId];
+    const sat = this.satFor(edge);
+    if (sat) { sat.packet = { start: this.s.t, dur: o.dur }; return; }
     const e = this.edges[edgeId];
     if (!e || !e.curve) return;
     const color = new THREE.Color(this.c.role[o.role] || this.c.gold);
@@ -545,17 +630,15 @@ class ThreeView {
     });
     const hit = new THREE.Mesh(new THREE.SphereGeometry(0.38, 8, 6), new THREE.MeshBasicMaterial({ visible: false }));
     hit.userData = { kind: 'edge', id: edgeId };
-    this.world.add(core, halo, hit, ...trail);
+    this.ring.add(core, halo, hit, ...trail);
     e.hot++;
-    e.role = o.role;
     e.glow.material.color.copy(color);
     this.packets.push({ edge: e, core, halo, trail, hit, start: this.s.t, dur: o.dur, back: o.back });
-    this.actor = e.d.to;
   }
 
   disposePacket(p) {
     for (const m of [p.core, p.halo, p.hit, ...p.trail]) {
-      this.world.remove(m);
+      this.ring.remove(m);
       if (m.geometry) m.geometry.dispose();
       m.material.dispose();
     }
@@ -567,8 +650,18 @@ class ThreeView {
     if (!this.w) this.resize();
     const k1 = 1 - Math.exp(-dt * 2.4);      // camera
     const k2 = 1 - Math.exp(-dt * 6);        // fades and lifts
+    const kSpin = 1 - Math.exp(-dt * 1.9);   // carousel
 
-    // packets
+    // carousel: the selected card, else the running one, turns to the front
+    const lead = this.focusNode || this.actor;
+    if (lead && this.cards[lead]) {
+      const want = -this.cards[lead].angle;
+      this.spin += wrap(want - this.spin) * kSpin;
+    }
+    this.ring.rotation.y = this.spin;
+    this.ring.updateMatrixWorld(true);
+
+    // packets (ring frame)
     let newest = null;
     this.packets = this.packets.filter((p) => {
       const q = (t - p.start) / p.dur;
@@ -584,7 +677,7 @@ class ThreeView {
       return true;
     });
     if (newest) {
-      this.packetLight.position.copy(newest.core.position);
+      newest.core.getWorldPosition(this.packetLight.position);
       this.packetLight.intensity += (3.2 - this.packetLight.intensity) * k2;
     } else {
       this.packetLight.intensity += (0 - this.packetLight.intensity) * k2;
@@ -599,31 +692,26 @@ class ThreeView {
         this.renderer.domElement.style.cursor = hit ? 'pointer' : '';
         this.s.hover(hit ? hit.kind : null, hit ? hit.id : null);
       }
-    } else if (!this.pointerIn && this.hoverKey && !this.s.selection) {
-      this.hoverKey = null;
     }
 
-    // camera rig
+    // camera: overview of the carousel, or in on the focused (front) card
     this.parallax.lerp(this.pointerIn ? this.pointer : new THREE.Vector2(0, 0), k1);
-    const focus = this.focusNode || (this.narrow ? this.actor : null);
-    let target, dist, elev, az;
-    if (focus && this.cards[focus]) {
-      const kf = this.cards[focus];
-      target = kf.group.position.clone();
-      const fov = THREE.MathUtils.degToRad(this.camera.fov / 2);
-      const want = (CARD_W * kf.group.scale.x) / (this.narrow ? 0.78 : 0.42);
+    const r = this.radius || 4.4;
+    const fov = THREE.MathUtils.degToRad(this.camera.fov / 2);
+    let target, dist, elev;
+    const close = this.focusNode || this.narrow;
+    if (close) {
+      target = new THREE.Vector3(0, 0.25, r);
+      const want = (CARD_W * (this.narrow ? 0.86 : 1.25)) / (this.narrow ? 0.8 : 0.42);
       dist = want / 2 / (Math.tan(fov) * this.camera.aspect);
-      elev = this.narrow ? 0.06 : 0.16;
-      az = Math.atan2(target.x, Math.max(1, target.z + 6)) * 0.35;
+      elev = this.narrow ? 0.12 : 0.18;
     } else {
-      // wide: the ring sits right of centre so the title keeps the left
-      target = new THREE.Vector3(0, this.narrow ? 0 : 0.6, 0);
+      target = new THREE.Vector3(0, 0.35, 0.9);
       dist = this.fitDist || 15;
-      elev = this.narrow ? 0.05 : 0.5;
-      az = 0;
+      elev = 0.33;
     }
-    az += Math.sin(elapsed * 0.09) * (this.narrow ? 0.05 : 0.12) + this.parallax.x * 0.14;
-    elev += Math.sin(elapsed * 0.065) * 0.03 - this.parallax.y * 0.07;
+    const az = Math.sin(elapsed * 0.09) * (this.narrow ? 0.04 : 0.1) + this.parallax.x * 0.12;
+    elev += Math.sin(elapsed * 0.065) * 0.025 - this.parallax.y * 0.06;
     const pos = new THREE.Vector3(
       target.x + Math.sin(az) * Math.cos(elev) * dist,
       target.y + Math.sin(elev) * dist,
@@ -634,53 +722,53 @@ class ThreeView {
     this.camPos.lerp(pos, k1);
     this.camera.position.copy(this.camPos);
     this.camera.lookAt(this.camTarget);
-    // frame the ring off-centre in the overview, centre the focused card
-    const offTo = this.focusNode ? { x: this.narrow ? 0 : -0.05, y: 0.03 } : this.offTo;
+    const offTo = this.focusNode ? { x: 0.02, y: 0.04 } : this.offTo;
     this.off.x += (offTo.x - this.off.x) * k1;
     this.off.y += (offTo.y - this.off.y) * k1;
     this.camera.setViewOffset(this.w, this.h, this.off.x * this.w, this.off.y * this.h, this.w, this.h);
 
-    // cards: billboard (yaw only), lift, glow, dim
+    // cards: face the camera, the lead one lifted and pulled forward, idle ones dimmed
     const sel = this.s.selection;
-    const toCam = new THREE.Vector3();
     const spin = Math.floor(elapsed * 6) % 4;
     const spinChanged = spin !== this.spinFrame;
     this.spinFrame = spin;
+    const camLocal = this.ring.worldToLocal(this.camera.position.clone());
     for (const id in this.cards) {
       const k = this.cards[id];
+      const isLead = id === lead;
       const focused = this.focusNode === id;
-      k.dimTo = sel && !focused ? 0.28 : 1;
-      k.dim += (k.dimTo - k.dim) * k2;
-      k.lift += ((focused ? 0.45 : k.liftTo) - k.lift) * k2;
-      // the focused card also comes forward, so nothing in front can hide it
-      k.pull = (k.pull || 0) + ((focused ? 1.6 : 0) - (k.pull || 0)) * k2;
-      toCam.copy(this.camera.position).sub(k.home).normalize().multiplyScalar(k.pull);
-      k.group.position.set(k.home.x + toCam.x, k.home.y + k.lift + toCam.y, k.home.z + toCam.z);
-      k.group.lookAt(this.camera.position.x, k.group.position.y, this.camera.position.z);
+      const dimTo = sel ? (focused ? 1 : 0.28) : (lead ? (isLead || k.status === 'rodando' ? 1 : 0.62) : 1);
+      k.dim += (dimTo - k.dim) * k2;
+      k.lift += ((isLead ? 0.38 : k.liftTo) - k.lift) * k2;
+      k.pull += ((isLead ? 1 : 0) - k.pull) * k2;
+      const out = new THREE.Vector3(k.home.x, 0, k.home.z).normalize().multiplyScalar(0.9 * k.pull);
+      k.group.position.set(k.home.x + out.x, k.home.y + k.lift, k.home.z + out.z);
+      k.group.scale.setScalar(this.cardScale * (1 + 0.16 * k.pull));
+      k.group.lookAt(this.ring.localToWorld(new THREE.Vector3(camLocal.x, k.group.position.y, camLocal.z)));
       k.face.material.opacity = k.dim;
-      k.slab.material.opacity = 0.35 + 0.65 * k.dim;
+      k.slab.material.opacity = 0.4 + 0.6 * k.dim;
+      k.face.renderOrder = k.slab.renderOrder = isLead ? 10 : 0;
       const pulsing = elapsed < k.pulseUntil;
-      const glowTo = focused ? 0.85 : k.status === 'rodando' ? 0.5 + 0.15 * Math.sin(elapsed * 4) :
+      const glowTo = focused ? 0.85 : isLead && k.status === 'rodando' ? 0.5 + 0.15 * Math.sin(elapsed * 4) :
         (this.hoverId === id || pulsing) ? 0.45 : 0;
       k.glowNow += (glowTo - k.glowNow) * k2;
       k.glow.material.opacity = k.glowNow * k.dim;
       k.shadow.material.opacity = 0.32 * k.dim;
       if (spinChanged && k.status === 'rodando') this.dirty.add(id);
     }
-    // edges: heat while a packet runs, dim with selection
     for (const id in this.edges) {
       const e = this.edges[id];
       const chosen = sel && sel.kind === 'edge' && sel.id === id;
       const near = sel && this.focusNode && (e.d.from === this.focusNode || e.d.to === this.focusNode);
-      e.dimTo = !sel || chosen || near ? 1 : 0.2;
-      e.dim += (e.dimTo - e.dim) * k2;
+      const dimTo = !sel || chosen || near ? 1 : 0.2;
+      e.dim += (dimTo - e.dim) * k2;
       const heatTo = e.hot > 0 || chosen || this.hoverEdge === id ? 1 : 0;
       e.heat += (heatTo - e.heat) * k2;
       e.base.material.opacity = 0.55 * e.dim;
       e.glow.material.opacity = 0.9 * e.heat * e.dim;
     }
+    if (this.sats) for (const id in this.sats) loop.cardSpin(this.sats[id], elapsed);
 
-    // redraw the faces that changed (fonts may arrive late)
     let budget = 4;
     for (const id of this.dirty) {
       if (budget-- <= 0) break;
@@ -688,6 +776,7 @@ class ThreeView {
       this.draw(id);
     }
     this.renderer.render(this.scene, this.camera);
+    this.updateLeaders(t);
   }
 }
 

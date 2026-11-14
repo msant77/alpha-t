@@ -658,6 +658,67 @@
     bot.classList.add('is-walking');
   }
 
+  /* ---------- an HTML node card (flat view, and the 3D view's satellites) ---------- */
+  function htmlCard(s, n) {
+    var c = el('div', 'node r-' + n.role);
+    c.setAttribute('aria-hidden', 'true');
+    c.dataset.anchor = n.id;
+    var key = function (f) { return function () { return s.tt('node.' + n.id + '.' + f); }; };
+    var title = el('div', 'node-title');
+    s.bind(title, key('title'));
+    c.appendChild(title);
+    var sub = el('div', 'node-sub');
+    s.bind(sub, key('sub'));
+    c.appendChild(sub);
+    var meters = {};
+    (n.meters || []).forEach(function (m) {
+      var row = el('div', 'm-row is-' + (m.kind || 'text'));
+      var label = el('span', 'm-label');
+      if (m.kind !== 'text') s.bind(label, key('m.' + (m.id || m.stat)));
+      if (m.kind === 'bar') {
+        row.appendChild(label);
+        var track = el('span', 'm-bar'), fill = el('i');
+        track.appendChild(fill);
+        row.appendChild(track);
+        var val = el('span', 'm-val');
+        row.appendChild(val);
+        meters[m.id] = { fill: fill, val: val };
+      } else if (m.kind === 'stat') {
+        row.appendChild(label);
+        var v = el('span', 'm-val');
+        s.bind(v, function () { return '{' + m.stat + '}'; });
+        row.appendChild(v);
+      } else {
+        var tx = el('span', 'm-text');
+        s.bind(tx, key('m.' + m.key));
+        row.appendChild(tx);
+      }
+      c.appendChild(row);
+    });
+    var status = el('div', 'node-status');
+    var glyph = el('span', 'st-glyph'), label = el('span', 'st-label');
+    status.appendChild(glyph);
+    status.appendChild(label);
+    c.appendChild(status);
+    c.addEventListener('click', function (e) { e.stopPropagation(); s.pick('node', n.id); });
+    if (!coarse) {
+      c.addEventListener('mouseenter', function () { s.hover('node', n.id); });
+      c.addEventListener('mouseleave', function () { s.hover(null); });
+    }
+    return { d: n, el: c, glyph: glyph, label: label, meters: meters, status: null };
+  }
+  function cardStatus(k, s) {
+    k.status = s;
+    k.el.classList.remove('st-run', 'st-done', 'st-wait', 'st-other');
+    k.el.classList.add(s === 'rodando' ? 'st-run' : s === 'concluído' ? 'st-done' : s === 'aguardando' ? 'st-wait' : 'st-other');
+    k.el.classList.toggle('is-active', s === 'rodando');
+    k.glyph.textContent = GLYPH[s] || '•';
+    k.label.textContent = statusLabel(s);
+  }
+  function cardSpin(k, elapsed) {
+    if (k.status === 'rodando') k.glyph.textContent = SPIN[Math.floor(elapsed * 6) % SPIN.length];
+  }
+
   /* ---------- DomView: HTML cards + SVG edges (fallback and static) ---------- */
   function DomView() {}
 
@@ -709,55 +770,10 @@
   };
 
   DomView.prototype.card = function (n, index) {
-    var s = this.s;
-    var c = el('div', 'node r-' + n.role);
-    c.setAttribute('aria-hidden', 'true');
-    c.dataset.anchor = n.id;
-    var key = function (f) { return function () { return s.tt('node.' + n.id + '.' + f); }; };
-    var title = el('div', 'node-title');
-    s.bind(title, key('title'));
-    c.appendChild(title);
-    var sub = el('div', 'node-sub');
-    s.bind(sub, key('sub'));
-    c.appendChild(sub);
-    var meters = {};
-    (n.meters || []).forEach(function (m) {
-      var row = el('div', 'm-row is-' + (m.kind || 'text'));
-      var label = el('span', 'm-label');
-      if (m.kind !== 'text') s.bind(label, key('m.' + (m.id || m.stat)));
-      if (m.kind === 'bar') {
-        row.appendChild(label);
-        var track = el('span', 'm-bar'), fill = el('i');
-        track.appendChild(fill);
-        row.appendChild(track);
-        var val = el('span', 'm-val');
-        row.appendChild(val);
-        meters[m.id] = { fill: fill, val: val };
-      } else if (m.kind === 'stat') {
-        row.appendChild(label);
-        var v = el('span', 'm-val');
-        s.bind(v, function () { return '{' + m.stat + '}'; });
-        row.appendChild(v);
-      } else {
-        var tx = el('span', 'm-text');
-        s.bind(tx, key('m.' + m.key));
-        row.appendChild(tx);
-      }
-      c.appendChild(row);
-    });
-    var status = el('div', 'node-status');
-    var glyph = el('span', 'st-glyph'), label = el('span', 'st-label');
-    status.appendChild(glyph);
-    status.appendChild(label);
-    c.appendChild(status);
-    c.addEventListener('click', function (e) { e.stopPropagation(); s.pick('node', n.id); });
-    if (!coarse) {
-      c.addEventListener('mouseenter', function () { s.hover('node', n.id); });
-      c.addEventListener('mouseleave', function () { s.hover(null); });
-    }
-    this.stage.appendChild(c);
-    this.cards[n.id] = { d: n, el: c, glyph: glyph, label: label, meters: meters,
-                         order: n.order != null ? n.order : index, status: null };
+    var k = htmlCard(this.s, n);
+    this.stage.appendChild(k.el);
+    k.order = n.order != null ? n.order : index;
+    this.cards[n.id] = k;
   };
 
   DomView.prototype.edge = function (e) {
@@ -845,14 +861,7 @@
   };
 
   DomView.prototype.setStatus = function (id, s) {
-    var n = this.cards[id];
-    if (!n) return;
-    n.status = s;
-    n.el.classList.remove('st-run', 'st-done', 'st-wait', 'st-other');
-    n.el.classList.add(s === 'rodando' ? 'st-run' : s === 'concluído' ? 'st-done' : s === 'aguardando' ? 'st-wait' : 'st-other');
-    n.el.classList.toggle('is-active', s === 'rodando');
-    n.glyph.textContent = GLYPH[s] || '•';
-    n.label.textContent = statusLabel(s);
+    if (this.cards[id]) cardStatus(this.cards[id], s);
   };
 
   DomView.prototype.relocale = function () {
@@ -916,8 +925,7 @@
       keep.push(pk);
     }
     this.packets = keep;
-    var frame = SPIN[Math.floor(elapsed * 6) % SPIN.length];
-    for (var id in this.cards) if (this.cards[id].status === 'rodando') this.cards[id].glyph.textContent = frame;
+    for (var id in this.cards) cardSpin(this.cards[id], elapsed);
   };
 
   DomView.prototype.hover = function (h) {
@@ -991,6 +999,9 @@
     ease: ease,
     T: T,
     statusLabel: statusLabel,
+    htmlCard: htmlCard,
+    cardStatus: cardStatus,
+    cardSpin: cardSpin,
     makeBot: makeBot,
     moveBot: moveBot,
     reduced: reduced,
