@@ -425,5 +425,31 @@
     </nav>
   </div>
 </footer>
+<!-- Alpha Tester feedback widget: hidden unless this browser opted in.
+     ?alpha=1 turns it on (localStorage.alpha = "1"), ?alpha=0 turns it off.
+     Same SDK, project and dashboard as the testing script (/teste/). -->
+<script>
+  (function () {
+    var on = false;
+    try {
+      var q = new URLSearchParams(location.search).get("alpha");
+      if (q === "1") localStorage.setItem("alpha", "1");
+      if (q === "0") localStorage.removeItem("alpha");
+      on = localStorage.getItem("alpha") === "1";
+    } catch (e) { /* storage unavailable: the widget stays hidden */ }
+    if (!on) return;
+    var s = document.createElement("script");
+    s.src = "https://apps.alphatester.app/teste/alpha-tester.umd.js";
+    s.onload = function () {
+      if (!window.AlphaTester) return;
+      AlphaTester.init({
+        projectId: "e934b8b4-d015-4334-8cca-7b5d4ff08334",
+        apiKey: "at_pub_Zzn0ILakn-7ei-riETQC9Tywg9IsXEJO",
+        endpoint: "https://dev.alphatester.app"
+      });
+    };
+    document.body.appendChild(s);
+  })();
+</script>
 </body>
 </html>
