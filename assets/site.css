@@ -1,96 +1,160 @@
 /*
  * Alpha Tester — shared styles for the landing and "Como funciona".
  *
- * Two named palettes, one per theme. Every text/background pair used for
- * body text, links and buttons passes WCAG AA (4.5:1); ratios in comments.
+ * Two named palettes, one per theme, sampled from the owner's swatches
+ * (textured plaster and leather cards with gold serif lettering):
  *
- *   Light  "sage / charcoal / oatmeal"
- *   Dark   "peacock / tobacco / parchment"
+ *   Light  "sage / charcoal / oatmeal": oatmeal surface, charcoal text,
+ *          sage for cards, borders and buttons.
+ *   Dark   "peacock / tobacco / parchment": peacock surface, parchment
+ *          text, tobacco for cards, borders and buttons.
+ *   Both   one gold, from the lettering, for display type and the glow.
  *
- * Theme choice: the system preference (prefers-color-scheme) unless the
- * visitor picked one with the toggle; the pick is stored in localStorage
- * and applied as <html data-theme="light|dark"> by an inline script in
- * <head>, before the first paint (no flash).
+ * Sampled band medians: sage #68644C, charcoal #32302C, oatmeal #C8B79C
+ * (flat #D2C1A6); peacock #112D32 (light #1E3E44), tobacco #38160B
+ * (#462213), parchment #D0BA96 (flat #DBC5A2); gold lettering ~#C8A465.
+ * Where a text pair failed WCAG AA (4.5:1) only the lightness moved,
+ * never the hue. Ratios are in the comments; every colour lives here.
+ *
+ * Theme choice: the system preference unless the visitor picked one with
+ * the toggle (localStorage), applied as <html data-theme> before paint.
  */
+
+/* ---- Fonts: self-hosted, SIL OFL 1.1 (licences in assets/fonts/) ---- */
+@font-face {
+  font-family: "Cormorant Garamond"; font-style: normal; font-weight: 500; font-display: swap;
+  src: url("/assets/fonts/cormorant-garamond-latin-500-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Cormorant Garamond"; font-style: normal; font-weight: 600; font-display: swap;
+  src: url("/assets/fonts/cormorant-garamond-latin-600-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "JetBrains Mono"; font-style: normal; font-weight: 400; font-display: swap;
+  src: url("/assets/fonts/jetbrains-mono-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "JetBrains Mono"; font-style: normal; font-weight: 700; font-display: swap;
+  src: url("/assets/fonts/jetbrains-mono-latin-700-normal.woff2") format("woff2");
+}
 
 /* ---- Light: sage / charcoal / oatmeal (default) ---- */
 :root {
   color-scheme: light;
-  --surface: #EDE6D6;        /* oatmeal */
-  --surface-raised: #F6F1E6; /* elevated oatmeal: cards, header */
-  --text: #2B2B2B;           /* charcoal: 11.39 on surface, 12.57 on raised */
-  --muted: #5C5A52;          /* muted charcoal: 5.56 on surface, 6.13 on raised */
-  --accent: #8A9A7B;         /* sage: button fill, diagram accents */
-  --on-accent: #1E1E1E;      /* text on sage: 5.55 */
-  --accent-ink: #4F5E42;     /* sage for text and links: 5.61 on surface, 6.19 on raised */
-  --line: #D6CDB8;           /* hairlines and card borders */
-  --soon-bg: #E3DAC6;        /* "em breve" wash: muted 4.97, text 10.19 */
-  --focus: #4F5E42;
-  /* live scenes (terminal): surfaces, lines and one colour per role.
-     Role colours pass 4.5:1 on --term-bg and --term-panel. */
-  --term-bg: #FBF8F1;        /* text 13.35, muted 6.51 */
-  --term-panel: #F3EDE0;     /* text 12.1, muted 5.92 */
-  --term-text: #2B2B2B;
-  --term-muted: #5C5A52;
-  --term-line: #B3A88F;
-  --term-chrome: #E8E0CF;
-  --role-client: #4F5E42;    /* sage: site do cliente, widget (5.98) */
-  --role-core: #2C5F6A;      /* peacock: painel, CLI, MCP (6.10) */
-  --role-agent: #8A5A2B;     /* tobacco: agentes (5.03) */
-  --role-github: #5E4E8E;    /* violet: GitHub (6.09) */
-  --role-human: #9A3F3F;     /* brick: seu time (5.70) */
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Cormorant Garamond", "Cormorant", Georgia, "Times New Roman", serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --surface: #CDBCA1;        /* oatmeal */
+  --surface-raised: #D8C9AE; /* oatmeal, flat light */
+  --text: #37342E;           /* charcoal: 6.68 on surface, 7.61 on raised */
+  --muted: #4D483F;          /* 4.88 on surface, 5.57 on raised */
+  --line: #A8987B;           /* hairlines (decorative) */
+  --card: #58543E;           /* sage, darkened from #68644C so text passes */
+  --on-card: #E6DAC2;        /* 5.51 on card */
+  --card-muted: #DACDB2;     /* 4.85 on card */
+  --card-line: #77725A;
+  --accent: #58543E;         /* sage buttons */
+  --on-accent: #E6DAC2;      /* 5.51 */
+  --accent-ink: #4A4634;     /* sage for links on oatmeal: 5.10 / 5.81 */
+  --gold: #C8A465;           /* lettering gold: glow, rules, large type on dark */
+  --gold-ink: #5E4820;       /* gold darkened for oatmeal: 4.66 / 5.32 */
+  --gold-on-card: #E2C690;   /* gold lightened for sage: 4.62 */
+  --soon-bg: #C3B192;        /* text 5.92 */
+  --focus: #37342E;
+  --shadow-card: inset 0 1px 0 rgba(255, 255, 255, .10), inset 0 0 0 1px rgba(0, 0, 0, .10),
+                 0 12px 26px -16px rgba(40, 34, 20, .55), 0 2px 5px -3px rgba(40, 34, 20, .35);
+  /* plaster: fine dark speckle, 5 % */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E");
+
+  /* live scenes: dark sage terminals on the oatmeal page */
+  --term-bg: #3E3B2C;
+  --term-panel: #4A4735;     /* text 6.76, muted 5.44 */
+  --term-text: #E6DAC2;
+  --term-muted: #D2C4A8;
+  --term-line: #8A8466;
+  --term-chrome: #353225;
+  --role-client: #C9D6A8;    /* 6.09 on panel */
+  --role-core: #9FD0CF;      /* 5.53 */
+  --role-agent: #E8B98A;     /* 5.23 */
+  --role-github: #CDBEF0;    /* 5.45 */
+  --role-human: #F1A99B;     /* 4.85 */
+  --scene-gold: #E2C690;     /* 5.67 on panel */
 }
 
 /* ---- Dark: peacock / tobacco / parchment ---- */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --surface: #0E3B43;        /* deep peacock */
-    --surface-raised: #134A53; /* elevated peacock */
-    --text: #EFE6CF;           /* parchment: 9.79 on surface, 7.92 on raised */
-    --muted: #C9BFA6;          /* muted parchment: 6.66 on surface, 5.39 on raised */
-    --accent: #AD7A44;         /* tobacco: button fill, diagram accents (3.27 against surface) */
-    --on-accent: #071E22;      /* text on tobacco: 4.63 */
-    --accent-ink: #E0AE7A;     /* tobacco for text and links: 6.09 on surface, 4.93 on raised */
-    --line: #23606A;
-    --soon-bg: #0B323A;
-    --focus: #E0AE7A;
-    --term-bg: #08262C;      /* text 12.76, muted 8.68 */
-    --term-panel: #0E3B43;   /* text 9.79, muted 6.66 */
-    --term-text: #EFE6CF;
-    --term-muted: #C9BFA6;
-    --term-line: #3B7680;
-    --term-chrome: #0B3037;
-    --role-client: #BFD0AB;  /* 7.43 on panel */
-    --role-core: #8FD3D9;    /* 7.24 */
-    --role-agent: #E0AE7A;   /* 6.09 */
-    --role-github: #C6B8F2;  /* 6.69 */
-    --role-human: #F2A99F;   /* 6.35 */
+    --surface: #17333A;        /* peacock */
+    --surface-raised: #1E3E44; /* peacock, lit */
+    --text: #DFCBA6;           /* parchment: 8.42 on surface, 7.24 on raised */
+    --muted: #B8A584;          /* 5.57 / 4.79 */
+    --line: #35575D;
+    --card: #412013;           /* tobacco */
+    --on-card: #DFCBA6;        /* 9.18 */
+    --card-muted: #C2AF8D;     /* 6.81 */
+    --card-line: #6A3A22;
+    --accent: #4A2616;         /* tobacco buttons */
+    --on-accent: #DFCBA6;      /* 8.37 */
+    --accent-ink: #C8A465;     /* gold links: 5.56 / 4.90 */
+    --gold: #C8A465;
+    --gold-ink: #C8A465;       /* 5.56 / 4.90 */
+    --gold-on-card: #C8A465;   /* 6.21 on tobacco */
+    --soon-bg: #102A2F;
+    --focus: #C8A465;
+    --shadow-card: inset 0 1px 0 rgba(255, 230, 190, .07), inset 0 0 0 1px rgba(0, 0, 0, .25),
+                   0 14px 30px -16px rgba(0, 0, 0, .7), 0 2px 6px -3px rgba(0, 0, 0, .5);
+    /* leather: coarser light grain, 4 % */
+    --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+    --term-bg: #0F262B;
+    --term-panel: #412013;     /* tobacco cards: text 9.18, muted 6.58 */
+    --term-text: #DFCBA6;
+    --term-muted: #BFAC8A;
+    --term-line: #4C6B70;
+    --term-chrome: #0B1F23;
+    --role-client: #C9D6A8;    /* 9.49 on panel, all roles above 7 */
+    --role-core: #9FD0CF;
+    --role-agent: #E8B98A;
+    --role-github: #CDBEF0;
+    --role-human: #F1A99B;
+    --scene-gold: #C8A465;     /* 6.21 on panel, 6.72 on bg */
   }
 }
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --surface: #0E3B43;
-  --surface-raised: #134A53;
-  --text: #EFE6CF;
-  --muted: #C9BFA6;
-  --accent: #AD7A44;
-  --on-accent: #071E22;
-  --accent-ink: #E0AE7A;
-  --line: #23606A;
-  --soon-bg: #0B323A;
-  --focus: #E0AE7A;
-  --term-bg: #08262C;    /* text 12.76, muted 8.68 */
-  --term-panel: #0E3B43;   /* text 9.79, muted 6.66 */
-  --term-text: #EFE6CF;
-  --term-muted: #C9BFA6;
-  --term-line: #3B7680;
-  --term-chrome: #0B3037;
-  --role-client: #BFD0AB;  /* 7.43 on panel */
-  --role-core: #8FD3D9;  /* 7.24 */
-  --role-agent: #E0AE7A;   /* 6.09 */
-  --role-github: #C6B8F2;  /* 6.69 */
-  --role-human: #F2A99F;   /* 6.35 */
+  --surface: #17333A;
+  --surface-raised: #1E3E44;
+  --text: #DFCBA6;
+  --muted: #B8A584;
+  --line: #35575D;
+  --card: #412013;
+  --on-card: #DFCBA6;
+  --card-muted: #C2AF8D;
+  --card-line: #6A3A22;
+  --accent: #4A2616;
+  --on-accent: #DFCBA6;
+  --accent-ink: #C8A465;
+  --gold: #C8A465;
+  --gold-ink: #C8A465;
+  --gold-on-card: #C8A465;
+  --soon-bg: #102A2F;
+  --focus: #C8A465;
+  --shadow-card: inset 0 1px 0 rgba(255, 230, 190, .07), inset 0 0 0 1px rgba(0, 0, 0, .25),
+                 0 14px 30px -16px rgba(0, 0, 0, .7), 0 2px 6px -3px rgba(0, 0, 0, .5);
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+  --term-bg: #0F262B;
+  --term-panel: #412013;
+  --term-text: #DFCBA6;
+  --term-muted: #BFAC8A;
+  --term-line: #4C6B70;
+  --term-chrome: #0B1F23;
+  --role-client: #C9D6A8;
+  --role-core: #9FD0CF;
+  --role-agent: #E8B98A;
+  --role-github: #CDBEF0;
+  --role-human: #F1A99B;
+  --scene-gold: #C8A465;
 }
 
 /* ---- Base ---- */
@@ -98,30 +162,29 @@
 html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
-  background: var(--surface);
+  background: var(--grain), var(--surface);
   color: var(--text);
-  font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-        Ubuntu, "Helvetica Neue", Arial, sans-serif;
+  font: 16px/1.65 var(--font-sans);
   overflow-wrap: break-word;
 }
 img, svg { max-width: 100%; height: auto; }
-a { color: var(--accent-ink); text-underline-offset: 2px; }
+a { color: var(--accent-ink); text-underline-offset: 3px; }
 a:hover { text-decoration-thickness: 2px; }
 :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
 code {
-  font-family: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
-  font-size: .9em;
+  font-family: var(--font-mono);
+  font-size: .86em;
   background: var(--soon-bg);
   padding: 1px 6px;
-  border-radius: 6px;
+  border-radius: 5px;
 }
-h1, h2, h3 { line-height: 1.25; }
-h1 { font-size: 2rem; margin: 0 0 12px; }
-h2 { font-size: 1.5rem; margin: 0 0 12px; }
-h3 { font-size: 1.125rem; margin: 0 0 6px; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 600; line-height: 1.12; letter-spacing: .005em; }
+h1 { font-size: 2.5rem; margin: 0 0 14px; }
+h2 { font-size: 2rem; margin: 0 0 12px; }
+h3 { font-size: 1.35rem; margin: 0 0 6px; }
 p { margin: 0 0 12px; }
 
-.wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
 .narrow { max-width: 760px; }
 .skip {
   position: absolute; left: -9999px; top: 8px;
@@ -131,41 +194,42 @@ p { margin: 0 0 12px; }
 
 /* ---- Header ---- */
 .site-header {
-  background: var(--surface-raised);
+  background: var(--grain), var(--surface-raised);
   border-bottom: 1px solid var(--line);
 }
 .site-header .wrap {
   display: flex; flex-wrap: wrap; align-items: center;
-  gap: 8px 16px; padding-top: 12px; padding-bottom: 12px;
+  gap: 8px 18px; padding-top: 12px; padding-bottom: 12px;
 }
 .brand {
-  display: inline-block; font-weight: 800; letter-spacing: .04em;
-  color: var(--accent-ink); border: 2px solid var(--accent-ink);
-  border-radius: 8px; padding: 2px 10px; font-size: 14px;
-  text-decoration: none; white-space: nowrap;
+  display: inline-block; font-family: var(--font-display); font-weight: 600;
+  letter-spacing: .3em; font-size: 17px; line-height: 1.2;
+  color: var(--gold-ink); border-top: 1px solid var(--gold-ink); border-bottom: 1px solid var(--gold-ink);
+  padding: 4px 2px 3px 6px; text-decoration: none; white-space: nowrap;
 }
-.site-nav { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-right: auto; }
-.site-nav a { font-weight: 600; text-decoration: none; padding: 4px 0; }
-.site-nav a:hover, .site-nav a[aria-current="page"] { text-decoration: underline; }
+.site-nav { display: flex; flex-wrap: wrap; gap: 4px 18px; margin-right: auto; }
+.site-nav a { font-weight: 600; text-decoration: none; padding: 4px 0; color: var(--text); }
+.site-nav a:hover, .site-nav a[aria-current="page"] { text-decoration: underline; text-decoration-color: var(--gold-ink); }
 .header-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 
 /* ---- Buttons ---- */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-  min-height: 44px; padding: 10px 20px; border-radius: 10px;
+  min-height: 44px; padding: 10px 20px; border-radius: 8px;
   font: inherit; font-weight: 700; line-height: 1.2; text-decoration: none;
-  background: var(--accent); color: var(--on-accent);
-  border: 2px solid var(--accent); cursor: pointer;
+  background: var(--grain), var(--accent); color: var(--on-accent);
+  border: 1px solid var(--gold); cursor: pointer; box-shadow: var(--shadow-card);
 }
-.btn:hover { filter: brightness(1.06); text-decoration: none; }
-.btn.ghost { background: transparent; color: var(--accent-ink); border-color: var(--accent-ink); }
+.btn:hover { filter: brightness(1.08); text-decoration: none; }
+.btn.ghost { background: transparent; color: var(--accent-ink); border-color: var(--accent-ink); box-shadow: none; }
 .btn.small { min-height: 36px; padding: 6px 12px; font-size: 14px; }
 .btn[aria-disabled="true"] {
-  background: transparent; color: var(--muted);
-  border: 2px dashed var(--muted); cursor: not-allowed; filter: none;
+  background: transparent; color: var(--muted); box-shadow: none;
+  border: 1px dashed var(--muted); cursor: not-allowed; filter: none;
 }
+.card .btn[aria-disabled="true"] { color: var(--card-muted); border-color: var(--card-muted); }
 .theme-toggle {
-  min-height: 36px; padding: 6px 12px; border-radius: 10px;
+  min-height: 36px; padding: 6px 12px; border-radius: 8px;
   font: inherit; font-size: 14px; font-weight: 600;
   background: var(--surface); color: var(--text);
   border: 1px solid var(--line); cursor: pointer;
@@ -173,20 +237,24 @@ p { margin: 0 0 12px; }
 .theme-toggle svg { width: 16px; height: 16px; vertical-align: -3px; margin-right: 4px; }
 
 /* ---- Sections ---- */
-main section { padding: 40px 0; }
+main section { padding: 48px 0; }
 main section + section { border-top: 1px solid var(--line); }
 .eyebrow {
-  margin: 0 0 6px; font-size: 13px; font-weight: 700; letter-spacing: .08em;
-  text-transform: uppercase; color: var(--accent-ink);
+  margin: 0 0 8px; font-family: var(--font-display); font-size: 14px; font-weight: 600;
+  letter-spacing: .32em; text-transform: uppercase; color: var(--gold-ink);
 }
 .lead { font-size: 1.125rem; color: var(--muted); max-width: 46em; }
 .muted { color: var(--muted); }
 .small-print { font-size: 14px; color: var(--muted); }
 
+/* Cards: sage (light) or tobacco (dark), slightly raised, with grain. */
 .card {
-  background: var(--surface-raised); border: 1px solid var(--line);
-  border-radius: 14px; padding: 18px 20px;
+  background: var(--grain), var(--card); color: var(--on-card);
+  border: 1px solid var(--card-line); border-radius: 12px; padding: 18px 20px;
+  box-shadow: var(--shadow-card);
 }
+.card a { color: var(--gold-on-card); }
+.card .muted, .card .small-print { color: var(--card-muted); }
 .card p:last-child { margin-bottom: 0; }
 .grid { display: grid; gap: 16px; grid-template-columns: 1fr; }
 @media (min-width: 640px) {
@@ -195,20 +263,21 @@ main section + section { border-top: 1px solid var(--line); }
 }
 @media (min-width: 960px) {
   .grid.three { grid-template-columns: repeat(3, 1fr); }
-  h1 { font-size: 2.75rem; }
-  h2 { font-size: 1.75rem; }
+  h1 { font-size: 3.6rem; }
+  h2 { font-size: 2.5rem; }
 }
 
 .badge {
-  display: inline-block; font-size: 12px; font-weight: 700; line-height: 1.4;
-  padding: 2px 10px; border-radius: 999px; white-space: nowrap;
-  background: var(--accent); color: var(--on-accent);
+  display: inline-block; font-family: var(--font-sans); font-size: 12px; font-weight: 700; line-height: 1.4;
+  padding: 2px 10px; border-radius: 999px; white-space: nowrap; letter-spacing: 0;
+  background: var(--accent); color: var(--on-accent); vertical-align: middle;
 }
-h2 .badge { vertical-align: middle; margin-left: 4px; }
+h2 .badge { margin-left: 6px; }
 .badge.soon {
   background: var(--soon-bg); color: var(--text);
   border: 1px dashed var(--muted);
 }
+.card .badge.soon { background: transparent; color: var(--on-card); border-color: var(--card-muted); }
 
 /* ---- Landing ---- */
 .hero { padding: 48px 0 40px; }
@@ -294,7 +363,7 @@ svg text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, U
 .r-human  { --role: var(--role-human); }
 .scene { margin: 0; }
 .term {
-  font: 12px/1.5 ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  font: 12px/1.5 var(--font-mono);
   color: var(--term-text); background: var(--term-bg);
   border: 1px solid var(--term-line); border-radius: 12px; overflow: hidden;
   font-variant-numeric: tabular-nums;
@@ -329,7 +398,7 @@ svg text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, U
 .edge { fill: none; stroke: var(--term-line); stroke-width: 1.2; stroke-dasharray: 2 3; }
 .edge.is-hot { stroke: var(--role); stroke-dasharray: none; stroke-width: 1.6; }
 .edge-head { fill: var(--term-line); }
-.edge-label { fill: var(--term-muted); font: 11px ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+.edge-label { fill: var(--term-muted); font: 11px var(--font-mono); }
 .packet circle { fill: var(--role); }
 .packet .trail { opacity: .45; }
 .node, .term-rail {
