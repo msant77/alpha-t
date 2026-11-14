@@ -230,7 +230,7 @@ h2 .badge { vertical-align: middle; margin-left: 4px; }
 
 /* ---- Diagrams (inline SVG, themed through the same variables) ---- */
 figure.diagram { margin: 20px 0; }
-figure.diagram svg { display: block; width: 100%; max-width: 640px; margin: 0 auto; }
+figure.diagram svg { display: block; width: 100%; max-width: 520px; margin: 0 auto; }
 figure.diagram figcaption { margin-top: 8px; font-size: 14px; color: var(--muted); text-align: center; }
 .dg-box { fill: var(--surface-raised); stroke: var(--accent-ink); stroke-width: 1.5; }
 .dg-box.soon { stroke-dasharray: 5 4; }
