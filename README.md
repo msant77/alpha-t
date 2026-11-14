@@ -9,7 +9,22 @@ The product source lives elsewhere; this repo holds only public content.
 | Path | Serves |
 |------|--------|
 | `index.html` | alphatester.app (landing) |
+| `como-funciona/index.html` | alphatester.app/como-funciona/ (how it works, with diagrams) |
+| `assets/` | styles, theme toggle, favicon and client logos shared by the two pages above |
 | `apps/index.html` | apps.alphatester.app (apps & downloads) |
+
+The landing and "Como funciona" use root-relative paths (`/assets/…`,
+`/como-funciona/`), so their deploy must carry `assets/` and
+`como-funciona/` next to `index.html`.
+
+## Palettes
+
+`assets/site.css` defines two named palettes as CSS custom properties on
+`:root`, one per theme: light **sage / charcoal / oatmeal** and dark
+**peacock / tobacco / parchment**. The system preference picks one; the
+header toggle overrides it per browser (`localStorage`). Every text, link
+and button pair passes WCAG AA; the ratios are in the stylesheet's
+comments, so a new colour is checked before it lands.
 
 Deployed to Cloudflare Pages. Large binaries are **never committed** —
 they are attached to GitHub Releases here.

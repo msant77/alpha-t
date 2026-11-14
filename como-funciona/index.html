@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Como funciona — Alpha Tester</title>
+<meta name="description" content="Como o Alpha Tester funciona hoje: widget e SDK, painel, agente de triagem, integração com o GitHub, implementador, CLI e servidor MCP, segurança e privacidade.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#EDE6D6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E3B43" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://alphatester.app/como-funciona/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Alpha Tester">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:url" content="https://alphatester.app/como-funciona/">
+<meta property="og:title" content="Como funciona — Alpha Tester">
+<meta property="og:description" content="Do widget ao PR em rascunho, passo a passo: o que já funciona, o que chega em breve e onde ficam os limites de confiança.">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('alphatester-theme');
+      if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+    } catch (e) { /* storage unavailable: follow the system preference */ }
+  })();
+</script>
+<link rel="stylesheet" href="/assets/site.css">
+<script src="/assets/theme.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/">ALPHA TESTER</a>
+    <nav class="site-nav" aria-label="Principal">
+      <a href="/como-funciona/" aria-current="page">Como funciona</a>
+      <a href="https://apps.alphatester.app">Apps</a>
+      <a href="/#precos">Preços</a>
+    </nav>
+    <div class="header-actions">
+      <button type="button" class="theme-toggle" data-theme-toggle hidden>
+        <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg><span data-theme-label>Usar tema escuro</span>
+      </button>
+      <button type="button" class="btn small" aria-disabled="true" title="em breve">Entrar</button>
+      <button type="button" class="btn small" aria-disabled="true" title="em breve">Sair</button>
+    </div>
+  </div>
+</header>
+
+<main id="conteudo" class="doc">
+  <section class="hero" aria-labelledby="titulo">
+    <div class="wrap narrow">
+      <p class="eyebrow">Como funciona</p>
+      <h1 id="titulo">Do relato ao pull request, passo a passo</h1>
+      <p class="lead">O que o Alpha Tester faz hoje, peça por peça. Cada parte diz
+      se já está <span class="badge">disponível</span> ou se chega
+      <span class="badge soon">em breve</span>.</p>
+
+      <figure class="diagram">
+        <svg viewBox="0 0 360 336" role="img" aria-labelledby="ciclo-svg-t ciclo-svg-d">
+          <title id="ciclo-svg-t">O ciclo do Alpha Tester</title>
+          <desc id="ciclo-svg-d">Seis etapas em sequência: widget e SDK, feedback com contexto, agente de triagem, issue no GitHub, implementador e PR em rascunho; depois o time revisa, faz o merge e a nova versão volta para quem testa. Hoje a issue também é criada direto do painel.</desc>
+          <defs>
+            <marker id="ah1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="dg-head" d="M0 0L10 5L0 10z"/></marker>
+          </defs>
+          <!-- return path: merge by the team, new version back to testers -->
+          <path class="dg-line soon" d="M344 284H352V22H86V40" marker-end="url(#ah1)"/>
+          <text class="dg-s" x="219" y="14" text-anchor="middle">seu time revisa e faz o merge → nova versão</text>
+
+          <g>
+            <rect class="dg-box" x="16" y="44" width="140" height="64" rx="10"/>
+            <circle class="dg-dot" cx="34" cy="62" r="10"/><text class="dg-dot-text" x="34" y="66" text-anchor="middle">1</text>
+            <text class="dg-t" x="52" y="66">Widget e SDK</text>
+            <text class="dg-s" x="52" y="96">disponível</text>
+          </g>
+          <g>
+            <rect class="dg-box" x="204" y="44" width="140" height="64" rx="10"/>
+            <circle class="dg-dot" cx="222" cy="62" r="10"/><text class="dg-dot-text" x="222" y="66" text-anchor="middle">2</text>
+            <text class="dg-t" x="240" y="66">Feedback</text>
+            <text class="dg-t" x="240" y="81">com contexto</text>
+            <text class="dg-s" x="240" y="98">disponível</text>
+          </g>
+          <g>
+            <rect class="dg-box soon" x="204" y="148" width="140" height="64" rx="10"/>
+            <circle class="dg-dot" cx="222" cy="166" r="10"/><text class="dg-dot-text" x="222" y="170" text-anchor="middle">3</text>
+            <text class="dg-t" x="240" y="170">Agente</text>
+            <text class="dg-t" x="240" y="185">de triagem</text>
+            <text class="dg-s" x="240" y="202">em breve</text>
+          </g>
+          <g>
+            <rect class="dg-box" x="16" y="148" width="140" height="64" rx="10"/>
+            <circle class="dg-dot" cx="34" cy="166" r="10"/><text class="dg-dot-text" x="34" y="170" text-anchor="middle">4</text>
+            <text class="dg-t" x="52" y="170">Issue</text>
+            <text class="dg-t" x="52" y="185">no GitHub</text>
+            <text class="dg-s" x="52" y="202">disponível</text>
+          </g>
+          <g>
+            <rect class="dg-box soon" x="16" y="252" width="140" height="64" rx="10"/>
+            <circle class="dg-dot" cx="34" cy="270" r="10"/><text class="dg-dot-text" x="34" y="274" text-anchor="middle">5</text>
+            <text class="dg-t" x="52" y="274">Implementador</text>
+            <text class="dg-s" x="52" y="290">aprovado no painel</text>
+            <text class="dg-s" x="52" y="306">em breve</text>
+          </g>
+          <g>
+            <rect class="dg-box soon" x="204" y="252" width="140" height="64" rx="10"/>
+            <circle class="dg-dot" cx="222" cy="270" r="10"/><text class="dg-dot-text" x="222" y="274" text-anchor="middle">6</text>
+            <text class="dg-t" x="240" y="274">PR em</text>
+            <text class="dg-t" x="240" y="289">rascunho</text>
+            <text class="dg-s" x="240" y="306">em breve</text>
+          </g>
+
+          <path class="dg-line" d="M156 76H200" marker-end="url(#ah1)"/>
+          <path class="dg-line soon" d="M274 108V144" marker-end="url(#ah1)"/>
+          <path class="dg-line soon" d="M204 180H160" marker-end="url(#ah1)"/>
+          <path class="dg-line soon" d="M86 212V248" marker-end="url(#ah1)"/>
+          <path class="dg-line soon" d="M156 284H200" marker-end="url(#ah1)"/>
+          <!-- today: the issue is created from the dashboard -->
+          <path class="dg-line" d="M214 108L150 145" marker-end="url(#ah1)"/>
+          <text class="dg-s" x="166" y="122" text-anchor="end">hoje, pelo painel</text>
+        </svg>
+        <figcaption>O ciclo. Traço contínuo: funciona hoje. Tracejado: em breve.</figcaption>
+      </figure>
+
+      <nav class="toc card" aria-label="Nesta página">
+        <h2 class="toc-title">Nesta página</h2>
+        <ol>
+          <li><a href="#widget">O widget e o SDK</a></li>
+          <li><a href="#painel">O painel</a></li>
+          <li><a href="#triagem">O agente de triagem</a></li>
+          <li><a href="#github">Integração com o GitHub</a></li>
+          <li><a href="#implementador">O implementador</a></li>
+          <li><a href="#cli-mcp">O <code>at</code> CLI e o servidor MCP</a></li>
+          <li><a href="#seguranca">Segurança e privacidade</a></li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+
+  <section id="widget" aria-labelledby="widget-t">
+    <div class="wrap narrow">
+      <h2 id="widget-t">1. O widget e o SDK <span class="badge">disponível</span></h2>
+      <p>Um botão de feedback dentro do seu app web. Quem testa reporta sem
+      sair da tela em que está, e o contexto vai junto, sem pedir nada a mais.</p>
+      <h3>Captura com contexto</h3>
+      <ul>
+        <li><strong>O relato:</strong> tipo (bug, melhoria ou sugestão),
+        título e descrição.</li>
+        <li><strong>A tela:</strong> marcar elementos da página, recortar uma
+        região, capturar a página inteira ou anexar arquivos (PNG, JPEG, WebP,
+        GIF ou PDF, até 5 MB).</li>
+        <li><strong>O console:</strong> erros do console, erros não tratados e
+        promessas rejeitadas, registrados junto de quem reportou.</li>
+        <li><strong>O ambiente:</strong> endereço da página, elemento marcado e
+        sua posição, navegador, tamanho da janela e horário.</li>
+      </ul>
+      <h3>Sem perder relatos</h3>
+      <p>Sem conexão, o relato espera numa fila no próprio navegador e é
+      enviado quando a conexão volta, sem duplicar.</p>
+      <h3>Retorno para quem reportou</h3>
+      <p>Em “Meus feedbacks”, quem testa acompanha cada relato como rastreio de
+      encomenda: Enviado, Em análise, Em andamento, Resolvido, Entregue. Sem
+      login: o vínculo fica no navegador.</p>
+      <h3>Instalação</h3>
+      <p>Uma tag <code>&lt;script&gt;</code> ou um import ESM, com o id do
+      projeto e uma chave pública (<code>at_pub_…</code>), feita para ficar no
+      navegador: ela só envia feedback. Cada projeto define os domínios que
+      podem usá-la. SDK para Flutter: <span class="badge soon">em breve</span></p>
+    </div>
+  </section>
+
+  <section id="painel" aria-labelledby="painel-t">
+    <div class="wrap narrow">
+      <h2 id="painel-t">2. O painel <span class="badge">disponível</span></h2>
+      <ul>
+        <li><strong>Empresas e projetos:</strong> cada empresa tem seus
+        projetos; cada projeto, seus membros com papéis (owner, admin, editor,
+        viewer), suas chaves e suas integrações.</li>
+        <li><strong>Feedback:</strong> lista com filtros por status, tipo e
+        prioridade; no detalhe, descrição, página, elemento marcado, capturas,
+        anexos e erros do console; mudança de status com histórico e notas
+        internas.</li>
+        <li><strong>Anexos:</strong> guardados em armazenamento privado e
+        mostrados no painel e na issue por links assinados.</li>
+        <li><strong>Chaves de API:</strong> pública para o widget, secreta para
+        servidores e terminais; cada chave aparece uma única vez e pode ser
+        revogada na hora.</li>
+        <li><strong>Acesso:</strong> senha e verificação em duas etapas.</li>
+      </ul>
+      <p>Na tela de entrada do Alpha Tester, “Entrar” e o cadastro aberto
+      ainda estão <span class="badge soon">em breve</span>: hoje o acesso é
+      pelos projetos-piloto.</p>
+    </div>
+  </section>
+
+  <section id="triagem" aria-labelledby="triagem-t">
+    <div class="wrap narrow">
+      <h2 id="triagem-t">3. O agente de triagem <span class="badge soon">em breve</span></h2>
+      <p>Quando um feedback chega, o painel avisa o agente por um evento
+      assinado, e uma verificação periódica pega o que tiver ficado para trás.
+      Para cada feedback novo:</p>
+      <ol>
+        <li><strong>Triagem de segurança.</strong> O texto de quem testa é
+        tratado como dado, nunca como instrução. Sem um veredito limpo, não há
+        issue.</li>
+        <li><strong>Duplicados.</strong> Compara com os feedbacks e as issues
+        abertas do projeto, inclusive em outro idioma. Um repetido fica como
+        “Duplicado”, ligado ao original, e a issue original ganha um +1.</li>
+        <li><strong>Classificação.</strong> Tipo (bug, melhoria, sugestão) e
+        tamanho estimado (S, M, L).</li>
+        <li><strong>Issue.</strong> Uma por feedback, no repositório do
+        projeto, com as etiquetas <code>alpha-t</code>, <code>type:…</code> e
+        <code>size:…</code>. Cria as etiquetas que faltarem e nunca altera as
+        que já existem.</li>
+      </ol>
+      <ul>
+        <li><strong>Orçamento por projeto:</strong> um teto diário para tudo o
+        que o agente gasta no projeto, triagem de segurança incluída. Quando o
+        teto é atingido, os feedbacks do projeto esperam o dia seguinte e os
+        outros projetos seguem normalmente.</li>
+        <li><strong>Chaves por projeto:</strong> a chave do modelo de IA e o
+        orçamento são do projeto, salvos no painel e guardados cifrados.</li>
+        <li><strong>Sem dados pessoais:</strong> o agente nunca lê o nome nem
+        o e-mail de quem reportou.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="github" aria-labelledby="github-t">
+    <div class="wrap narrow">
+      <h2 id="github-t">4. Integração com o GitHub <span class="badge">disponível</span></h2>
+      <ul>
+        <li><strong>Um token por projeto:</strong> um token fine-grained,
+        restrito a um único repositório. Bastam Metadata (leitura) e Issues
+        (leitura e escrita); Contents e Pull requests só para o implementador.
+        Workflows nunca: mudanças em <code>.github/workflows</code> ficam com
+        pessoas.</li>
+        <li><strong>Guardado cifrado:</strong> o token é cifrado ao salvar e
+        nunca volta ao navegador; o painel mostra só os quatro últimos
+        caracteres.</li>
+        <li><strong>Issues:</strong> o botão “Criar Issue no GitHub” em cada
+        feedback, ou a criação automática quando o feedback é aceito. Uma
+        issue por feedback, com tipo, prioridade, página, descrição, anexos e
+        ambiente, e as etiquetas padrão do projeto.</li>
+        <li><strong>Autor:</strong> issues e PRs aparecem em nome da conta que
+        criou o token; quem preferir cria o token numa conta dedicada à
+        automação.</li>
+        <li><strong>PRs:</strong> abertos pelo implementador
+        <span class="badge soon">em breve</span></li>
+      </ul>
+      <p class="small-print">Num repositório público, a issue também é pública,
+      incluindo o nome e o e-mail de quem reportou, quando informados.</p>
+    </div>
+  </section>
+
+  <section id="implementador" aria-labelledby="impl-t">
+    <div class="wrap narrow">
+      <h2 id="impl-t">5. O implementador <span class="badge soon">em breve</span></h2>
+      <p>Uma issue aceita vira um pull request em rascunho, com uma pessoa
+      aprovando antes e revisando depois.</p>
+      <ul>
+        <li><strong>Aprovação no painel:</strong> só um owner ou admin do
+        projeto ou da empresa inicia, com o botão “Implementar” num feedback
+        aceito que já tem issue. O diálogo mostra o limite de custo. Nada mais
+        dispara uma execução: nem etiqueta, nem agendamento.</li>
+        <li><strong>Limite de custo:</strong> a execução para no limite do job
+        ou no que resta do orçamento diário do projeto, o que vier primeiro, e
+        tem prazo de 15 minutos. Chave e orçamento são do projeto; sem chave
+        própria, não há execução.</li>
+        <li><strong>Clone raso:</strong> só o branch padrão, numa pasta
+        temporária apagada no fim; repositórios acima de 50 MB não são
+        clonados. Nada do repositório é executado.</li>
+        <li><strong>O que pode mudar, na primeira versão:</strong> conteúdo
+        estático do site (HTML, CSS, textos e imagens), em issues de tamanho
+        S. Nunca código, configuração de build ou de CI, nem scripts novos nas
+        páginas.</li>
+        <li><strong>Verificações:</strong> HTML válido nos arquivos alterados e
+        nenhum link interno quebrado. Até três rodadas de ajuste.</li>
+        <li><strong>Um PR em rascunho por job:</strong> um commit num branch
+        próprio, nunca no branch padrão, nunca com push forçado.
+        <strong>Nunca faz merge:</strong> a revisão e o merge são do seu
+        time.</li>
+        <li><strong>Se falhar:</strong> nenhum PR, um comentário na issue com o
+        motivo, e os detalhes só no painel.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="cli-mcp" aria-labelledby="cli-t">
+    <div class="wrap narrow">
+      <h2 id="cli-t">6. O <code>at</code> CLI e o servidor MCP <span class="badge soon">em breve</span></h2>
+      <p>O mesmo feedback, do terminal ou de qualquer agente que fale MCP.</p>
+      <ul>
+        <li><strong>Chave secreta do projeto</strong> (<code>at_sec_…</code>):
+        criada no painel por um admin, mostrada uma vez, revogável na hora.
+        Fica em servidores e terminais, nunca numa página web ou num
+        repositório.</li>
+        <li><strong>Escopos:</strong> <code>ingest</code> só envia feedback;
+        <code>manage</code> age como editor do projeto (lista, lê, faz a
+        triagem, anota e abre issues) e nunca gerencia chaves, membros ou a
+        integração com o GitHub.</li>
+        <li><strong><code>at</code>:</strong> <code>at feedback list</code>,
+        <code>show</code>, <code>set</code> e <code>issue</code>. Nunca
+        imprime a chave, só fala HTTPS e não segue redirecionamentos.</li>
+        <li><strong>Servidor MCP</strong> (<code>at-mcp</code>), com níveis de
+        ferramentas:
+          <ul>
+            <li><strong>T0, leitura:</strong> listar projetos, listar e ler
+            feedback.</li>
+            <li><strong>T1, anotar:</strong> notas e prioridade, sem mudar o
+            status.</li>
+            <li><strong>T2, propor:</strong> mudar o status, dentro do ciclo
+            de vida permitido, e abrir a issue.</li>
+          </ul>
+          Um nível máximo limita o que o servidor oferece: o que fica acima
+          dele nem aparece. Nenhuma ferramenta devolve quem reportou, o texto
+          de quem testa chega marcado como dado, e cada escrita fica num
+          registro de auditoria local.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="seguranca" aria-labelledby="seg-t">
+    <div class="wrap narrow">
+      <h2 id="seg-t">7. Segurança e privacidade</h2>
+      <figure class="diagram">
+        <svg viewBox="0 0 360 468" role="img" aria-labelledby="conf-svg-t conf-svg-d">
+          <title id="conf-svg-t">Limites de confiança</title>
+          <desc id="conf-svg-d">Fora do Alpha Tester ficam o widget, no navegador de quem testa, com a chave pública, e o CLI ou o servidor MCP, com a chave secreta. Dentro do Alpha Tester ficam o painel e a API, os agentes e o banco, com dados separados por empresa e segredos cifrados. No GitHub, o repositório do projeto recebe issues e PRs em rascunho, sempre pelo token daquele projeto.</desc>
+          <defs>
+            <marker id="ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="dg-head" d="M0 0L10 5L0 10z"/></marker>
+          </defs>
+
+          <rect class="dg-zone" x="8" y="8" width="344" height="104" rx="12"/>
+          <text class="dg-z" x="20" y="26">FORA: NAVEGADOR OU TERMINAL</text>
+          <rect class="dg-box" x="20" y="36" width="140" height="64" rx="10"/>
+          <text class="dg-t" x="32" y="56">Widget no app</text>
+          <text class="dg-s" x="32" y="72">quem testa</text>
+          <text class="dg-s" x="32" y="88">chave pública at_pub_</text>
+          <rect class="dg-box soon" x="200" y="36" width="140" height="64" rx="10"/>
+          <text class="dg-t" x="212" y="56">at CLI · MCP</text>
+          <text class="dg-s" x="212" y="72">seu terminal ou agente</text>
+          <text class="dg-s" x="212" y="88">chave secreta at_sec_</text>
+
+          <rect class="dg-zone-fill" x="8" y="124" width="344" height="196" rx="12"/>
+          <rect class="dg-zone trusted" x="8" y="124" width="344" height="196" rx="12"/>
+          <text class="dg-z" x="20" y="142">ALPHA TESTER</text>
+          <rect class="dg-box" x="20" y="152" width="140" height="64" rx="10"/>
+          <text class="dg-t" x="32" y="172">Painel e API</text>
+          <text class="dg-s" x="32" y="188">empresas · projetos</text>
+          <text class="dg-s" x="32" y="204">feedback · anexos</text>
+          <rect class="dg-box soon" x="200" y="152" width="140" height="64" rx="10"/>
+          <text class="dg-t" x="212" y="172">Agentes</text>
+          <text class="dg-s" x="212" y="188">triagem · implementador</text>
+          <text class="dg-s" x="212" y="204">chave e teto do projeto</text>
+          <rect class="dg-box" x="100" y="240" width="160" height="64" rx="10"/>
+          <text class="dg-t" x="112" y="260">Banco</text>
+          <text class="dg-s" x="112" y="276">dados por empresa</text>
+          <text class="dg-s" x="112" y="292">segredos cifrados</text>
+
+          <rect class="dg-zone" x="8" y="344" width="344" height="116" rx="12"/>
+          <text class="dg-z" x="20" y="362">GITHUB: REPOSITÓRIO DO PROJETO</text>
+          <rect class="dg-box" x="20" y="372" width="140" height="72" rx="10"/>
+          <text class="dg-t" x="32" y="392">Issues</text>
+          <text class="dg-s" x="32" y="408">uma por feedback</text>
+          <text class="dg-s" x="32" y="424">com etiquetas</text>
+          <rect class="dg-box soon" x="200" y="372" width="140" height="72" rx="10"/>
+          <text class="dg-t" x="212" y="392">PR em rascunho</text>
+          <text class="dg-s" x="212" y="408">branch próprio</text>
+          <text class="dg-s" x="212" y="424">nunca faz merge</text>
+
+          <!-- into the trusted zone -->
+          <path class="dg-line" d="M90 100V148" marker-end="url(#ah2)"/>
+          <path class="dg-line soon" d="M246 100L156 150" marker-end="url(#ah2)"/>
+          <text class="dg-s" x="252" y="120">escopos</text>
+          <!-- dashboard signs an event for the agents -->
+          <path class="dg-line soon" d="M160 184H196" marker-end="url(#ah2)"/>
+          <!-- both read and write the database -->
+          <path class="dg-line" d="M120 216L150 237" marker-end="url(#ah2)"/>
+          <path class="dg-line soon" d="M240 216L212 237" marker-end="url(#ah2)"/>
+          <!-- out to GitHub, only with the project's token -->
+          <path class="dg-line" d="M40 216V368" marker-end="url(#ah2)"/>
+          <path class="dg-line soon" d="M320 216V368" marker-end="url(#ah2)"/>
+          <text class="dg-s" x="48" y="336">token do projeto</text>
+          <text class="dg-s" x="312" y="336" text-anchor="end">token do projeto</text>
+        </svg>
+        <figcaption>Limites de confiança. A chave pública só envia feedback; o
+        GitHub só é alcançado com o token daquele projeto, limitado a um
+        repositório.</figcaption>
+      </figure>
+      <ul>
+        <li><strong>Chaves cifradas:</strong> tokens do GitHub e chaves de
+        modelo de IA são cifrados (AES-256-GCM) antes de ir para o banco e
+        nunca voltam ao navegador. Chaves de API ficam guardadas só como hash
+        e aparecem uma única vez.</li>
+        <li><strong>Dados por empresa:</strong> cada consulta é filtrada pelo
+        projeto da chave ou pelo papel de quem está no painel. Os dados de uma
+        empresa nunca aparecem para outra; nada é compartilhado entre
+        clientes.</li>
+        <li><strong>Menor privilégio:</strong> a chave pública só envia
+        feedback; o token do GitHub alcança um repositório; os agentes acessam
+        no banco só o que usam; o implementador não pode mexer em
+        workflows.</li>
+        <li><strong>Quem reporta:</strong> os agentes e o servidor MCP nunca
+        leem nem devolvem o nome ou o e-mail de quem reportou.</li>
+        <li><strong>Texto não confiável:</strong> o que quem testa escreve é
+        dado, nunca instrução, e passa pela triagem de segurança antes de
+        qualquer agente agir.</li>
+        <li><strong>Limites:</strong> taxa de requisições por chave e
+        verificação em duas etapas no painel.</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Alpha Tester · alphatester.app</p>
+    <nav aria-label="Rodapé">
+      <a href="/">Início</a>
+      <a href="https://apps.alphatester.app">Apps</a>
+      <a href="/#precos">Preços</a>
+      <a href="https://github.com/msant77/alpha-t">GitHub</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>
