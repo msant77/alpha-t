@@ -34,6 +34,7 @@
 <script src="/assets/theme.js" defer></script>
 <script src="/assets/scenes.js" defer></script>
 <script src="/assets/loop.js" defer></script>
+<script src="/assets/tech.js" defer></script>
 <script type="module" src="/assets/hero3d.js"></script>
 </head>
 <body>
@@ -75,6 +76,21 @@
       <nav class="rail" data-rail aria-label="Etapas do ciclo"></nav>
     </div>
     <div data-caption></div>
+  </section>
+
+  <section class="techlevel" aria-labelledby="tl-title">
+    <div class="wrap">
+      <div class="tl-scene" data-story="tech" data-view="tech">
+        <div class="level-head"><h2 class="level-title" id="tl-title" data-i18n="home.levels.tech">Tech Level</h2><button type="button" class="scene-ctl" data-ctl>pausar</button></div>
+        <div class="story-stage" data-stage></div>
+        <div class="tl-bottom">
+          <div class="rail" role="group" data-rail aria-label="Etapas do ciclo"></div>
+          <div class="story-log" data-log></div>
+        </div>
+        <ul class="proxies" data-proxies></ul>
+        <div data-caption></div>
+      </div>
+    </div>
   </section>
 
   <section id="clientes" class="below" aria-labelledby="clientes-titulo">

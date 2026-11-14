@@ -24,7 +24,7 @@
 
   var SVGNS = 'http://www.w3.org/2000/svg';
   var SPIN = ['◐', '◓', '◑', '◒'];
-  var GLYPH = { aguardando: '◌', rodando: '◐', 'concluído': '✓' };
+  var GLYPH = { aguardando: '◌', rodando: '◐', 'concluído': '✓', ignorado: '⊘' };
   var reduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   var coarse = !!(window.matchMedia && window.matchMedia('(hover: none)').matches);
 
@@ -50,7 +50,7 @@
   /* strings come from assets/i18n/<locale>.json through window.AlphaI18n */
   function T(key, vars) { return window.AlphaI18n ? window.AlphaI18n.t(key, vars) : key; }
   function locale() { return window.AlphaI18n ? window.AlphaI18n.locale() : 'pt-BR'; }
-  var STATUS_KEY = { aguardando: 'wait', rodando: 'run', 'concluído': 'done' };
+  var STATUS_KEY = { aguardando: 'wait', rodando: 'run', 'concluído': 'done', ignorado: 'skip' };
   function statusLabel(s) { return STATUS_KEY[s] ? T('common.status.' + STATUS_KEY[s]) : s; }
   function format(v, kind) {
     if (kind === 'money') {
@@ -332,7 +332,7 @@
         var b = el('button', 'rail-btn');
         b.type = 'button';
         b.appendChild(el('span', 'rail-n', pad(i + 1)));
-        b.appendChild(el('span', 'rail-label', T('common.rail.' + s.id)));
+        b.appendChild(el('span', 'rail-label', self.stepLabel(s.id)));
         b.setAttribute('aria-expanded', 'false');
         b.addEventListener('click', function (e) { e.stopPropagation(); self.pick('step', s.id); });
         if (!coarse) {
@@ -392,13 +392,17 @@
     });
   };
 
+  Story.prototype.stepLabel = function (id) {
+    return this.d.stepLabels ? this.tt('stepLabel.' + id) : T('common.rail.' + id);
+  };
+
   /* the text for the whole scene again, in the new locale */
   Story.prototype.relocale = function () {
     var self = this;
     this.logHead.textContent = T('common.log.head');
     if (this.railEl) {
       this.railEl.setAttribute('aria-label', T('common.rail.label'));
-      for (var id in this.stepEls) this.stepEls[id].querySelector('.rail-label').textContent = T('common.rail.' + id);
+      for (var id in this.stepEls) this.stepEls[id].querySelector('.rail-label').textContent = this.stepLabel(id);
     }
     this.ctl.textContent = T(this.paused ? 'common.resume' : 'common.pause');
     this.captions.close.setAttribute('aria-label', T('common.closeCaption'));
@@ -425,7 +429,7 @@
       return { kicker: T('common.kicker.edge'), title: this.tt('edge.' + id + '.title'), lines: lines(this.tt('edge.' + id + '.cap')) };
     }
     if (kind === 'step' && this.stepById[id]) {
-      return { kicker: T('common.kicker.step'), title: T('common.rail.' + id), lines: lines(this.tt('step.' + id)) };
+      return { kicker: T('common.kicker.step'), title: this.stepLabel(id), lines: lines(this.tt('step.' + id)) };
     }
     return null;
   };
@@ -509,6 +513,7 @@
   };
 
   Story.prototype.setStep = function (id) {
+    if (id && this.view && this.view.step) this.view.step(id);
     if (!this.stepEls) return;
     this.activeStep = id;
     var seen = id ? false : true, steps = this.d.steps;
@@ -637,7 +642,7 @@
   };
 
   Story.prototype.sync = function () {
-    var go = this.visible && this.inView && !reduced;
+    var go = this.visible && this.inView && this.active !== false && !reduced;
     if (go && !this.running) {
       this.running = true;
       this.last = 0;
@@ -667,18 +672,38 @@
       if (view.frame) view.frame(0, this.t, 0);
       return;
     }
+    // draw one still frame now, so a scene that starts idle is never blank
+    if (view.frame) view.frame(0, this.t, this.elapsed, true);
     document.addEventListener('visibilitychange', function () {
       self.visible = !document.hidden;
-      self.sync();
+      arbitrate();
     });
     if (window.IntersectionObserver) {
       new IntersectionObserver(function (entries) {
-        self.inView = entries[entries.length - 1].isIntersecting;
-        self.sync();
-      }, { rootMargin: '60px' }).observe(this.root);
+        var e = entries[entries.length - 1];
+        self.inView = e.isIntersecting;
+        self.ratio = e.isIntersecting ? e.intersectionRatio : 0;
+        arbitrate();
+      }, { threshold: [0, 0.1, 0.25, 0.4, 0.55, 0.7, 0.85, 1] }).observe(this.root);
     }
-    this.sync();
+    stories.push(this);
+    arbitrate();
   };
+
+  /* Only one scene animates at a time: the one most in view. The others keep
+     their last frame (still readable, still answering captions). */
+  var stories = [];
+  function arbitrate() {
+    var best = null;
+    stories.forEach(function (st) {
+      if (st.inView && st.visible && (!best || (st.ratio || 0) > (best.ratio || 0))) best = st;
+    });
+    stories.forEach(function (st) {
+      st.active = st === best;
+      st.root.classList.toggle('is-idle', !st.active);
+      st.sync();
+    });
+  }
 
   /* ---------- the tester bot on the rail ---------- */
   function makeBot() {
@@ -1017,7 +1042,10 @@
       if (!data) return;
       var story = new Story(root, data);
       document.addEventListener('alphatester:locale', function () { story.relocale(); });
-      var want3d = root.getAttribute('data-view') === '3d' && !reduced && webgl();
+      var kind = root.getAttribute('data-view');
+      var named = window.AlphaViews && window.AlphaViews[kind];
+      if (named) { story.attach(new named()); return; }
+      var want3d = kind === '3d' && !reduced && webgl();
       if (!want3d) { story.attach(new DomView()); return; }
       root.classList.add('is-3d');
       if (ThreeViewCtor) { attach3d(story); return; }

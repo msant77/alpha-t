@@ -295,7 +295,7 @@ class ThreeView {
         const v = k.bars[m.id] || 0;
         g.fillStyle = c.text;
         g.fillText(tt('m.' + m.id), x, y);
-        const bx = W * 0.5, bw = W * 0.28, bh = 18;
+        const bx = W * 0.6, bw = W * 0.2, bh = 18;
         g.strokeStyle = c.line;
         g.lineWidth = 2;
         g.strokeRect(bx, y - 17, bw, bh);

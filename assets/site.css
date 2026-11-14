@@ -81,6 +81,15 @@
   --role-github: #CDBEF0;    /* 5.45 */
   --role-human: #F1A99B;     /* 4.85 */
   --scene-gold: #E2C690;     /* 5.67 on panel */
+  /* Tech Level: a flat, light diagram on the page's own surfaces */
+  --tech-lane: #EBE1CC;
+  --tech-platform: #F5EEDF;
+  --tech-node: #FFFBF3;      /* text 12.2, muted 7.4 */
+  --tech-text: #37342E;
+  --tech-muted: #5A5346;     /* 5.34 on lane */
+  --tech-line: #8F8268;
+  --tech-accent: #6B5226;    /* 6.53 on node */
+  --tech-glow: #C8A465;
 }
 
 /* ---- Dark: peacock / tobacco / parchment ---- */
@@ -121,6 +130,14 @@
     --role-github: #CDBEF0;
     --role-human: #F1A99B;
     --scene-gold: #C8A465;     /* 6.21 on panel, 6.72 on bg */
+    --tech-lane: #1E3E44;
+    --tech-platform: #1A3B42;
+    --tech-node: #0F2A30;      /* text 9.49, muted 6.28 */
+    --tech-text: #DFCBA6;
+    --tech-muted: #B8A584;     /* 4.79 on lane */
+    --tech-line: #5B8790;
+    --tech-accent: #C8A465;    /* 6.42 on node */
+    --tech-glow: #E2C690;
   }
 }
 :root[data-theme="dark"] {
@@ -158,6 +175,14 @@
   --role-github: #CDBEF0;
   --role-human: #F1A99B;
   --scene-gold: #C8A465;
+  --tech-lane: #1E3E44;
+  --tech-platform: #1A3B42;
+  --tech-node: #0F2A30;
+  --tech-text: #DFCBA6;
+  --tech-muted: #B8A584;
+  --tech-line: #5B8790;
+  --tech-accent: #C8A465;
+  --tech-glow: #E2C690;
 }
 
 /* ---- Base ---- */
@@ -488,6 +513,111 @@ h2 .badge { margin-left: 6px; }
   .rail { padding: 8px 6px 6px; }
   .rail-label { font-size: 11px; letter-spacing: .04em; }
   .rail-n { display: none; }
+}
+
+/* ---- Two levels under the hero: User Level (3D) and Tech Level (flat) ---- */
+.levels { padding: 40px 0 24px; }
+.levels .wrap { max-width: 1320px; }
+.levels-grid { display: grid; gap: 18px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 1000px) { .levels-grid { grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr); } }
+.level {
+  position: relative; min-width: 0; padding: 12px 12px 14px; border-radius: 14px;
+  background: var(--grain), var(--surface-raised); border: 1px solid var(--line); box-shadow: var(--shadow-card);
+}
+.level-head { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+.level-title {
+  margin: 0; margin-right: auto; font: 600 15px/1.2 var(--font-display);
+  letter-spacing: .3em; text-transform: uppercase; color: var(--gold-ink);
+}
+.level .scene-ctl { position: static; }
+.level .story-stage.is-3d { position: relative; height: 470px; border-radius: 10px; overflow: hidden; }
+.level .story-stage.is-tech { position: relative; overflow: hidden; }
+.level .story-log { position: static; margin-top: 10px; }
+.level .rail { position: relative; margin-top: 34px; }
+.proxies { list-style: none; margin: 0; padding: 0; }
+.level .satellites { position: static; width: auto; flex-direction: row; margin-top: 10px; }
+.level .satellites .node { flex: 1 1 0; }
+.level.is-idle .story-stage { opacity: .92; }
+.level .proxies { height: 0; }
+
+/* ---- Tech Level section: full width, under the hero ---- */
+.techlevel { padding: 40px 0 24px; }
+.techlevel .wrap { max-width: 1320px; }
+.tl-scene { position: relative; }
+.tl-scene .story-stage.is-tech { position: relative; overflow: hidden; border-radius: 16px; }
+.tl-bottom { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); margin-top: 14px; }
+@media (min-width: 900px) { .tl-bottom { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); align-items: start; } }
+.tl-scene .rail { position: relative; margin-top: 26px; }
+.tl-scene .scene-ctl { position: static; }
+
+/* ---- Tech Level: flat architecture diagram (assets/tech.js) ---- */
+.tech-canvas { position: absolute; left: 0; top: 0; transform-origin: 0 0; font-family: var(--font-sans); }
+.tech-edges { position: absolute; left: 0; top: 0; overflow: visible; }
+.tg { position: absolute; border-radius: 12px; }
+.tg-label {
+  position: absolute; left: 10px; top: 6px; font: 600 11px/1.2 var(--font-display);
+  letter-spacing: .2em; text-transform: uppercase; color: var(--tech-muted);
+}
+.tg-lane { background: var(--tech-lane); border: 1px solid var(--tech-line); }
+.tg-platform { background: var(--tech-platform); border: 1.5px solid var(--tech-line); box-shadow: 0 10px 30px -18px rgba(0, 0, 0, .35); }
+.tg-agent { border: 1px solid var(--tech-line); background: var(--tech-lane); }
+.tg-pipeline { border: 1.5px dashed var(--tech-accent); }
+.tg-pipeline .tg-label { color: var(--tech-accent); }
+.tn {
+  position: absolute; z-index: 2; cursor: pointer; padding: 6px 9px; border-radius: 9px;
+  background: var(--tech-node); color: var(--tech-text); border: 1px solid var(--tech-line);
+  border-left: 4px solid var(--role); box-shadow: 0 1px 0 rgba(0, 0, 0, .06);
+  transition: opacity .4s ease, box-shadow .35s ease, border-color .35s ease;
+}
+.tn-head { display: flex; align-items: center; gap: 6px; }
+.tn-title { flex: 1; font: 700 12.5px/1.2 var(--font-sans); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.tn-glyph { position: absolute; right: 7px; top: 6px; font: 700 13px/1 var(--font-mono); color: var(--tech-accent); }
+.tn-head { padding-right: 10px; }
+.tn-icon { flex: none; width: 14px; height: 14px; fill: none; stroke: var(--role); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.tn-tick { position: absolute; right: 6px; top: 6px; width: 15px; height: 15px; display: none; }
+.tn-tick path { fill: none; stroke: var(--tech-accent); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.tn.st-done .tn-tick { display: block; }
+.tn.st-done .tn-tick path { animation: tick-draw .45s cubic-bezier(.3, .7, .2, 1) forwards; }
+@keyframes tick-draw { to { stroke-dashoffset: 0; } }
+.tech-card {
+  position: absolute; left: 50%; top: 14px; z-index: 5; transform: translate(-50%, -8px); opacity: 0;
+  padding: 8px 18px; border-radius: 999px; pointer-events: none; white-space: nowrap;
+  font: 600 17px/1.2 var(--font-display); letter-spacing: .06em;
+  color: var(--tech-text); background: var(--tech-node); border: 1px solid var(--tech-glow);
+  box-shadow: 0 8px 24px -12px rgba(0, 0, 0, .45), 0 0 18px -6px var(--tech-glow);
+  transition: opacity .5s ease, transform .5s cubic-bezier(.22, .8, .3, 1);
+}
+.is-switch .tech-card { opacity: 1; transform: translate(-50%, 0); }
+.is-switch .tech-canvas { animation: tech-fade .9s ease; }
+@keyframes tech-fade { 0% { opacity: 1; } 35% { opacity: .55; } 100% { opacity: 1; } }
+.tn-sub { font: 10.5px/1.35 var(--font-mono); color: var(--tech-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tn-badge:empty { display: none; }
+.tn-badge { position: absolute; right: 6px; bottom: 4px; font: 700 9.5px var(--font-mono); color: var(--tech-muted); }
+.tn.is-step { padding: 4px 9px; }
+.tn.st-run { border-color: var(--tech-accent); box-shadow: 0 0 0 1px var(--tech-accent), 0 0 16px -4px var(--tech-glow); }
+.tn.st-done { border-color: var(--tech-accent); }
+.tn.st-skip { opacity: .7; border-style: dashed; }
+.tn.st-skip .tn-title { text-decoration: line-through; }
+.tn.is-hover, .tn.is-sel { box-shadow: 0 0 0 1.5px var(--tech-glow), 0 0 18px -4px var(--tech-glow); }
+.is-live .tn:not(.is-lit):not(.is-sel) { opacity: .58; }
+.tech-edge { fill: none; stroke: var(--tech-line); stroke-width: 1.4; transition: opacity .4s ease; }
+.is-live .tech-edge:not(.is-lit) { opacity: .45; }
+.tech-edge.is-lit { stroke: var(--tech-accent); }
+.tech-edge.is-hot { stroke: var(--tech-glow); stroke-width: 2.2; stroke-dasharray: 6 4; animation: tech-flow .6s linear infinite; }
+.tech-edge.is-sel { stroke: var(--tech-glow); stroke-width: 2.2; }
+@keyframes tech-flow { to { stroke-dashoffset: -10; } }
+.tech-hit { fill: none; stroke: transparent; stroke-width: 14; pointer-events: stroke; cursor: pointer; }
+.tech-head { fill: var(--tech-line); }
+.tech-label {
+  font: 10px var(--font-mono); fill: var(--tech-muted);
+  paint-order: stroke; stroke: var(--tech-platform); stroke-width: 4px; stroke-linejoin: round;
+}
+.tech-label.is-lit { fill: var(--tech-accent); }
+.tech-packet { fill: var(--tech-glow); filter: drop-shadow(0 0 4px var(--tech-glow)); }
+@media (prefers-reduced-motion: reduce) {
+  .tech-edge.is-hot, .is-switch .tech-canvas { animation: none; }
+  .tn.st-done .tn-tick path { animation: none; stroke-dashoffset: 0; }
+  .tn, .tech-edge { transition: none; }
 }
 
 /* ---- Flat fallback scene (no WebGL, or reduced motion) ---- */

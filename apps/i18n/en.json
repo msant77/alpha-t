@@ -77,7 +77,8 @@
     "status": {
       "wait": "waiting",
       "run": "running",
-      "done": "done"
+      "done": "done",
+      "skip": "skipped"
     },
     "rail": {
       "label": "Steps of the loop",
@@ -95,6 +96,9 @@
       "eyebrow": "Who uses it",
       "title": "Clients",
       "lead": "Sites already receiving feedback with Alpha Tester."
+    },
+    "levels": {
+      "tech": "Tech Level"
     }
   },
   "precos": {
@@ -227,9 +231,9 @@
         "short": "triage",
         "sub": "project key and cap",
         "m": {
-          "seg": "security",
-          "dup": "duplicates",
-          "cls": "classify",
+          "seg": "filters abuse",
+          "dup": "detects duplicates",
+          "cls": "classifies type",
           "triagens": "triages"
         },
         "cap": [
@@ -240,7 +244,7 @@
       "issue": {
         "title": "GitHub issue",
         "short": "github",
-        "sub": "alpha-t · type:bug · size:S",
+        "sub": "alpha-tester · type:bug · size:S",
         "m": {
           "issues": "issues today",
           "t1": "latest: #{issueNo}"
@@ -255,9 +259,9 @@
         "short": "implementer",
         "sub": "approved in the dashboard",
         "m": {
-          "clone": "shallow clone",
-          "edit": "editing",
-          "check": "checks",
+          "clone": "clones the repo",
+          "edit": "edits static files",
+          "check": "checks HTML",
           "custo": "cost today"
         },
         "cap": [
@@ -268,7 +272,7 @@
       "pr": {
         "title": "Draft PR",
         "short": "github",
-        "sub": "alpha-t/issue-{issueNo}",
+        "sub": "client/issue-{issueNo}",
         "m": {
           "prs": "open PRs",
           "t1": "never merges"
@@ -338,7 +342,7 @@
       "m-pr": {
         "title": "push + draft PR",
         "cap": [
-          "Branch alpha-t/issue-N; the PR closes the issue when someone merges it."
+          "Branch client/issue-N; the PR closes the issue when someone merges it."
         ]
       },
       "pr-r": {
@@ -379,17 +383,339 @@
       "t1": "security: clean verdict",
       "t2": "duplicates: none in 20 open issues",
       "t3": "type:bug · size:S · US$ 0.04",
-      "i1": "issue #{issueNo} opened · alpha-t, type:bug, size:S",
+      "i1": "issue #{issueNo} opened · alpha-tester, type:bug, size:S",
       "c1": "feedback list --status triaged · 1 item",
       "m1": "get_feedback (T0) · no reporter data",
       "r1": "owner approves the job · limit US$ 2.00",
       "x1": "shallow clone of the default branch · 3.2 MB",
       "x2": "round 1/3 · 2 static files",
       "x3": "valid HTML · 0 broken links · US$ 0.38",
-      "pr1": "draft PR #{prNo} · alpha-t/issue-{issueNo}",
+      "pr1": "draft PR #{prNo} · client/issue-{issueNo}",
       "r2": "reviews the diff and the checks",
       "r3": "merged by a person · deploy",
       "w3": "status “Delivered” for the reporter"
+    }
+  },
+  "tech": {
+    "group": {
+      "events": "Events",
+      "platform": "Alpha Tester",
+      "agent": "Agent",
+      "tri": "Pipeline · Triage",
+      "imp": "Pipeline · Implementation",
+      "results": "Results on GitHub"
+    },
+    "node": {
+      "ev-fb": {
+        "title": "Feedback sent",
+        "short": "widget",
+        "sub": "from the widget",
+        "cap": [
+          "The tester reports from inside the app, with screen, console and environment."
+        ]
+      },
+      "ev-acc": {
+        "title": "Feedback accepted",
+        "short": "dashboard",
+        "sub": "in the dashboard",
+        "cap": [
+          "Someone on the team accepts the feedback in the dashboard; the issue can be created right away."
+        ]
+      },
+      "ev-impl": {
+        "title": "“Implement”",
+        "short": "approval",
+        "sub": "approved by owner/admin",
+        "cap": [
+          "Only an owner or admin approves a job, with a cost limit. Coming soon."
+        ]
+      },
+      "api": {
+        "title": "Dashboard / API",
+        "short": "dashboard",
+        "sub": "POST /api/v1/feedback",
+        "cap": [
+          "Receives feedback with the public key, stores screenshots in private storage and notifies the agent with a signed webhook.",
+          "Coming soon: compose a release from a set of implemented feedback (depends on the plan)."
+        ]
+      },
+      "cli": {
+        "title": "CLI",
+        "short": "CLI",
+        "sub": "secret key",
+        "cap": [
+          "An API client in the terminal: list, read, triage and open issues. Coming soon."
+        ]
+      },
+      "mcp": {
+        "title": "MCP",
+        "short": "MCP",
+        "sub": "T0 to T2",
+        "cap": [
+          "The MCP server as an API client; tools by tier. Coming soon."
+        ]
+      },
+      "db": {
+        "title": "Database per company",
+        "short": "database",
+        "sub": "feedback · attachments",
+        "cap": [
+          "Data kept apart per company and project; attachments in private storage.",
+          "Coming soon: with the GitHub integration, images and attachments are stored in the repository and referenced from the original feedback instead of expiring."
+        ]
+      },
+      "keys": {
+        "title": "Keys per project",
+        "short": "keys",
+        "sub": "encrypted",
+        "cap": [
+          "Each project's model key and GitHub token, encrypted (AES-256-GCM)."
+        ]
+      },
+      "model": {
+        "title": "Model",
+        "short": "model",
+        "sub": "Anthropic API · budget",
+        "cap": [
+          "The agent calls the model with the project's key, within the daily budget."
+        ]
+      },
+      "t1": {
+        "title": "Fetch context",
+        "short": "triage",
+        "sub": "feedback + repo",
+        "cap": [
+          "Reads the feedback again at the source and the project's open issues."
+        ]
+      },
+      "t2": {
+        "title": "Classify and estimate",
+        "short": "triage",
+        "sub": "type · size · duplicates",
+        "cap": [
+          "Security, duplicates, type and size, with the model."
+        ]
+      },
+      "t3": {
+        "title": "Create issue",
+        "short": "triage",
+        "sub": "GitHub API",
+        "cap": [
+          "One issue per feedback, with the project's labels."
+        ]
+      },
+      "t4": {
+        "title": "Record cost",
+        "short": "triage",
+        "sub": "daily budget",
+        "cap": [
+          "Every run adds to the project's daily budget."
+        ]
+      },
+      "i1": {
+        "title": "Shallow clone",
+        "short": "implementer",
+        "sub": "default branch",
+        "cap": [
+          "Only the default branch, in a temporary folder. Coming soon."
+        ]
+      },
+      "i2": {
+        "title": "Read the issue",
+        "short": "implementer",
+        "sub": "accepted issue · size:S",
+        "cap": [
+          "The implementer starts from the accepted issue. Coming soon."
+        ]
+      },
+      "i3": {
+        "title": "Change files",
+        "short": "implementer",
+        "sub": "static only",
+        "cap": [
+          "HTML, CSS, text and images; never code or CI. Coming soon."
+        ]
+      },
+      "i4": {
+        "title": "Checks",
+        "short": "implementer",
+        "sub": "HTML · links",
+        "cap": [
+          "Valid HTML and no broken internal links. Coming soon."
+        ]
+      },
+      "i5": {
+        "title": "Open draft PR",
+        "short": "implementer",
+        "sub": "git push · API",
+        "cap": [
+          "One draft PR per job, on its own branch. Coming soon."
+        ]
+      },
+      "r-issue": {
+        "title": "Issue",
+        "short": "github",
+        "sub": "with labels",
+        "cap": [
+          "alpha-tester, type:… and size:… in the project's repository."
+        ]
+      },
+      "r-comment": {
+        "title": "Comment",
+        "short": "github",
+        "sub": "+1 on the original issue",
+        "cap": [
+          "A repeated report becomes a +1 on the issue that already exists."
+        ]
+      },
+      "r-pr": {
+        "title": "Draft PR",
+        "short": "github",
+        "sub": "client/issue-N",
+        "cap": [
+          "Waits for your team's review; never merges. Coming soon."
+        ]
+      }
+    },
+    "edge": {
+      "e-fb": {
+        "label": "HTTPS",
+        "title": "HTTPS",
+        "cap": [
+          "With the public key at_pub_; offline, the report waits in the browser's queue."
+        ]
+      },
+      "e-acc": {
+        "label": "accept",
+        "title": "accept",
+        "cap": [
+          "Accepted feedback can open the issue automatically."
+        ]
+      },
+      "e-impl": {
+        "label": "approval",
+        "title": "approval",
+        "cap": [
+          "The owner confirms the cost limit."
+        ]
+      },
+      "e-db": {
+        "label": "",
+        "title": "",
+        "cap": [
+          "Every query filtered by company and project."
+        ]
+      },
+      "e-cli": {
+        "label": "",
+        "title": "",
+        "cap": [
+          "Secret key with the manage scope."
+        ]
+      },
+      "e-mcp": {
+        "label": "",
+        "title": "",
+        "cap": [
+          "Tools above the maximum tier are not even listed."
+        ]
+      },
+      "e-hook": {
+        "label": "webhook",
+        "title": "webhook",
+        "cap": [
+          "Signed webhook: ids only; the agent reads the feedback again at the source."
+        ]
+      },
+      "e-ev": {
+        "label": "event",
+        "title": "event",
+        "cap": [
+          "Signed event for an approved implementation."
+        ]
+      },
+      "e-keys": {
+        "label": "key",
+        "title": "key",
+        "cap": [
+          "The project's key is decrypted only for the call."
+        ]
+      },
+      "e-mtri": {
+        "label": "prompt / tokens",
+        "title": "prompt / tokens",
+        "cap": [
+          "The tester's text goes in marked as data."
+        ]
+      },
+      "e-mimp": {
+        "label": "",
+        "title": "",
+        "cap": [
+          "Up to three rounds, within the cost limit."
+        ]
+      },
+      "e-issue": {
+        "label": "GitHub API",
+        "title": "GitHub API",
+        "cap": [
+          "With the project's token, limited to one repository."
+        ]
+      },
+      "e-comment": {
+        "label": "+1 · API",
+        "title": "+1 · API",
+        "cap": [
+          "The duplicate adds a +1 to the original issue instead of opening another."
+        ]
+      },
+      "e-pr": {
+        "label": "git push · API",
+        "title": "git push · API",
+        "cap": [
+          "Branch client/issue-N and a draft PR."
+        ]
+      }
+    },
+    "step": {
+      "s1": [
+        "New feedback: triage and a GitHub issue."
+      ],
+      "s2": [
+        "Approval: implementation and a draft PR."
+      ],
+      "s3": [
+        "Duplicate: no new issue, +1 on the original, status in the dashboard."
+      ]
+    },
+    "stepLabel": {
+      "s1": "Issue",
+      "s2": "PR",
+      "s3": "Duplicate"
+    },
+    "log": {
+      "w1": "feedback sent · screenshot + 2 errors",
+      "a1": "POST /api/v1/feedback · 201",
+      "t1": "context: feedback + 20 open issues",
+      "t2": "type:bug · size:S · clean verdict",
+      "i1": "issue #42 opened with labels",
+      "t4": "cost recorded · US$ 0.04",
+      "m1": "get_feedback (T0) answered",
+      "c1": "feedback accepted in the dashboard",
+      "p1": "owner approves “Implement” · limit US$ 2.00",
+      "x1": "shallow clone · 3.2 MB",
+      "x2": "valid HTML · 0 broken links",
+      "pr1": "draft PR #18 opened",
+      "w2": "feedback sent · same problem",
+      "d1": "duplicate of #42 · no issue created",
+      "d2": "+1 posted on issue #42",
+      "d3": "status in the dashboard: duplicate",
+      "c2": "the CLI lists the duplicate"
+    },
+    "scenario": {
+      "s1": "Scenario 1 · feedback becomes an issue",
+      "s2": "Scenario 2 · approval becomes a draft PR",
+      "s3": "Scenario 3 · a duplicate, no new issue"
     }
   },
   "como": {
@@ -560,7 +886,7 @@
         "etiquetas": {
           "title": "Type and size",
           "lines": [
-            "Labels alpha-t, type:… and size:…",
+            "Labels alpha-tester, type:… and size:…",
             "Creates the missing ones, never changes existing ones."
           ]
         },
@@ -652,7 +978,7 @@
       "path": ">_ alpha tester / implementation",
       "h2": "The implementer",
       "foot1": "implementer · shallow clone",
-      "foot2": "alpha-t/issue-42",
+      "foot2": "client/issue-42",
       "ui": {
         "approveTitle": "Implement #42",
         "limit": "limit US$ 2.00",

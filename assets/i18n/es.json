@@ -77,7 +77,8 @@
     "status": {
       "wait": "en espera",
       "run": "en curso",
-      "done": "listo"
+      "done": "listo",
+      "skip": "omitido"
     },
     "rail": {
       "label": "Etapas del ciclo",
@@ -95,6 +96,9 @@
       "eyebrow": "Quién lo usa",
       "title": "Clientes",
       "lead": "Sitios que ya reciben feedback con Alpha Tester."
+    },
+    "levels": {
+      "tech": "Tech Level"
     }
   },
   "precos": {
@@ -227,9 +231,9 @@
         "short": "triaje",
         "sub": "clave y tope del proyecto",
         "m": {
-          "seg": "seguridad",
-          "dup": "duplicados",
-          "cls": "clasifica",
+          "seg": "filtra abuso",
+          "dup": "detecta duplicados",
+          "cls": "clasifica tipo",
           "triagens": "triajes"
         },
         "cap": [
@@ -240,7 +244,7 @@
       "issue": {
         "title": "Issue en GitHub",
         "short": "github",
-        "sub": "alpha-t · type:bug · size:S",
+        "sub": "alpha-tester · type:bug · size:S",
         "m": {
           "issues": "issues hoy",
           "t1": "último: #{issueNo}"
@@ -255,9 +259,9 @@
         "short": "implementador",
         "sub": "aprobado en el panel",
         "m": {
-          "clone": "clon superficial",
-          "edit": "edición",
-          "check": "verificaciones",
+          "clone": "clona el repo",
+          "edit": "edita estáticos",
+          "check": "verifica HTML",
           "custo": "costo hoy"
         },
         "cap": [
@@ -268,7 +272,7 @@
       "pr": {
         "title": "PR en borrador",
         "short": "github",
-        "sub": "alpha-t/issue-{issueNo}",
+        "sub": "client/issue-{issueNo}",
         "m": {
           "prs": "PRs abiertos",
           "t1": "nunca hace merge"
@@ -338,7 +342,7 @@
       "m-pr": {
         "title": "push + PR en borrador",
         "cap": [
-          "Rama alpha-t/issue-N; el PR cierra el issue cuando alguien hace el merge."
+          "Rama client/issue-N; el PR cierra el issue cuando alguien hace el merge."
         ]
       },
       "pr-r": {
@@ -379,17 +383,339 @@
       "t1": "seguridad: veredicto limpio",
       "t2": "duplicados: ninguno en 20 issues abiertos",
       "t3": "type:bug · size:S · US$ 0,04",
-      "i1": "issue #{issueNo} abierto · alpha-t, type:bug, size:S",
+      "i1": "issue #{issueNo} abierto · alpha-tester, type:bug, size:S",
       "c1": "feedback list --status triaged · 1 ítem",
       "m1": "get_feedback (T0) · sin datos de quien reportó",
       "r1": "el owner aprueba el job · límite US$ 2,00",
       "x1": "clon superficial de la rama principal · 3,2 MB",
       "x2": "ronda 1/3 · 2 archivos estáticos",
       "x3": "HTML válido · 0 enlaces rotos · US$ 0,38",
-      "pr1": "PR en borrador #{prNo} · alpha-t/issue-{issueNo}",
+      "pr1": "PR en borrador #{prNo} · client/issue-{issueNo}",
       "r2": "revisa el diff y las verificaciones",
       "r3": "merge hecho por una persona · deploy",
       "w3": "estado “Entregado” para quien reportó"
+    }
+  },
+  "tech": {
+    "group": {
+      "events": "Eventos",
+      "platform": "Alpha Tester",
+      "agent": "Agente",
+      "tri": "Pipeline · Triaje",
+      "imp": "Pipeline · Implementación",
+      "results": "Resultados en GitHub"
+    },
+    "node": {
+      "ev-fb": {
+        "title": "Feedback enviado",
+        "short": "widget",
+        "sub": "desde el widget",
+        "cap": [
+          "Quien prueba reporta desde dentro de la app, con pantalla, consola y entorno."
+        ]
+      },
+      "ev-acc": {
+        "title": "Feedback aceptado",
+        "short": "panel",
+        "sub": "en el panel",
+        "cap": [
+          "Alguien del equipo acepta el feedback en el panel; el issue puede crearse en el momento."
+        ]
+      },
+      "ev-impl": {
+        "title": "“Implementar”",
+        "short": "aprobación",
+        "sub": "aprobado por owner/admin",
+        "cap": [
+          "Solo un owner o admin aprueba un job, con límite de costo. Próximamente."
+        ]
+      },
+      "api": {
+        "title": "Panel / API",
+        "short": "panel",
+        "sub": "POST /api/v1/feedback",
+        "cap": [
+          "Recibe el feedback con la clave pública, guarda las capturas en almacenamiento privado y avisa al agente con un webhook firmado.",
+          "Próximamente: armar un release con un conjunto de feedbacks implementados (depende del plan)."
+        ]
+      },
+      "cli": {
+        "title": "CLI",
+        "short": "CLI",
+        "sub": "clave secreta",
+        "cap": [
+          "Cliente de la API en la terminal: lista, lee, hace el triaje y abre issues. Próximamente."
+        ]
+      },
+      "mcp": {
+        "title": "MCP",
+        "short": "MCP",
+        "sub": "T0 a T2",
+        "cap": [
+          "El servidor MCP como cliente de la API; herramientas por nivel. Próximamente."
+        ]
+      },
+      "db": {
+        "title": "Base por empresa",
+        "short": "base",
+        "sub": "feedback · adjuntos",
+        "cap": [
+          "Datos separados por empresa y proyecto; adjuntos en almacenamiento privado.",
+          "Próximamente: con la integración de GitHub, imágenes y adjuntos se guardan en el repositorio y quedan referenciados en el feedback original, en vez de vencer."
+        ]
+      },
+      "keys": {
+        "title": "Claves por proyecto",
+        "short": "claves",
+        "sub": "cifradas",
+        "cap": [
+          "Clave del modelo y token de GitHub de cada proyecto, cifrados (AES-256-GCM)."
+        ]
+      },
+      "model": {
+        "title": "Modelo",
+        "short": "modelo",
+        "sub": "Anthropic API · presupuesto",
+        "cap": [
+          "El agente llama al modelo con la clave del proyecto, dentro del presupuesto diario."
+        ]
+      },
+      "t1": {
+        "title": "Buscar contexto",
+        "short": "triaje",
+        "sub": "feedback + repo",
+        "cap": [
+          "Vuelve a leer el feedback en la fuente y los issues abiertos del proyecto."
+        ]
+      },
+      "t2": {
+        "title": "Clasificar y estimar",
+        "short": "triaje",
+        "sub": "tipo · tamaño · duplicados",
+        "cap": [
+          "Seguridad, duplicados, tipo y tamaño, con el modelo."
+        ]
+      },
+      "t3": {
+        "title": "Crear issue",
+        "short": "triaje",
+        "sub": "API de GitHub",
+        "cap": [
+          "Un issue por feedback, con las etiquetas del proyecto."
+        ]
+      },
+      "t4": {
+        "title": "Registrar costo",
+        "short": "triaje",
+        "sub": "presupuesto del día",
+        "cap": [
+          "Cada ejecución suma al presupuesto diario del proyecto."
+        ]
+      },
+      "i1": {
+        "title": "Clon superficial",
+        "short": "implementador",
+        "sub": "rama principal",
+        "cap": [
+          "Solo la rama principal, en una carpeta temporal. Próximamente."
+        ]
+      },
+      "i2": {
+        "title": "Leer el issue",
+        "short": "implementador",
+        "sub": "issue aceptado · size:S",
+        "cap": [
+          "El implementador parte del issue aceptado. Próximamente."
+        ]
+      },
+      "i3": {
+        "title": "Cambiar archivos",
+        "short": "implementador",
+        "sub": "solo estáticos",
+        "cap": [
+          "HTML, CSS, textos e imágenes; nunca código ni CI. Próximamente."
+        ]
+      },
+      "i4": {
+        "title": "Verificaciones",
+        "short": "implementador",
+        "sub": "HTML · enlaces",
+        "cap": [
+          "HTML válido y ningún enlace interno roto. Próximamente."
+        ]
+      },
+      "i5": {
+        "title": "Abrir PR en borrador",
+        "short": "implementador",
+        "sub": "git push · API",
+        "cap": [
+          "Un PR en borrador por job, en una rama propia. Próximamente."
+        ]
+      },
+      "r-issue": {
+        "title": "Issue",
+        "short": "github",
+        "sub": "con etiquetas",
+        "cap": [
+          "alpha-tester, type:… y size:… en el repositorio del proyecto."
+        ]
+      },
+      "r-comment": {
+        "title": "Comentario",
+        "short": "github",
+        "sub": "+1 en el issue original",
+        "cap": [
+          "Un reporte repetido se vuelve un +1 en el issue que ya existe."
+        ]
+      },
+      "r-pr": {
+        "title": "PR en borrador",
+        "short": "github",
+        "sub": "client/issue-N",
+        "cap": [
+          "Espera la revisión del equipo; nunca hace merge. Próximamente."
+        ]
+      }
+    },
+    "edge": {
+      "e-fb": {
+        "label": "HTTPS",
+        "title": "HTTPS",
+        "cap": [
+          "Con la clave pública at_pub_; sin conexión, el reporte espera en la cola del navegador."
+        ]
+      },
+      "e-acc": {
+        "label": "aceptar",
+        "title": "aceptar",
+        "cap": [
+          "El feedback aceptado puede abrir el issue automáticamente."
+        ]
+      },
+      "e-impl": {
+        "label": "aprobación",
+        "title": "aprobación",
+        "cap": [
+          "El owner confirma el límite de costo."
+        ]
+      },
+      "e-db": {
+        "label": "",
+        "title": "",
+        "cap": [
+          "Cada consulta filtrada por empresa y proyecto."
+        ]
+      },
+      "e-cli": {
+        "label": "",
+        "title": "",
+        "cap": [
+          "Clave secreta con el alcance manage."
+        ]
+      },
+      "e-mcp": {
+        "label": "",
+        "title": "",
+        "cap": [
+          "Las herramientas por encima del nivel máximo ni aparecen."
+        ]
+      },
+      "e-hook": {
+        "label": "webhook",
+        "title": "webhook",
+        "cap": [
+          "Webhook firmado: solo ids; el agente vuelve a leer el feedback en la fuente."
+        ]
+      },
+      "e-ev": {
+        "label": "evento",
+        "title": "evento",
+        "cap": [
+          "Evento firmado de una implementación aprobada."
+        ]
+      },
+      "e-keys": {
+        "label": "clave",
+        "title": "clave",
+        "cap": [
+          "La clave del proyecto se descifra solo para la llamada."
+        ]
+      },
+      "e-mtri": {
+        "label": "prompt / tokens",
+        "title": "prompt / tokens",
+        "cap": [
+          "El texto de quien prueba va marcado como dato."
+        ]
+      },
+      "e-mimp": {
+        "label": "",
+        "title": "",
+        "cap": [
+          "Hasta tres rondas, dentro del límite de costo."
+        ]
+      },
+      "e-issue": {
+        "label": "API de GitHub",
+        "title": "API de GitHub",
+        "cap": [
+          "Con el token del proyecto, limitado a un repositorio."
+        ]
+      },
+      "e-comment": {
+        "label": "+1 · API",
+        "title": "+1 · API",
+        "cap": [
+          "El duplicado suma un +1 al issue original en vez de abrir otro."
+        ]
+      },
+      "e-pr": {
+        "label": "git push · API",
+        "title": "git push · API",
+        "cap": [
+          "Rama client/issue-N y un PR en borrador."
+        ]
+      }
+    },
+    "step": {
+      "s1": [
+        "Feedback nuevo: triaje e issue en GitHub."
+      ],
+      "s2": [
+        "Aprobación: implementación y PR en borrador."
+      ],
+      "s3": [
+        "Duplicado: ningún issue nuevo, +1 en el original, estado en el panel."
+      ]
+    },
+    "stepLabel": {
+      "s1": "Issue",
+      "s2": "PR",
+      "s3": "Duplicado"
+    },
+    "log": {
+      "w1": "feedback enviado · captura + 2 errores",
+      "a1": "POST /api/v1/feedback · 201",
+      "t1": "contexto: feedback + 20 issues abiertos",
+      "t2": "type:bug · size:S · veredicto limpio",
+      "i1": "issue #42 abierto con etiquetas",
+      "t4": "costo registrado · US$ 0,04",
+      "m1": "get_feedback (T0) respondido",
+      "c1": "feedback aceptado en el panel",
+      "p1": "el owner aprueba “Implementar” · límite US$ 2,00",
+      "x1": "clon superficial · 3,2 MB",
+      "x2": "HTML válido · 0 enlaces rotos",
+      "pr1": "PR en borrador #18 abierto",
+      "w2": "feedback enviado · el mismo problema",
+      "d1": "duplicado de #42 · issue no creado",
+      "d2": "+1 comentado en el issue #42",
+      "d3": "estado en el panel: duplicado",
+      "c2": "la CLI lista el duplicado"
+    },
+    "scenario": {
+      "s1": "Escenario 1 · el feedback se vuelve issue",
+      "s2": "Escenario 2 · la aprobación se vuelve PR en borrador",
+      "s3": "Escenario 3 · duplicado, sin issue nuevo"
     }
   },
   "como": {
@@ -560,7 +886,7 @@
         "etiquetas": {
           "title": "Tipo y tamaño",
           "lines": [
-            "Etiquetas alpha-t, type:… y size:…",
+            "Etiquetas alpha-tester, type:… y size:…",
             "Crea las que faltan, nunca cambia las que ya existen."
           ]
         },
@@ -652,7 +978,7 @@
       "path": ">_ alpha tester / implementación",
       "h2": "El implementador",
       "foot1": "implementador · clon superficial",
-      "foot2": "alpha-t/issue-42",
+      "foot2": "client/issue-42",
       "ui": {
         "approveTitle": "Implementar #42",
         "limit": "límite US$ 2,00",
