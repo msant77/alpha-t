@@ -485,35 +485,59 @@ h2 .badge { margin-left: 6px; }
   .hero-copy { padding-top: 104px; }
   .hero-copy h1 { font-size: 3.6rem; }
 }
-@media (max-width: 899px) {
-  .satellites { left: 8px; right: 8px; top: auto; bottom: 196px; width: auto; flex-direction: row; }
-  .satellites .node { flex: 1 1 0; font-size: 10.5px; padding: 5px 8px; }
-  .satellites .node-title { font-size: 14px; }
-  .satellites .node .m-row, .satellites .node-sub { display: none; }
-}
-@media (max-width: 699px) {
+@media (max-width: 767px) {
+  /* header: everything reachable with a thumb */
   .site-header .wrap { gap: 6px 12px; padding-top: 8px; padding-bottom: 8px; }
   .brand { font-size: 14px; letter-spacing: .22em; }
-  .site-nav { gap: 2px 14px; font-size: 15px; }
-  .header-actions .btn.small { min-height: 32px; padding: 4px 10px; font-size: 13px; }
-  .theme-toggle { min-height: 32px; padding: 4px 8px; }
+  .site-nav { gap: 0 16px; font-size: 16px; }
+  .site-nav a { display: inline-flex; align-items: center; min-height: 44px; }
+  .lang-switch button { min-height: 44px; min-width: 44px; }
+  .theme-toggle { min-height: 44px; min-width: 44px; padding: 4px 10px; }
+  .header-actions { gap: 6px; }
+  .header-actions .btn.small { min-height: 44px; padding: 4px 9px; font-size: 14px; }
+  .brand { display: inline-flex; align-items: center; min-height: 44px; }
+  .site-footer nav a { display: inline-flex; align-items: center; min-height: 44px; }
+  .scene-ctl, .scard-ctl { min-height: 44px; padding: 6px 14px; }
+  .is-window .tech-label { display: none; }
   .theme-toggle [data-theme-label] {
     position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
   }
-  .hero-copy { padding-top: 128px; }
-  .hero-copy h1 { font-size: 2rem; }
-  .hero-hint { font-size: 11px; }
-  .scene-ctl { top: auto; bottom: 256px; right: 8px; }
-  .hero-dock { grid-template-columns: 1fr; gap: 6px; bottom: 8px; width: calc(100% - 16px); }
-  .story-log { order: 2; font-size: 10.5px; padding: 4px 8px 6px; }
-  .log-list { min-height: 3.1em; }
-  .log-list li { grid-template-columns: 6.6em minmax(0, 1fr); }
-  .log-list li .log-t { display: none; }
-  .log-list li:nth-last-child(n + 3) { display: none; }
-  .rail { padding: 8px 6px 6px; }
-  .rail-label { font-size: 11px; letter-spacing: .04em; }
-  .rail-n { display: none; }
+  .site-header.is-over { position: relative; }
+
 }
+/* phones and tablets: the hero is the compact rendering (the full 3D carousel needs 1100 px) */
+@media (max-width: 1099px) {
+  .site-header.is-over { position: relative; }
+  /* the hero becomes the compact rendering: title, the scene, satellites, rail, log */
+  .hero { min-height: 0; display: flex; flex-direction: column; overflow: visible; padding: 0 0 12px; }
+  .hero-copy { order: -1; width: 100%; max-width: none; margin: 0; padding: 16px 16px 10px; }
+  .hero-copy h1 { font-size: 2rem; }
+  .hero-hint { font-size: 13px; }
+  .hero.is-3d .story-stage {
+    position: relative; inset: auto; order: 0; height: min(50vh, 430px); min-height: 330px; margin: 0 8px;
+    border-radius: 14px; overflow: hidden; background: var(--grain), var(--surface-raised); border: 1px solid var(--line);
+  }
+  .hero .scene-ctl { top: 10px; right: 10px; min-height: 44px; padding: 6px 16px; font-size: 14px; }
+  .hero .satellites { position: static; order: 2; width: auto; margin: 8px 8px 0; flex-direction: row; gap: 8px; }
+  .satellites .node { flex: 1 1 0; min-height: 44px; font-size: 13px; padding: 6px 10px; }
+  .satellites .node-title { font-size: 17px; }
+  .satellites .node .m-row, .satellites .node-sub { display: none; }
+  .hero .sat-leaders { display: none; }
+  .hero-dock { position: static; order: 3; transform: none; width: auto; align-self: stretch; margin: 8px 8px 0; display: flex; flex-direction: column; gap: 8px; }
+  .hero-dock > * { width: 100%; }
+  .hero .rail { order: 1; }
+  .hero .story-log { order: 2; }
+  .story-log { font-size: 13px; padding: 6px 10px 8px; }
+  .log-list { min-height: 0; max-height: calc(3 * 1.55em); overflow-y: auto; overscroll-behavior: contain; }
+  .log-list li { grid-template-columns: 7.5em minmax(0, 1fr); }
+  .log-list li .log-t { display: none; }
+  .rail { padding: 8px 4px 6px; }
+  .rail-label { font-size: 12px; letter-spacing: .03em; }
+  .rail-n { display: none; }
+  .hero .proxies { height: 0; }
+}
+@media (hover: none) { .hint-mouse { display: none; } }
+@media (hover: hover) { .hint-touch { display: none; } }
 
 /* ---- Two levels under the hero: User Level (3D) and Tech Level (flat) ---- */
 .levels { padding: 40px 0 24px; }
@@ -545,6 +569,7 @@ h2 .badge { margin-left: 6px; }
 .techlevel .wrap { max-width: 1320px; }
 .tl-scene { position: relative; }
 .tl-scene .story-stage.is-tech { position: relative; overflow: hidden; border-radius: 16px; }
+.story-stage.is-tech.is-window .tech-canvas { transition: transform .9s cubic-bezier(.45, 0, .2, 1); }
 .tl-bottom { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); margin-top: 14px; }
 @media (min-width: 900px) { .tl-bottom { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); align-items: start; } }
 .tl-scene .rail { position: relative; margin-top: 26px; }

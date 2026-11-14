@@ -122,6 +122,7 @@ class ThreeView {
     renderer.setClearColor(0x000000, 0);
     renderer.domElement.setAttribute('aria-hidden', 'true');
     renderer.domElement.className = 'hero-canvas';
+    renderer.domElement.style.touchAction = 'pan-y';
     this.host.appendChild(renderer.domElement);
 
     this.scene = new THREE.Scene();
@@ -348,9 +349,10 @@ class ThreeView {
       ctrl.y += 2.4;
     } else {
       const out = new THREE.Vector3(mid.x, 0, mid.z);
-      if (out.lengthSq() > 0.01) out.normalize().multiplyScalar(1.2);
+      // arc over the cards rather than in front of them, so the lead card stays clear
+      if (out.lengthSq() > 0.01) out.normalize().multiplyScalar(-0.6);
       ctrl.add(out);
-      ctrl.y += 0.9;
+      ctrl.y += 1.6;
     }
     return new THREE.QuadraticBezierCurve3(a.clone(), ctrl, b.clone());
   }
@@ -470,7 +472,7 @@ class ThreeView {
     this.renderer.setSize(w, h, false);
     this.camera.aspect = w / h;
     this.camera.updateProjectionMatrix();
-    const narrow = w < 900 || w / h < 0.95;
+    const narrow = w < 1080 || w / h < 0.95;
     if (narrow !== this.narrow) { this.narrow = narrow; this.layout(); }
     // distance that fits the carousel in the middle column (the caption docks
     // on the left, the satellites on the right) or the whole width on phones
@@ -479,7 +481,7 @@ class ThreeView {
     const span = 2 * this.radius + CARD_W * (narrow ? 0.86 : 1.25);
     const fitW = narrow ? CARD_W * 0.86 / 0.8 : span, fitH = narrow ? 6 : 6.4;
     this.fitDist = Math.max(fitH / 2 / (t * availH), fitW / 2 / (t * this.camera.aspect * availW));
-    this.offTo = narrow ? { x: 0, y: -0.02 } : { x: -0.035, y: -0.06 };
+    this.offTo = narrow ? { x: 0, y: 0.06 } : { x: -0.035, y: -0.06 };
     if (!this.off) this.off = { x: this.offTo.x, y: this.offTo.y };
     this.snap = true;
   }
@@ -497,8 +499,18 @@ class ThreeView {
       this.pointerIn = false;
       if (this.hoverKey && !this.s.selection) { this.hoverKey = null; this.s.hover(null); el.style.cursor = ''; }
     });
-    el.addEventListener('pointerdown', (e) => { down = { x: e.clientX, y: e.clientY }; });
+    el.addEventListener('pointerdown', (e) => {
+      down = { x: e.clientX, y: e.clientY };
+      if (e.pointerType !== 'mouse') this.s.touching = true;
+    });
+    const release = () => { this.s.touching = false; };
+    el.addEventListener('pointercancel', release);
     el.addEventListener('pointerup', (e) => {
+      release();
+      if (down && e.pointerType !== 'mouse') {
+        const dx = e.clientX - down.x, dy = e.clientY - down.y;
+        if (Math.abs(dx) > 50 && Math.abs(dy) < 60) { down = null; this.s.stepBy(dx < 0 ? 1 : -1); return; }
+      }
       if (!down || Math.hypot(e.clientX - down.x, e.clientY - down.y) > 8) { down = null; return; }
       down = null;
       const r = el.getBoundingClientRect();
@@ -650,7 +662,7 @@ class ThreeView {
     if (!this.w) this.resize();
     const k1 = 1 - Math.exp(-dt * 2.4);      // camera
     const k2 = 1 - Math.exp(-dt * 6);        // fades and lifts
-    const kSpin = 1 - Math.exp(-dt * 1.9);   // carousel
+    const kSpin = 1 - Math.exp(-dt * (this.narrow ? 3.4 : 1.9));   // carousel: snappier on phones
 
     // carousel: the selected card, else the running one, turns to the front
     const lead = this.focusNode || this.actor;
@@ -723,7 +735,7 @@ class ThreeView {
     this.camPos.lerp(pos, k1);
     this.camera.position.copy(this.camPos);
     this.camera.lookAt(this.camTarget);
-    const offTo = this.focusNode ? (this.narrow ? { x: 0, y: -0.02 } : { x: -0.06, y: -0.1 }) : this.offTo;
+    const offTo = this.focusNode ? (this.narrow ? { x: 0, y: 0.06 } : { x: -0.06, y: -0.1 }) : this.offTo;
     this.off.x += (offTo.x - this.off.x) * k1;
     this.off.y += (offTo.y - this.off.y) * k1;
     this.camera.setViewOffset(this.w, this.h, this.off.x * this.w, this.off.y * this.h, this.w, this.h);

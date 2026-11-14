@@ -182,8 +182,12 @@
     this.scale = scale;
     this.canvas.style.width = size[0] + 'px';
     this.canvas.style.height = size[1] + 'px';
-    this.canvas.style.transform = 'scale(' + scale + ')';
-    host.style.height = Math.round(size[1] * scale) + 'px';
+    // phones: a window onto the tall diagram that pans to the part that is playing
+    this.windowH = narrow ? Math.min(Math.round(size[1] * scale), Math.max(420, Math.round(window.innerHeight * 0.62))) : 0;
+    host.classList.toggle('is-window', narrow);
+    host.style.height = (narrow ? this.windowH : Math.round(size[1] * scale)) + 'px';
+    this.pan = this.pan || 0;
+    this.applyPan();
     this.svg.setAttribute('viewBox', '0 0 ' + size[0] + ' ' + size[1]);
     this.svg.setAttribute('width', size[0]);
     this.svg.setAttribute('height', size[1]);
@@ -194,6 +198,20 @@
     for (var g in this.groups) place(this.groups[g].el, this.box(this.groups[g].d));
     for (var n in this.nodes) place(this.nodes[n].el, this.box(this.nodes[n].d));
     for (var k in this.edges) this.route(this.edges[k]);
+  };
+
+  TechView.prototype.applyPan = function () {
+    this.canvas.style.transform = 'translateY(' + (-this.pan) + 'px) scale(' + this.scale + ')';
+  };
+  TechView.prototype.follow = function (id) {
+    if (!this.narrow) return;
+    var it = this.nodes[id] || this.groups[id];
+    if (!it) return;
+    var b = this.box(it.d), d = this.s.d;
+    var centre = (b[1] + b[3] / 2) * this.scale;
+    var max = d.sizeN[1] * this.scale - this.windowH;
+    this.pan = Math.max(0, Math.min(max, centre - this.windowH / 2));
+    this.applyPan();
   };
 
   /* orthogonal route between two boxes; sides: r l t b (wide) or rN/... (narrow) */
@@ -258,6 +276,7 @@
     n.glyph.textContent = GLYPH[st] != null ? GLYPH[st] : '';
     n.badge.textContent = st === 'ignorado' ? loop.statusLabel(st) : '';
     if (st !== 'aguardando') this.light(id);
+    if (st === 'rodando') this.follow(id);
   };
 
   TechView.prototype.setBar = function () {};

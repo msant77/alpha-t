@@ -99,7 +99,8 @@
     },
     "levels": {
       "tech": "Tech Level"
-    }
+    },
+    "hintTouch": "tap a card to read · swipe to change step"
   },
   "precos": {
     "eyebrow": "Plans",
@@ -722,7 +723,8 @@
     "intro": {
       "eyebrow": "How it works",
       "h1": "From report to pull request",
-      "hint": "each scene plays on its own · hover or tap the objects to read · Esc closes"
+      "hint": "each scene plays on its own · hover or tap the objects to read · Esc closes",
+      "hintTouch": "each scene plays on its own · tap the objects to read"
     },
     "widget": {
       "path": ">_ alpha tester / report",

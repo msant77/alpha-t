@@ -105,8 +105,8 @@
      by a thin leader line; otherwise beside the object. */
   Captions.prototype.place = function (rect) {
     var p = this.panel, box = this.root.getBoundingClientRect();
-    var sheet = box.width < 640;
-    var docked = !sheet && box.width >= 1000 && this.root.classList.contains('cap-docks');
+    var sheet = window.innerWidth < 768;
+    var docked = !sheet && window.innerWidth >= 1100 && this.root.classList.contains('cap-docks');
     p.classList.toggle('is-sheet', sheet);
     p.classList.toggle('is-docked', docked);
     if (docked) { this.dock(rect, box); return; }
@@ -470,6 +470,17 @@
     }, reduced ? 0 : 700);
   };
 
+  /* swipe: the previous or next step of the rail */
+  Story.prototype.stepBy = function (dir) {
+    var steps = this.d.steps || [];
+    if (!steps.length) return;
+    var cur = this.selection && this.selection.kind === 'step' ? this.selection.id : this.activeStep;
+    var i = -1;
+    for (var k = 0; k < steps.length; k++) if (steps[k].id === cur) i = k;
+    var next = steps[(i + dir + steps.length) % steps.length];
+    this.pick('step', next.id);
+  };
+
   Story.prototype.setExpanded = function (on) {
     var s = this.selection;
     if (!s) return;
@@ -543,7 +554,9 @@
   };
 
   Story.prototype.renderLog = function (fresh) {
-    var max = this.d.logLines || 4;
+    // phones keep more lines in a three-line window that scrolls to the newest
+    var phone = window.innerWidth < 768;
+    var max = phone ? 12 : (this.d.logLines || 4);
     var sel = this.selection && this.selection.kind === 'node' ? this.selection.id : null;
     var lines = sel ? (this.logByNode[sel] || []) : this.logAll;
     this.logHead.textContent = sel
@@ -561,6 +574,7 @@
       li.appendChild(el('span', 'log-x', this.fill(this.tt(l.key), l.snap)));
       this.logList.appendChild(li);
     }
+    if (phone) this.logList.scrollTop = this.logList.scrollHeight;
   };
 
   Story.prototype.tween = function (from, to, dur, set) {
@@ -636,7 +650,9 @@
     var dt = this.last ? Math.min((ts - this.last) / 1000, 0.1) : 0;
     this.last = ts;
     // paused: the story's clock stops, the view keeps easing its camera
-    if (this.paused) { if (this.view) this.view.frame(dt, this.t, this.elapsed, true); }
+    // the story waits while someone touches the scene or reads a caption on a touch screen
+    var hold = this.paused || this.touching || (coarse && !!this.selection);
+    if (hold) { if (this.view) this.view.frame(dt, this.t, this.elapsed, true); }
     else this.advance(dt);
     this.raf = requestAnimationFrame(this.frame);
   };

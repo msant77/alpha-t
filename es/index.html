@@ -65,13 +65,12 @@
 
 <main id="conteudo">
   <section class="hero" id="ciclo" aria-labelledby="hero-titulo" data-story="hero" data-view="3d">
-    <div class="story-stage" data-stage></div>
+    <div class="story-stage" data-stage><button type="button" class="scene-ctl" data-ctl>pausar</button></div>
     <div class="hero-copy">
       <h1 id="hero-titulo" data-i18n="home.h1">Feedback con contexto, desde dentro de la app</h1>
-      <p class="hero-hint" data-i18n="home.hint">pasa el mouse o toca las tarjetas · Tab recorre las etapas · Esc vuelve</p>
+      <p class="hero-hint"><span class="hint-mouse" data-i18n="home.hint">pasa el mouse o toca las tarjetas · Tab recorre las etapas · Esc vuelve</span><span class="hint-touch" data-i18n="home.hintTouch">toca una tarjeta para leer · desliza para cambiar de etapa</span></p>
     </div>
     <ul class="proxies" data-proxies></ul>
-    <button type="button" class="scene-ctl" data-ctl>pausar</button>
     <div class="hero-dock">
       <div class="story-log" data-log></div>
       <nav class="rail" data-rail aria-label="Etapas do ciclo"></nav>

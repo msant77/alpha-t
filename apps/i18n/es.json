@@ -99,7 +99,8 @@
     },
     "levels": {
       "tech": "Tech Level"
-    }
+    },
+    "hintTouch": "toca una tarjeta para leer · desliza para cambiar de etapa"
   },
   "precos": {
     "eyebrow": "Planes",
@@ -722,7 +723,8 @@
     "intro": {
       "eyebrow": "Cómo funciona",
       "h1": "Del reporte al pull request",
-      "hint": "cada escena corre sola · pasa el mouse o toca los objetos para leer · Esc cierra"
+      "hint": "cada escena corre sola · pasa el mouse o toca los objetos para leer · Esc cierra",
+      "hintTouch": "cada escena corre sola · toca los objetos para leer"
     },
     "widget": {
       "path": ">_ alpha tester / reporte",
