@@ -176,7 +176,7 @@
         .to(dl, { autoAlpha: 1, x: 0, duration: 0.45, stagger: 0.6, ease: 'power3.out' }, 3.4)
         .to(cks, { autoAlpha: 1, y: 0, duration: 0.4, stagger: 0.35, ease: 'back.out(2)' }, 5.2)
         .to(cost, { width: '19%', duration: 1.4, ease: 'power2.out' }, 6.6);
-      return [0.5, 1.4, 3.4, 5.2];
+      return [0.5, 1.4, 3.4, 5.2, 6.6];
     },
 
     revisao: function (c, tl) {
