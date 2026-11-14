@@ -475,11 +475,11 @@ class ThreeView {
     // distance that fits the carousel in the middle column (the caption docks
     // on the left, the satellites on the right) or the whole width on phones
     const t = Math.tan(THREE.MathUtils.degToRad(this.camera.fov / 2));
-    const availW = narrow ? 1 : 0.6, availH = narrow ? 0.7 : 0.62;
+    const availW = narrow ? 1 : 0.54, availH = narrow ? 0.7 : 0.62;
     const span = 2 * this.radius + CARD_W * (narrow ? 0.86 : 1.25);
     const fitW = narrow ? CARD_W * 0.86 / 0.8 : span, fitH = narrow ? 6 : 6.4;
     this.fitDist = Math.max(fitH / 2 / (t * availH), fitW / 2 / (t * this.camera.aspect * availW));
-    this.offTo = narrow ? { x: 0, y: 0.06 } : { x: 0.02, y: -0.06 };
+    this.offTo = narrow ? { x: 0, y: -0.02 } : { x: -0.035, y: -0.06 };
     if (!this.off) this.off = { x: this.offTo.x, y: this.offTo.y };
     this.snap = true;
   }
@@ -701,8 +701,9 @@ class ThreeView {
     let target, dist, elev;
     const close = this.focusNode || this.narrow;
     if (close) {
-      target = new THREE.Vector3(0, 0.25, r);
-      const want = (CARD_W * (this.narrow ? 0.86 : 1.25)) / (this.narrow ? 0.8 : 0.42);
+      target = new THREE.Vector3(0, 0.25, r + 0.9);
+      // the lead card is pulled out by 0.9 and scaled by 1.16: frame it at ~30 % of a wide hero
+      const want = (CARD_W * (this.narrow ? 0.86 : 1.25) * 1.16) / (this.narrow ? 0.8 : 0.3);
       dist = want / 2 / (Math.tan(fov) * this.camera.aspect);
       elev = this.narrow ? 0.12 : 0.18;
     } else {
@@ -722,7 +723,7 @@ class ThreeView {
     this.camPos.lerp(pos, k1);
     this.camera.position.copy(this.camPos);
     this.camera.lookAt(this.camTarget);
-    const offTo = this.focusNode ? { x: 0.02, y: 0.04 } : this.offTo;
+    const offTo = this.focusNode ? (this.narrow ? { x: 0, y: -0.02 } : { x: -0.06, y: -0.1 }) : this.offTo;
     this.off.x += (offTo.x - this.off.x) * k1;
     this.off.y += (offTo.y - this.off.y) * k1;
     this.camera.setViewOffset(this.w, this.h, this.off.x * this.w, this.off.y * this.h, this.w, this.h);

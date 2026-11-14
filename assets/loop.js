@@ -99,10 +99,17 @@
     this.panel.hidden = false;
     this.place(rect);
   };
+  /* Where the caption goes: a bottom sheet on phones; on wide scenes that ask
+     for it (.cap-docks) a fixed panel outside the 3D area, tied to the object
+     by a thin leader line; otherwise beside the object. */
   Captions.prototype.place = function (rect) {
     var p = this.panel, box = this.root.getBoundingClientRect();
     var sheet = box.width < 640;
+    var docked = !sheet && box.width >= 1000 && this.root.classList.contains('cap-docks');
     p.classList.toggle('is-sheet', sheet);
+    p.classList.toggle('is-docked', docked);
+    if (docked) { this.dock(rect, box); return; }
+    this.leader(null);
     if (sheet || !rect) { p.style.left = ''; p.style.top = ''; return; }
     var pw = p.offsetWidth || 300, ph = p.offsetHeight || 120, gap = 14;
     var x = rect.right + gap;
@@ -113,9 +120,46 @@
     p.style.left = Math.round(x) + 'px';
     p.style.top = Math.round(y) + 'px';
   };
+  Captions.prototype.dock = function (rect, box) {
+    var p = this.panel;
+    var copy = this.root.querySelector('.hero-copy h1 + p, .hero-copy');
+    var top = copy ? copy.getBoundingClientRect().bottom - box.top + 24 : 120;
+    p.style.left = '16px';
+    p.style.top = Math.round(Math.max(96, top)) + 'px';
+    if (!rect) { this.leader(null); return; }
+    var pr = p.getBoundingClientRect();
+    var x1 = pr.right - box.left, y1 = pr.top - box.top + Math.min(40, pr.height / 2);
+    var x2 = rect.left + Math.min(18, rect.width / 2), y2 = rect.top + rect.height / 2;
+    if (x2 < x1 + 12) x2 = rect.right;
+    this.leader('M' + x1.toFixed(1) + ' ' + y1.toFixed(1) + 'C' + (x1 + 60).toFixed(1) + ' ' + y1.toFixed(1) + ' ' +
+                (x2 - 60).toFixed(1) + ' ' + y2.toFixed(1) + ' ' + x2.toFixed(1) + ' ' + y2.toFixed(1), box);
+  };
+  Captions.prototype.leader = function (d, box) {
+    if (!this.lineSvg) {
+      if (!d) return;
+      this.lineSvg = document.createElementNS(SVGNS, 'svg');
+      this.lineSvg.setAttribute('class', 'cap-leader');
+      this.lineSvg.setAttribute('aria-hidden', 'true');
+      this.linePath = document.createElementNS(SVGNS, 'path');
+      this.lineDot = document.createElementNS(SVGNS, 'circle');
+      this.lineDot.setAttribute('r', '3');
+      this.lineSvg.appendChild(this.linePath);
+      this.lineSvg.appendChild(this.lineDot);
+      this.root.appendChild(this.lineSvg);
+    }
+    this.lineSvg.style.display = d ? '' : 'none';
+    if (!d) return;
+    this.lineSvg.setAttribute('width', Math.round(box.width));
+    this.lineSvg.setAttribute('height', Math.round(box.height));
+    this.linePath.setAttribute('d', d);
+    var end = d.split(' ').slice(-2);
+    this.lineDot.setAttribute('cx', end[0]);
+    this.lineDot.setAttribute('cy', end[1]);
+  };
   Captions.prototype.hide = function () {
     this.panel.hidden = true;
     this.pinned = false;
+    this.leader(null);
   };
 
   /* Wire plain HTML objects (como-funciona cards) to a caption panel.
@@ -568,8 +612,10 @@
     }
     this.tweens = keep;
     if (this.view) this.view.frame(dt, this.t, this.elapsed);
-    if (this.selection && this.selection.kind === 'edge' && this.captions.pinned && this.view.tracksEdges) {
-      this.captions.place(this.anchor('edge', this.selection.id));
+    // the 3D objects move (carousel, packets): keep the caption and its leader on them
+    var shown = this.selection || this.hovered;
+    if (shown && !this.captions.panel.hidden && this.view.tracksEdges) {
+      this.captions.place(this.anchor(shown.kind, shown.id));
     }
     if (this.t >= this.duration) {
       for (i = 0; i < this.tweens.length; i++) this.tweens[i].set(this.tweens[i].to);
