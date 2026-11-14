@@ -3,3 +3,4 @@ downloads/
 .wrangler/
 .env
 .env.*
+dropbox/
