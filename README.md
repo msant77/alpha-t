@@ -10,12 +10,13 @@ The product source lives elsewhere; this repo holds only public content.
 |------|--------|
 | `index.html` | alphatester.app (landing) |
 | `como-funciona/index.html` | alphatester.app/como-funciona/ (how it works, one live scene per step) |
-| `assets/` | styles, scripts, fonts, vendored libraries and client logos shared by the two pages above |
+| `precos/index.html` | alphatester.app/precos/ (pricing: plans and credits) |
+| `assets/` | styles, scripts, fonts, vendored libraries and client logos shared by the pages above |
 | `apps/index.html` | apps.alphatester.app (apps & downloads) |
 
 The landing and "Como funciona" use root-relative paths (`/assets/…`,
-`/como-funciona/`), so their deploy must carry `assets/` and
-`como-funciona/` next to `index.html`. No build step.
+`/como-funciona/`), so their deploy must carry `assets/`, `como-funciona/`,
+`precos/`, `en/` and `es/` next to `index.html`. No build step.
 
 ## Scenes
 
@@ -50,7 +51,7 @@ node scripts/i18n-pages.mjs   # rewrites en/ and es/ entry pages from the pt-BR 
                               # and copies the locale files into apps/ (its own site root)
 ```
 
-Run `i18n-pages.mjs` after editing `index.html`, `como-funciona/` or a
+Run `i18n-pages.mjs` after editing `index.html`, `como-funciona/`, `precos/` or a
 locale file, and commit its output. The generated pages under `en/` and
 `es/` are never edited by hand. The apps privacy page stays pt-BR.
 

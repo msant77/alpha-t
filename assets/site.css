@@ -566,12 +566,16 @@ h2 .badge { margin-left: 6px; }
 }
 .client strong { display: block; font-family: var(--font-display); font-size: 19px; line-height: 1.1; color: var(--on-card); }
 .client-url { display: block; font: 12px/1.4 var(--font-mono); color: var(--gold-on-card); overflow-wrap: anywhere; }
+.precos-intro { padding: 48px 0 8px; }
+.precos-intro h1 .badge { font-size: 13px; }
+main .precos-plans { border-top: 0; padding-top: 16px; }
+.plan-name { font-size: 1.5rem; margin: 0; color: var(--on-card); }
 .plans { margin: 20px 0 16px; }
 .plan { display: flex; flex-direction: column; }
 .plan ul { padding-left: 20px; margin: 0 0 16px; }
 .plan li { margin: 4px 0; }
 .plan-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 6px; }
-.plan-head h3 { margin: 0; margin-right: auto; color: var(--on-card); }
+.plan-head h3, .plan-head .plan-name { margin: 0; margin-right: auto; color: var(--on-card); }
 .plan-price { font-family: var(--font-display); font-size: 1.6rem; font-weight: 600; color: var(--gold-on-card); line-height: 1.15; }
 .plan-cta { margin-top: auto; align-self: flex-start; }
 .credits h3 { margin-bottom: 8px; color: var(--on-card); }

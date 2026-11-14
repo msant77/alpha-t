@@ -44,7 +44,7 @@
     <a class="brand" href="/" data-href="home">ALPHA TESTER</a>
     <nav class="site-nav" aria-label="Principal" data-i18n-attr="aria-label:common.nav.main">
       <a href="/como-funciona/" data-href="como" data-i18n="common.nav.como">Como funciona</a>
-      <a href="/#precos" data-href="precos" data-i18n="common.nav.precos">Preços</a>
+      <a href="/precos/" data-href="precos" data-i18n="common.nav.precos">Preços</a>
     </nav>
     <div class="header-actions">
       <div class="lang-switch" role="group" aria-label="Idioma" data-i18n-attr="aria-label:common.lang.label">
@@ -107,76 +107,6 @@
     </div>
   </section>
 
-  <section id="precos" class="below" aria-labelledby="precos-titulo">
-    <div class="wrap">
-      <p class="eyebrow" data-i18n="home.pricing.eyebrow">Planos</p>
-      <h2 id="precos-titulo"><span data-i18n="home.pricing.title">Preços</span> <span class="badge soon" data-i18n="common.soon">em breve</span></h2>
-      <p class="small-print"><strong data-i18n="home.pricing.noteLabel">Valores em proposta:</strong> <span data-i18n="home.pricing.note">podem mudar antes do lançamento.</span></p>
-      <p class="lead" data-i18n="home.pricing.lead">Você paga a plataforma por mês e a IA pelo que usar: custo do modelo mais uma taxa transparente, debitado de créditos da sua empresa. Sem surpresa na fatura.</p>
-      <div class="grid three plans">
-        <article class="card plan">
-          <div class="plan-head"><h3 data-i18n="home.pricing.plans.feedback.name">Somente feedback</h3><span class="badge soon" data-i18n="common.soon">em breve</span></div>
-          <p class="plan-price" data-i18n="home.pricing.plans.feedback.price">A partir de R$ 29/mês</p>
-          <p data-i18n="home.pricing.plans.feedback.desc">Widget com contexto (elemento marcado, captura de tela, erros do console, fila offline) e painel para acompanhar tudo.</p>
-          <ul>
-            <li data-i18n="home.pricing.plans.feedback.items.0">Pacotes de 100, 500 ou 2.000 feedbacks por mês (R$ 29, R$ 79, R$ 199)</li>
-            <li data-i18n="home.pricing.plans.feedback.items.1">Até 3 projetos e 5 assentos</li>
-            <li data-i18n="home.pricing.plans.feedback.items.2">Anexos guardados por 30 dias</li>
-          </ul>
-          <button type="button" class="btn plan-cta" aria-disabled="true" title="em breve" data-i18n="common.soonButton" data-i18n-attr="title:common.soon">Em breve</button>
-        </article>
-        <article class="card plan">
-          <div class="plan-head"><h3 data-i18n="home.pricing.plans.noAgent.name">Sem agente</h3><span class="badge soon" data-i18n="common.soon">em breve</span></div>
-          <p class="plan-price" data-i18n="home.pricing.plans.noAgent.price">R$ 99/mês · R$ 149/mês com GitHub</p>
-          <p data-i18n="home.pricing.plans.noAgent.desc">Triagem manual no painel, status para quem relatou, CLI e servidor MCP.</p>
-          <ul>
-            <li data-i18n="home.pricing.plans.noAgent.items.0">1.000 feedbacks por mês, 5 projetos, 5 assentos</li>
-            <li data-i18n="home.pricing.plans.noAgent.items.1">Com GitHub: crie a issue direto do feedback, com link e rótulos</li>
-            <li data-i18n="home.pricing.plans.noAgent.items.2">Anexos guardados por 90 dias</li>
-          </ul>
-          <button type="button" class="btn plan-cta" aria-disabled="true" title="em breve" data-i18n="common.soonButton" data-i18n-attr="title:common.soon">Em breve</button>
-        </article>
-        <article class="card plan">
-          <div class="plan-head"><h3 data-i18n="home.pricing.plans.triage.name">Agente de triagem</h3><span class="badge soon" data-i18n="common.soon">em breve</span></div>
-          <p class="plan-price" data-i18n="home.pricing.plans.triage.price">R$ 149/mês + pacote de triagens a partir de R$ 50</p>
-          <p data-i18n="home.pricing.plans.triage.desc">A IA filtra conteúdo malicioso, encontra duplicados, classifica, estima o esforço e abre a issue no GitHub.</p>
-          <ul>
-            <li data-i18n="home.pricing.plans.triage.items.0">Pacotes de R$ 50, R$ 150 ou R$ 450 (cerca de 160, 500 ou 1.550 triagens)</li>
-            <li data-i18n="home.pricing.plans.triage.items.1">2.000 feedbacks por mês, 10 projetos, 10 assentos</li>
-            <li data-i18n="home.pricing.plans.triage.items.2">Anexos guardados por 180 dias</li>
-          </ul>
-          <button type="button" class="btn plan-cta" aria-disabled="true" title="em breve" data-i18n="common.soonButton" data-i18n-attr="title:common.soon">Em breve</button>
-        </article>
-        <article class="card plan">
-          <div class="plan-head"><h3 data-i18n="home.pricing.plans.implementer.name">Agente implementador</h3><span class="badge soon" data-i18n="common.soon">em breve</span></div>
-          <p class="plan-price" data-i18n="home.pricing.plans.implementer.price">R$ 149/mês + pacote de jobs a partir de R$ 200</p>
-          <p data-i18n="home.pricing.plans.implementer.desc">A IA lê a issue e o código, faz a alteração, roda as verificações e abre um pull request em rascunho para o seu time revisar.</p>
-          <ul>
-            <li data-i18n="home.pricing.plans.implementer.items.0">Pacotes de R$ 200, R$ 600 ou R$ 1.800 (cerca de 11, 36 ou 112 PRs de porte médio)</li>
-            <li data-i18n="home.pricing.plans.implementer.items.1">Cada job começa só depois da sua aprovação</li>
-            <li data-i18n="home.pricing.plans.implementer.items.2">2.000 feedbacks por mês, 10 projetos, 10 assentos</li>
-          </ul>
-          <button type="button" class="btn plan-cta" aria-disabled="true" title="em breve" data-i18n="common.soonButton" data-i18n-attr="title:common.soon">Em breve</button>
-        </article>
-        <article class="card plan">
-          <div class="plan-head"><h3 data-i18n="home.pricing.plans.both.name">Ciclo completo · os dois agentes</h3><span class="badge soon" data-i18n="common.soon">em breve</span></div>
-          <p class="plan-price" data-i18n="home.pricing.plans.both.price">R$ 149/mês + pacote a partir de R$ 300</p>
-          <p data-i18n="home.pricing.plans.both.desc">Do feedback ao pull request: triagem e implementação na mesma carteira de créditos.</p>
-          <ul>
-            <li data-i18n="home.pricing.plans.both.items.0">Pacotes de R$ 300, R$ 900 ou R$ 2.400</li>
-            <li data-i18n="home.pricing.plans.both.items.1">5.000 feedbacks por mês, 20 projetos, 15 assentos</li>
-            <li data-i18n="home.pricing.plans.both.items.2">Anexos guardados por 1 ano</li>
-          </ul>
-          <button type="button" class="btn plan-cta" aria-disabled="true" title="em breve" data-i18n="common.soonButton" data-i18n-attr="title:common.soon">Em breve</button>
-        </article>
-        <div class="card credits">
-          <h3 data-i18n="home.pricing.credits.title">Como funcionam os créditos</h3>
-          <p data-i18n="home.pricing.credits.text">Cada execução de agente debita o custo real do modelo de IA mais uma taxa de 30 % a 40 %, conforme o pacote. As quantidades acima são estimativas para execuções típicas; você acompanha cada débito no extrato. Créditos não usados passam para o mês seguinte. Você define um limite diário por projeto, e o agente para quando o saldo acaba, sem cobrança extra.</p>
-          <p data-i18n="home.pricing.credits.annual">Pagamento anual: 2 meses grátis na assinatura.</p>
-        </div>
-      </div>
-    </div>
-  </section>
 </main>
 
 <footer class="site-footer">
@@ -184,6 +114,7 @@
     <p data-i18n="common.footer">Alpha Tester · alphatester.app</p>
     <nav aria-label="Rodapé" data-i18n-attr="aria-label:common.nav.footer">
       <a href="/como-funciona/" data-href="como" data-i18n="common.nav.como">Como funciona</a>
+      <a href="/precos/" data-href="precos" data-i18n="common.nav.precos">Preços</a>
       <a href="https://github.com/msant77/alpha-t">GitHub</a>
     </nav>
   </div>

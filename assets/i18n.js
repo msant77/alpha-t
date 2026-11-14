@@ -76,7 +76,7 @@
     var pre = loc === 'pt-BR' ? '' : '/' + loc;
     if (name === 'home') return origin + pre + '/';
     if (name === 'como') return origin + pre + '/como-funciona/';
-    if (name === 'precos') return origin + pre + '/#precos';
+    if (name === 'precos') return origin + pre + '/precos/';
     if (name === 'apps') return 'https://apps.alphatester.app/' + (loc === 'pt-BR' ? '' : '?lang=' + loc);
     return null;
   }
