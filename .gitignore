@@ -1,3 +1,5 @@
 downloads/
 .DS_Store
 .wrangler/
+.env
+.env.*
