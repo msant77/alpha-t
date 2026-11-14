@@ -1,7 +1,7 @@
-# Alpha T — public home
+# Alpha Tester — public home
 
-Public face of **Alpha T** (alphatester.app): the landing page, the apps
-distribution page, and the release assets for apps distributed with Alpha T.
+Public face of **Alpha Tester** (alphatester.app): the landing page, the apps
+distribution page, and the release assets for apps distributed with Alpha Tester.
 The product source lives elsewhere; this repo holds only public content.
 
 ## Layout
