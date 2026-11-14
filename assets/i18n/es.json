@@ -1167,7 +1167,8 @@
           "title": "Clon superficial",
           "lines": [
             "Solo la rama principal, en una carpeta temporal que se borra al final; por encima de 50 MB, no clona.",
-            "Nada del repositorio se ejecuta."
+            "Nada del repositorio se ejecuta.",
+            "Cada ejecución del agente se ensaya contra un repositorio simulado antes de tocar el tuyo; la propia suite de pruebas de Alpha Tester nunca escribe en un repositorio real."
           ]
         },
         "diff": {
@@ -1195,7 +1196,8 @@
         "aprobar el job",
         "clon superficial",
         "editar archivos estáticos",
-        "verificar HTML y enlaces"
+        "verificar HTML y enlaces",
+        "repositorio simulado ✓"
       ]
     },
     "revisao": {

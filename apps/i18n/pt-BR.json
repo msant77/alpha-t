@@ -1167,7 +1167,8 @@
           "title": "Clone raso",
           "lines": [
             "Só o branch padrão, numa pasta temporária apagada no fim; acima de 50 MB, não clona.",
-            "Nada do repositório é executado."
+            "Nada do repositório é executado.",
+            "Cada execução do agente é ensaiada contra um repositório simulado antes de tocar no seu; a própria suíte de testes do Alpha Tester nunca grava em um repositório real."
           ]
         },
         "diff": {
@@ -1195,7 +1196,8 @@
         "aprovar o job",
         "clone raso",
         "editar arquivos estáticos",
-        "verificar HTML e links"
+        "verificar HTML e links",
+        "repositório simulado ✓"
       ]
     },
     "revisao": {

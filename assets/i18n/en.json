@@ -1167,7 +1167,8 @@
           "title": "Shallow clone",
           "lines": [
             "Only the default branch, in a temporary folder deleted at the end; above 50 MB, no clone.",
-            "Nothing from the repository is executed."
+            "Nothing from the repository is executed.",
+            "Every agent run is rehearsed against a simulated repository before it touches yours; Alpha Tester's own test suite never writes to a real repository."
           ]
         },
         "diff": {
@@ -1195,7 +1196,8 @@
         "approve the job",
         "shallow clone",
         "edit static files",
-        "check HTML and links"
+        "check HTML and links",
+        "simulated repository ✓"
       ]
     },
     "revisao": {
