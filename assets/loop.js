@@ -926,6 +926,8 @@
     DomView: DomView,
     Captions: Captions,
     ease: ease,
+    makeBot: makeBot,
+    moveBot: moveBot,
     reduced: reduced,
     coarse: coarse,
     registerView: function (Ctor) {

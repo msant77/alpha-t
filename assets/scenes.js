@@ -180,3 +180,91 @@ window.AlphaScenes.hero = {
       log: { n: 'widget', text: 'status “Entregue” para quem reportou' } }
   ]
 };
+
+/*
+ * "Como funciona": one card per step. caps = the caption of each object in
+ * the card (data-cap="id" in como-funciona/index.html); log = the card's task
+ * log, typed in order while its micro-animation plays.
+ */
+window.AlphaScenes.como = {
+  widget: {
+    caps: {
+      fab: { title: 'Botão de feedback', lines: ['Um botão no seu app web: tipo (bug, melhoria, sugestão), título e descrição.', 'Tag script ou import ESM, com a chave pública at_pub_.'] },
+      captura: { title: 'Captura', lines: ['Marque elementos, recorte uma região ou capture a página inteira.', 'Anexos PNG, JPEG, WebP, GIF ou PDF, até 5 MB.'] },
+      console: { title: 'Console', lines: ['Erros do console, erros não tratados e promessas rejeitadas vão junto do relato.'] },
+      ambiente: { title: 'Ambiente', lines: ['Página, elemento marcado e posição, navegador, tamanho da janela e horário.'] },
+      fila: { title: 'Sem conexão', lines: ['O relato espera numa fila no navegador e sai quando a conexão volta, sem duplicar.'] }
+    },
+    log: ['abrir o widget', 'marcar a região', 'anexar o console', 'enviar com contexto']
+  },
+  painel: {
+    caps: {
+      org: { title: 'Empresas e projetos', lines: ['Cada empresa tem seus projetos; cada projeto, membros com papéis owner, admin, editor e viewer.'] },
+      lista: { title: 'Feedback', lines: ['Filtros por status, tipo e prioridade; mudança de status com histórico e notas internas.'] },
+      anexos: { title: 'Anexos', lines: ['Guardados em armazenamento privado, abertos no painel e na issue por links assinados.'] },
+      chaves: { title: 'Chaves de API', lines: ['Pública para o widget, secreta para servidor e terminal.', 'Aparecem uma vez e podem ser revogadas na hora.'] },
+      tracker: { title: 'Meus feedbacks', lines: ['Quem reportou acompanha: Enviado, Em análise, Em andamento, Resolvido, Entregue.', 'Sem login: o vínculo fica no navegador.'] }
+    },
+    log: ['receber o feedback', 'guardar a captura', 'mover para triado', 'avisar quem reportou']
+  },
+  triagem: {
+    caps: {
+      seguranca: { title: 'Triagem de segurança', lines: ['O texto de quem testa é dado, nunca instrução.', 'Sem veredito limpo, não há issue.'] },
+      duplicados: { title: 'Duplicados', lines: ['Compara com feedbacks e issues abertas do projeto, até em outro idioma.', 'Um repetido vira +1 na issue original.'] },
+      etiquetas: { title: 'Tipo e tamanho', lines: ['Etiquetas alpha-t, type:… e size:…', 'Cria as que faltam, nunca altera as que já existem.'] },
+      orcamento: { title: 'Orçamento por projeto', lines: ['Um teto diário para tudo o que o agente gasta no projeto, com chave própria cifrada.', 'No teto, o feedback espera o dia seguinte; os outros projetos seguem.'] },
+      privacidade: { title: 'Sem dados pessoais', lines: ['O agente nunca lê o nome nem o e-mail de quem reportou.'] }
+    },
+    log: ['triagem de segurança', 'procurar duplicados', 'classificar e estimar', 'abrir a issue']
+  },
+  github: {
+    caps: {
+      token: { title: 'Um token por projeto', lines: ['Fine-grained, restrito a um repositório: Metadata e Issues.', 'Contents e Pull requests só para o implementador; Workflows nunca.'] },
+      cifrado: { title: 'Guardado cifrado', lines: ['Cifrado ao salvar e nunca devolvido ao navegador: o painel mostra só os quatro últimos caracteres.'] },
+      criar: { title: 'Criar issue', lines: ['À mão em cada feedback, ou automática quando o feedback é aceito.', 'Uma issue por feedback.'] },
+      corpo: { title: 'Corpo da issue', lines: ['Tipo, prioridade, página, descrição, anexos e ambiente, com as etiquetas do projeto.', 'Num repositório público, a issue também é pública.'] },
+      autor: { title: 'Autor', lines: ['Issues e PRs saem em nome da conta que criou o token; uma conta dedicada à automação evita nomes pessoais.'] }
+    },
+    log: ['ler o token cifrado', 'montar o corpo', 'aplicar etiquetas', 'issue #42 aberta']
+  },
+  implementador: {
+    caps: {
+      aprovacao: { title: 'Aprovação no painel', lines: ['Só um owner ou admin inicia, num feedback aceito que já tem issue.', 'Nem etiqueta nem agendamento disparam um job.'] },
+      clone: { title: 'Clone raso', lines: ['Só o branch padrão, numa pasta temporária apagada no fim; acima de 50 MB, não clona.', 'Nada do repositório é executado.'] },
+      diff: { title: 'O que pode mudar', lines: ['Na primeira versão, conteúdo estático: HTML, CSS, textos e imagens, em issues de tamanho S.', 'Nunca código, build, CI ou scripts novos.'] },
+      verificacoes: { title: 'Verificações', lines: ['HTML válido nos arquivos alterados e nenhum link interno quebrado; até três rodadas.'] },
+      custo: { title: 'Limite de custo', lines: ['Para no limite do job ou no orçamento do dia, o que vier primeiro; prazo de 15 minutos.', 'Chave do próprio projeto: sem chave, sem execução.'] }
+    },
+    log: ['aprovar o job', 'clone raso', 'editar arquivos estáticos', 'verificar HTML e links']
+  },
+  revisao: {
+    caps: {
+      pr: { title: 'PR em rascunho', lines: ['Um por job, num branch próprio; nunca no branch padrão, nunca com push forçado.'] },
+      merge: { title: 'Merge', lines: ['Sempre do seu time: o Alpha Tester nunca faz merge.'] },
+      falha: { title: 'Se falhar', lines: ['Nenhum PR; um comentário na issue com o motivo, e os detalhes só no painel.'] },
+      entregue: { title: 'Entregue', lines: ['Quem reportou vê o status mudar no widget.'] }
+    },
+    log: ['push do branch', 'abrir PR em rascunho', 'revisão do seu time', 'status: Entregue']
+  },
+  terminal: {
+    caps: {
+      cli: { title: 'at', lines: ['feedback list, show, set e issue.', 'Nunca imprime a chave, só fala HTTPS e não segue redirecionamentos.'] },
+      chave: { title: 'Chave secreta do projeto', lines: ['at_sec_…, criada no painel por um admin, mostrada uma vez, revogável na hora.', 'Nunca numa página web ou num repositório.'] },
+      escopos: { title: 'Escopos', lines: ['ingest só envia feedback.', 'manage age como editor do projeto e nunca gerencia chaves, membros ou o GitHub.'] },
+      niveis: { title: 'Níveis do MCP', lines: ['T0 lê, T1 anota, T2 propõe mudanças de status e abre a issue.', 'Acima do nível máximo, a ferramenta nem aparece.'] },
+      auditoria: { title: 'Auditoria', lines: ['Cada escrita fica num registro local.', 'Nenhuma ferramenta devolve quem reportou; o texto de quem testa chega marcado como dado.'] }
+    },
+    log: ['configurar a chave', 'listar feedback novo', 'chamar ferramentas MCP', 'registrar a escrita']
+  },
+  seguranca: {
+    caps: {
+      fora: { title: 'Fora do Alpha Tester', lines: ['A chave pública só envia feedback; a secreta fica em servidores e terminais.'] },
+      cofre: { title: 'Chaves cifradas', lines: ['Tokens do GitHub e chaves de modelo cifrados (AES-256-GCM) e nunca devolvidos.', 'Chaves de API guardadas só como hash.'] },
+      empresas: { title: 'Dados por empresa', lines: ['Cada consulta é filtrada pelo projeto da chave ou pelo papel no painel.', 'Nada é compartilhado entre clientes.'] },
+      identidade: { title: 'Quem reporta', lines: ['Agentes e servidor MCP nunca leem nem devolvem nome ou e-mail.'] },
+      limites: { title: 'Limites', lines: ['Taxa de requisições por chave e verificação em duas etapas no painel.'] },
+      repo: { title: 'GitHub', lines: ['Alcançado só com o token daquele projeto, limitado a um repositório; mudanças em workflows ficam com pessoas.'] }
+    },
+    log: ['validar a chave', 'cifrar o token', 'filtrar por empresa', 'ocultar identidade']
+  }
+};
