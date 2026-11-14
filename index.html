@@ -3,84 +3,156 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Alpha T — feedback com contexto, de dentro do app</title>
-<meta name="description" content="Alpha T: widget de feedback embutido para apps em teste — capturas por região, triagem e acompanhamento para quem reportou.">
-<style>
-  :root {
-    --bg: #f6f7fb; --card: #ffffff; --text: #1b1e28; --muted: #5b6172;
-    --accent: #1d4ed8; --accent-text: #ffffff; --border: #e3e6ef;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #12141c; --card: #1b1e28; --text: #e9ebf2; --muted: #9aa1b5;
-      --accent: #4c6ef5; --accent-text: #ffffff; --border: #2a2e3d;
-    }
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0; background: var(--bg); color: var(--text);
-    font: 16px/1.65 -apple-system, "Segoe UI", Roboto, Ubuntu, sans-serif;
-  }
-  .wrap { max-width: 680px; margin: 0 auto; padding: 64px 20px; }
-  .brand {
-    display: inline-block; font-weight: 800; letter-spacing: .04em;
-    color: var(--accent); border: 2px solid var(--accent);
-    border-radius: 10px; padding: 4px 14px; font-size: 18px;
-  }
-  h1 { margin: 20px 0 8px; font-size: 34px; line-height: 1.2; }
-  .tagline { margin: 0 0 36px; color: var(--muted); font-size: 19px; }
-  .card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 14px; padding: 20px 24px; margin-bottom: 16px;
-  }
-  .card h2 { margin: 0 0 6px; font-size: 17px; }
-  .card p { margin: 0; color: var(--muted); font-size: 15px; }
-  .links { margin-top: 32px; display: flex; gap: 12px; flex-wrap: wrap; }
-  .btn {
-    display: inline-block; background: var(--accent); color: var(--accent-text);
-    text-decoration: none; font-weight: 700; padding: 12px 22px;
-    border-radius: 10px;
-  }
-  .btn.ghost {
-    background: transparent; color: var(--accent);
-    border: 2px solid var(--accent);
-  }
-  .status { margin-top: 28px; color: var(--muted); font-size: 14px; }
-  footer { margin-top: 48px; color: var(--muted); font-size: 14px; }
-</style>
+<title>Alpha Tester — feedback com contexto, de dentro do app</title>
+<meta name="description" content="Alpha Tester: widget de feedback para apps em teste. O relato chega com tela, console e ambiente; um agente faz a triagem e abre a issue no GitHub, outro propõe a correção em um PR em rascunho.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#EDE6D6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E3B43" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://alphatester.app/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Alpha Tester">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:url" content="https://alphatester.app/">
+<meta property="og:title" content="Alpha Tester — feedback com contexto, de dentro do app">
+<meta property="og:description" content="Do widget ao PR em rascunho: feedback com contexto, triagem por agente, issue no GitHub e uma pessoa decidindo o merge.">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('alphatester-theme');
+      if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+    } catch (e) { /* storage unavailable: follow the system preference */ }
+  })();
+</script>
+<link rel="stylesheet" href="/assets/site.css">
+<script src="/assets/theme.js" defer></script>
 </head>
 <body>
-<div class="wrap">
-  <span class="brand">ALPHA T</span>
-  <h1>Feedback com contexto, de dentro do app</h1>
-  <p class="tagline">Um widget embutido para apps em fase de teste: quem usa
-  reporta na hora, com captura da região exata da tela — e acompanha o que
-  aconteceu com o que reportou.</p>
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
 
-  <div class="card">
-    <h2>Captura por região</h2>
-    <p>A pessoa marca um retângulo sobre o problema. Sem prints inteiros,
-    sem explicação por mensagem: o contexto vai junto do relato.</p>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/">ALPHA TESTER</a>
+    <nav class="site-nav" aria-label="Principal">
+      <a href="/como-funciona/">Como funciona</a>
+      <a href="https://apps.alphatester.app">Apps</a>
+      <a href="#precos">Preços</a>
+    </nav>
+    <div class="header-actions">
+      <button type="button" class="theme-toggle" data-theme-toggle hidden>
+        <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg><span data-theme-label>Usar tema escuro</span>
+      </button>
+      <button type="button" class="btn small" aria-disabled="true" title="em breve">Entrar</button>
+      <button type="button" class="btn small" aria-disabled="true" title="em breve">Sair</button>
+    </div>
   </div>
-  <div class="card">
-    <h2>Triagem em um só lugar</h2>
-    <p>Bugs, melhorias e sugestões chegam classificados por projeto, com
-    histórico de status e vínculo com issues.</p>
-  </div>
-  <div class="card">
-    <h2>Retorno para quem reportou</h2>
-    <p>Do "Enviado" ao "Entregue": quem contribuiu vê o andamento, como
-    rastreio de encomenda.</p>
-  </div>
+</header>
 
-  <div class="links">
-    <a class="btn" href="https://apps.alphatester.app">Apps distribuídos</a>
-    <a class="btn ghost" href="https://github.com/msant77/alpha-t">GitHub</a>
+<main id="conteudo">
+  <section class="hero" aria-labelledby="hero-titulo">
+    <div class="wrap">
+      <p class="eyebrow">Para apps em fase de teste</p>
+      <h1 id="hero-titulo">Feedback com contexto, de dentro do app</h1>
+      <p class="lead">Quem testa reporta na hora, sem sair do app, e a tela, o
+      console e o ambiente vão junto. Um agente faz a triagem e abre a issue
+      no GitHub; outro propõe a correção em um PR em rascunho; uma pessoa
+      decide o que entra.</p>
+      <p class="loop-line"><strong>O ciclo em uma frase:</strong> o widget
+      captura o feedback com contexto, o agente de triagem o transforma em
+      issue no GitHub e o implementador abre um PR em rascunho para o seu
+      time revisar.</p>
+      <div class="actions">
+        <a class="btn" href="/como-funciona/">Como funciona</a>
+        <a class="btn ghost" href="https://apps.alphatester.app">Apps distribuídos</a>
+        <a class="btn ghost" href="https://github.com/msant77/alpha-t">GitHub</a>
+      </div>
+      <p class="small-print">Em fase piloto com os primeiros clientes. O
+      widget, o painel e as issues no GitHub já funcionam; os agentes, o CLI
+      e o servidor MCP chegam em breve.</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="ciclo-titulo">
+    <div class="wrap">
+      <p class="eyebrow">Do relato ao pull request</p>
+      <h2 id="ciclo-titulo">O ciclo</h2>
+      <ol class="grid three steps">
+        <li class="card step">
+          <div class="step-head"><span class="step-n" aria-hidden="true">1</span><h3>Widget</h3><span class="badge">disponível</span></div>
+          <p>Um botão de feedback no seu app web. Quem testa marca o elemento,
+          recorta a região da tela ou anexa um arquivo.</p>
+        </li>
+        <li class="card step">
+          <div class="step-head"><span class="step-n" aria-hidden="true">2</span><h3>Feedback com contexto</h3><span class="badge">disponível</span></div>
+          <p>Chega ao painel com a página, o navegador, o tamanho da tela e os
+          erros do console. Quem reportou acompanha o andamento, do
+          “Enviado” ao “Entregue”.</p>
+        </li>
+        <li class="card step">
+          <div class="step-head"><span class="step-n" aria-hidden="true">3</span><h3>Agente de triagem</h3><span class="badge soon">em breve</span></div>
+          <p>Barra conteúdo malicioso, encontra duplicados, classifica e
+          estima o tamanho, dentro do orçamento diário do projeto.</p>
+        </li>
+        <li class="card step">
+          <div class="step-head"><span class="step-n" aria-hidden="true">4</span><h3>Issue no GitHub</h3><span class="badge">disponível</span></div>
+          <p>Uma issue por feedback, no repositório do projeto, com etiquetas.
+          Hoje, criada do painel: à mão ou ao aceitar o feedback.</p>
+        </li>
+        <li class="card step">
+          <div class="step-head"><span class="step-n" aria-hidden="true">5</span><h3>Implementador</h3><span class="badge soon">em breve</span></div>
+          <p>Começa só com a aprovação de um owner ou admin. Lê a issue, faz a
+          alteração e roda as verificações, dentro de um limite de custo.</p>
+        </li>
+        <li class="card step">
+          <div class="step-head"><span class="step-n" aria-hidden="true">6</span><h3>PR em rascunho</h3><span class="badge soon">em breve</span></div>
+          <p>Um pull request em rascunho por job. O merge é sempre do seu time:
+          o Alpha Tester nunca faz merge.</p>
+        </li>
+      </ol>
+      <p><a href="/como-funciona/">Ver o ciclo em detalhe, com diagramas →</a></p>
+    </div>
+  </section>
+
+  <section aria-labelledby="fase-titulo">
+    <div class="wrap">
+      <p class="eyebrow">Por que de dentro do app</p>
+      <h2 id="fase-titulo">Feito para a fase de teste</h2>
+      <div class="grid three">
+        <div class="card">
+          <h3>Captura por região</h3>
+          <p>A pessoa marca um retângulo sobre o problema. Sem prints
+          inteiros, sem explicação por mensagem: o contexto vai junto do
+          relato.</p>
+        </div>
+        <div class="card">
+          <h3>Triagem em um só lugar</h3>
+          <p>Bugs, melhorias e sugestões chegam por projeto, com histórico de
+          status e vínculo com issues.</p>
+        </div>
+        <div class="card">
+          <h3>Retorno para quem reportou</h3>
+          <p>Do “Enviado” ao “Entregue”: quem contribuiu vê o andamento, como
+          rastreio de encomenda.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- clientes -->
+
+  <!-- preços -->
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Alpha Tester · alphatester.app</p>
+    <nav aria-label="Rodapé">
+      <a href="/como-funciona/">Como funciona</a>
+      <a href="https://apps.alphatester.app">Apps</a>
+      <a href="https://github.com/msant77/alpha-t">GitHub</a>
+    </nav>
   </div>
-
-  <p class="status">Em preparação para os primeiros projetos-piloto.</p>
-
-  <footer>Alpha T · alphatester.app</footer>
-</div>
+</footer>
 </body>
 </html>
