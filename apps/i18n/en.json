@@ -190,7 +190,8 @@
         },
         "cap": [
           "The tester marks a region and the report carries the screen, the console and the environment.",
-          "Public key: it only sends feedback. Offline, it waits in the browser's queue."
+          "Public key: it only sends feedback. Offline, it waits in the browser's queue.",
+          "SDKs available for the web and Flutter."
         ]
       },
       "painel": {
@@ -485,7 +486,8 @@
         "short": "widget",
         "sub": "from the widget",
         "cap": [
-          "The tester reports from inside the app, with screen, console and environment."
+          "The tester reports from inside the app, with screen, console and environment.",
+          "SDKs available for the web and Flutter."
         ]
       },
       "ev-acc": {
@@ -911,7 +913,7 @@
           "title": "Feedback button",
           "lines": [
             "A button in your web app: type (bug, improvement, suggestion), title and description.",
-            "Script tag or ESM import, with the public key at_pub_."
+            "SDKs available: web (script tag or ESM import, with the public key at_pub_) and Flutter."
           ]
         },
         "captura": {

@@ -190,7 +190,8 @@
         },
         "cap": [
           "Quem testa marca a região e o relato leva a tela, o console e o ambiente.",
-          "Chave pública: só envia feedback. Sem conexão, espera na fila do navegador."
+          "Chave pública: só envia feedback. Sem conexão, espera na fila do navegador.",
+          "SDKs disponíveis para web e Flutter."
         ]
       },
       "painel": {
@@ -485,7 +486,8 @@
         "short": "widget",
         "sub": "pelo widget",
         "cap": [
-          "Quem testa envia o relato de dentro do app, com tela, console e ambiente."
+          "Quem testa envia o relato de dentro do app, com tela, console e ambiente.",
+          "SDKs disponíveis para web e Flutter."
         ]
       },
       "ev-acc": {
@@ -911,7 +913,7 @@
           "title": "Botão de feedback",
           "lines": [
             "Um botão no seu app web: tipo (bug, melhoria, sugestão), título e descrição.",
-            "Tag script ou import ESM, com a chave pública at_pub_."
+            "SDKs disponíveis: web (tag script ou import ESM, com a chave pública at_pub_) e Flutter."
           ]
         },
         "captura": {

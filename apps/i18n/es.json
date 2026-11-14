@@ -190,7 +190,8 @@
         },
         "cap": [
           "Quien prueba marca la región y el reporte lleva la pantalla, la consola y el entorno.",
-          "Clave pública: solo envía feedback. Sin conexión, espera en la cola del navegador."
+          "Clave pública: solo envía feedback. Sin conexión, espera en la cola del navegador.",
+          "SDK disponibles para web y Flutter."
         ]
       },
       "painel": {
@@ -485,7 +486,8 @@
         "short": "widget",
         "sub": "desde el widget",
         "cap": [
-          "Quien prueba reporta desde dentro de la app, con pantalla, consola y entorno."
+          "Quien prueba reporta desde dentro de la app, con pantalla, consola y entorno.",
+          "SDK disponibles para web y Flutter."
         ]
       },
       "ev-acc": {
@@ -911,7 +913,7 @@
           "title": "Botón de feedback",
           "lines": [
             "Un botón en la app web: tipo (bug, mejora, sugerencia), título y descripción.",
-            "Etiqueta script o import ESM, con la clave pública at_pub_."
+            "SDK disponibles: web (etiqueta script o import ESM, con la clave pública at_pub_) y Flutter."
           ]
         },
         "captura": {
