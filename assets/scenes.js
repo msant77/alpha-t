@@ -43,7 +43,7 @@ window.AlphaScenes.hero = {
     issueNo: { value: 41 },
     prs: { value: 2 },
     prNo: { value: 17 },
-    custo: { value: 1.12, fmt: 'brl' },
+    custo: { value: 1.12, fmt: 'money' },
     aprovacoes: { value: 2 },
     entregues: { value: 3 }
   },

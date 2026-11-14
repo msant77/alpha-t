@@ -24,6 +24,12 @@
       "description": "Planos do Alpha Tester em proposta: somente feedback, sem agente, agente de triagem, agente implementador e o ciclo completo, com créditos para a IA.",
       "ogTitle": "Preços — Alpha Tester",
       "ogDescription": "Planos em proposta: a plataforma por mês e a IA pelo que usar, com créditos e limite diário por projeto."
+    },
+    "currency": {
+      "code": "BRL",
+      "symbol": "R$",
+      "decimal": ",",
+      "note": "Preços em reais. Em inglês e espanhol: dólares convertidos pela PTAX do BCB de 13/11/2026 (1 USD = 5,6518 BRL), arredondados para valores terminados em 9."
     }
   },
   "common": {

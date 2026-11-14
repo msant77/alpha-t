@@ -24,6 +24,12 @@
       "description": "Planes propuestos de Alpha Tester: solo feedback, sin agente, agente de triaje, agente implementador y el ciclo completo, con créditos para la IA.",
       "ogTitle": "Precios — Alpha Tester",
       "ogDescription": "Planes propuestos: la plataforma por mes y la IA según el uso, con créditos y límite diario por proyecto."
+    },
+    "currency": {
+      "code": "USD",
+      "symbol": "US$",
+      "decimal": ",",
+      "note": "Precios en dólares, convertidos de los precios propuestos en reales con la tasa PTAX del Banco Central de Brasil del 13/11/2026 (1 USD = 5,6518 BRL) y redondeados a valores terminados en 9."
     }
   },
   "common": {
@@ -100,17 +106,17 @@
     "plans": {
       "feedback": {
         "name": "Solo feedback",
-        "price": "Desde R$ 29/mes",
+        "price": "Desde US$ 9/mes",
         "desc": "Widget con contexto (elemento marcado, captura de pantalla, errores de consola, cola sin conexión) y un panel para seguirlo todo.",
         "items": [
-          "Paquetes de 100, 500 o 2.000 feedbacks por mes (R$ 29, R$ 79, R$ 199)",
+          "Paquetes de 100, 500 o 2.000 feedbacks por mes (US$ 9, US$ 19, US$ 39)",
           "Hasta 3 proyectos y 5 asientos",
           "Adjuntos guardados por 30 días"
         ]
       },
       "noAgent": {
         "name": "Sin agente",
-        "price": "R$ 99/mes · R$ 149/mes con GitHub",
+        "price": "US$ 19/mes · US$ 29/mes con GitHub",
         "desc": "Triaje manual en el panel, estado para quien reportó, CLI y servidor MCP.",
         "items": [
           "1.000 feedbacks por mes, 5 proyectos, 5 asientos",
@@ -120,30 +126,30 @@
       },
       "triage": {
         "name": "Agente de triaje",
-        "price": "R$ 149/mes + paquete de triajes desde R$ 50",
+        "price": "US$ 29/mes + paquete de triajes desde US$ 9",
         "desc": "La IA filtra contenido malicioso, encuentra duplicados, clasifica, estima el esfuerzo y abre el issue en GitHub.",
         "items": [
-          "Paquetes de R$ 50, R$ 150 o R$ 450 (cerca de 160, 500 o 1.550 triajes)",
+          "Paquetes de US$ 9, US$ 29 o US$ 79 (cerca de 160, 500 o 1.550 triajes)",
           "2.000 feedbacks por mes, 10 proyectos, 10 asientos",
           "Adjuntos guardados por 180 días"
         ]
       },
       "implementer": {
         "name": "Agente implementador",
-        "price": "R$ 149/mes + paquete de jobs desde R$ 200",
+        "price": "US$ 29/mes + paquete de jobs desde US$ 39",
         "desc": "La IA lee el issue y el código, hace el cambio, corre las verificaciones y abre un pull request en borrador para que el equipo lo revise.",
         "items": [
-          "Paquetes de R$ 200, R$ 600 o R$ 1.800 (cerca de 11, 36 o 112 PRs de tamaño medio)",
+          "Paquetes de US$ 39, US$ 109 o US$ 319 (cerca de 11, 36 o 112 PRs de tamaño medio)",
           "Cada job empieza solo después de una aprobación",
           "2.000 feedbacks por mes, 10 proyectos, 10 asientos"
         ]
       },
       "both": {
         "name": "Ciclo completo · los dos agentes",
-        "price": "R$ 149/mes + paquete desde R$ 300",
+        "price": "US$ 29/mes + paquete desde US$ 49",
         "desc": "Del feedback al pull request: triaje e implementación con la misma cartera de créditos.",
         "items": [
-          "Paquetes de R$ 300, R$ 900 o R$ 2.400",
+          "Paquetes de US$ 49, US$ 159 o US$ 429",
           "5.000 feedbacks por mes, 20 proyectos, 15 asientos",
           "Adjuntos guardados por 1 año"
         ]
@@ -372,14 +378,14 @@
       "p2": "webhook firmado → agente de triaje",
       "t1": "seguridad: veredicto limpio",
       "t2": "duplicados: ninguno en 20 issues abiertos",
-      "t3": "type:bug · size:S · R$ 0,04",
+      "t3": "type:bug · size:S · US$ 0,04",
       "i1": "issue #{issueNo} abierto · alpha-t, type:bug, size:S",
       "c1": "feedback list --status triaged · 1 ítem",
       "m1": "get_feedback (T0) · sin datos de quien reportó",
-      "r1": "el owner aprueba el job · límite R$ 2,00",
+      "r1": "el owner aprueba el job · límite US$ 2,00",
       "x1": "clon superficial de la rama principal · 3,2 MB",
       "x2": "ronda 1/3 · 2 archivos estáticos",
-      "x3": "HTML válido · 0 enlaces rotos · R$ 0,38",
+      "x3": "HTML válido · 0 enlaces rotos · US$ 0,38",
       "pr1": "PR en borrador #{prNo} · alpha-t/issue-{issueNo}",
       "r2": "revisa el diff y las verificaciones",
       "r3": "merge hecho por una persona · deploy",
@@ -399,7 +405,7 @@
       "foot2": "feedback.json",
       "ui": {
         "url": "tienda.ejemplo/checkout",
-        "price": "R$ 189,90",
+        "price": "US$ 34,90",
         "buy": "Finalizar compra",
         "fab": "feedback",
         "formType": "bug",
@@ -534,7 +540,7 @@
         "open": "issues abiertos",
         "dups": "0 duplicados en 20",
         "budget": "presupuesto del día",
-        "budgetValue": "R$ 0,04 de R$ 2,00"
+        "budgetValue": "US$ 0,04 de US$ 2,00"
       },
       "cap": {
         "seguranca": {
@@ -649,13 +655,13 @@
       "foot2": "alpha-t/issue-42",
       "ui": {
         "approveTitle": "Implementar #42",
-        "limit": "límite R$ 2,00",
+        "limit": "límite US$ 2,00",
         "approve": "Aprobar",
         "html": "HTML válido",
         "links": "enlaces internos",
         "round": "ronda 1/3",
         "cost": "costo del job",
-        "costValue": "R$ 0,38 de R$ 2,00"
+        "costValue": "US$ 0,38 de US$ 2,00"
       },
       "cap": {
         "aprovacao": {

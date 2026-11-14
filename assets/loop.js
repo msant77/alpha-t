@@ -53,9 +53,10 @@
   var STATUS_KEY = { aguardando: 'wait', rodando: 'run', 'concluído': 'done' };
   function statusLabel(s) { return STATUS_KEY[s] ? T('common.status.' + STATUS_KEY[s]) : s; }
   function format(v, kind) {
-    if (kind === 'brl') {
+    if (kind === 'money') {
+      // the reader's currency (meta.currency): BRL in pt-BR, USD in en and es
       var txt = v.toFixed(2);
-      return 'R$ ' + (locale() === 'en' ? txt : txt.replace('.', ','));
+      return T('meta.currency.symbol') + ' ' + (T('meta.currency.decimal') === '.' ? txt : txt.replace('.', ','));
     }
     return Math.round(v).toLocaleString(locale());
   }

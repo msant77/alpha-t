@@ -24,6 +24,12 @@
       "description": "Proposed Alpha Tester plans: feedback only, no agent, triage agent, implementer agent and the full loop, with credits for the AI.",
       "ogTitle": "Pricing — Alpha Tester",
       "ogDescription": "Proposed plans: the platform monthly and the AI by use, with credits and a daily limit per project."
+    },
+    "currency": {
+      "code": "USD",
+      "symbol": "US$",
+      "decimal": ".",
+      "note": "Prices in US dollars, converted from the proposed BRL prices at the Central Bank of Brazil PTAX rate of 2026-11-13 (1 USD = 5.6518 BRL) and rounded to price points ending in 9."
     }
   },
   "common": {
@@ -100,17 +106,17 @@
     "plans": {
       "feedback": {
         "name": "Feedback only",
-        "price": "From R$ 29/month",
+        "price": "From US$ 9/month",
         "desc": "Widget with context (marked element, screenshot, console errors, offline queue) and a dashboard to follow everything.",
         "items": [
-          "Packs of 100, 500 or 2,000 feedback items a month (R$ 29, R$ 79, R$ 199)",
+          "Packs of 100, 500 or 2,000 feedback items a month (US$ 9, US$ 19, US$ 39)",
           "Up to 3 projects and 5 seats",
           "Attachments kept for 30 days"
         ]
       },
       "noAgent": {
         "name": "No agent",
-        "price": "R$ 99/month · R$ 149/month with GitHub",
+        "price": "US$ 19/month · US$ 29/month with GitHub",
         "desc": "Manual triage in the dashboard, status for the reporter, CLI and MCP server.",
         "items": [
           "1,000 feedback items a month, 5 projects, 5 seats",
@@ -120,30 +126,30 @@
       },
       "triage": {
         "name": "Triage agent",
-        "price": "R$ 149/month + triage pack from R$ 50",
+        "price": "US$ 29/month + triage pack from US$ 9",
         "desc": "The AI filters malicious content, finds duplicates, classifies, estimates the effort and opens the GitHub issue.",
         "items": [
-          "Packs of R$ 50, R$ 150 or R$ 450 (about 160, 500 or 1,550 triages)",
+          "Packs of US$ 9, US$ 29 or US$ 79 (about 160, 500 or 1,550 triages)",
           "2,000 feedback items a month, 10 projects, 10 seats",
           "Attachments kept for 180 days"
         ]
       },
       "implementer": {
         "name": "Implementer agent",
-        "price": "R$ 149/month + job pack from R$ 200",
+        "price": "US$ 29/month + job pack from US$ 39",
         "desc": "The AI reads the issue and the code, makes the change, runs the checks and opens a draft pull request for your team to review.",
         "items": [
-          "Packs of R$ 200, R$ 600 or R$ 1,800 (about 11, 36 or 112 medium-sized PRs)",
+          "Packs of US$ 39, US$ 109 or US$ 319 (about 11, 36 or 112 medium-sized PRs)",
           "Every job starts only after your approval",
           "2,000 feedback items a month, 10 projects, 10 seats"
         ]
       },
       "both": {
         "name": "Full loop · both agents",
-        "price": "R$ 149/month + pack from R$ 300",
+        "price": "US$ 29/month + pack from US$ 49",
         "desc": "From feedback to pull request: triage and implementation on the same credit wallet.",
         "items": [
-          "Packs of R$ 300, R$ 900 or R$ 2,400",
+          "Packs of US$ 49, US$ 159 or US$ 429",
           "5,000 feedback items a month, 20 projects, 15 seats",
           "Attachments kept for 1 year"
         ]
@@ -372,14 +378,14 @@
       "p2": "signed webhook → triage agent",
       "t1": "security: clean verdict",
       "t2": "duplicates: none in 20 open issues",
-      "t3": "type:bug · size:S · R$ 0.04",
+      "t3": "type:bug · size:S · US$ 0.04",
       "i1": "issue #{issueNo} opened · alpha-t, type:bug, size:S",
       "c1": "feedback list --status triaged · 1 item",
       "m1": "get_feedback (T0) · no reporter data",
-      "r1": "owner approves the job · limit R$ 2.00",
+      "r1": "owner approves the job · limit US$ 2.00",
       "x1": "shallow clone of the default branch · 3.2 MB",
       "x2": "round 1/3 · 2 static files",
-      "x3": "valid HTML · 0 broken links · R$ 0.38",
+      "x3": "valid HTML · 0 broken links · US$ 0.38",
       "pr1": "draft PR #{prNo} · alpha-t/issue-{issueNo}",
       "r2": "reviews the diff and the checks",
       "r3": "merged by a person · deploy",
@@ -399,7 +405,7 @@
       "foot2": "feedback.json",
       "ui": {
         "url": "shop.example/checkout",
-        "price": "R$ 189.90",
+        "price": "US$ 34.90",
         "buy": "Place order",
         "fab": "feedback",
         "formType": "bug",
@@ -534,7 +540,7 @@
         "open": "open issues",
         "dups": "0 duplicates in 20",
         "budget": "daily budget",
-        "budgetValue": "R$ 0.04 of R$ 2.00"
+        "budgetValue": "US$ 0.04 of US$ 2.00"
       },
       "cap": {
         "seguranca": {
@@ -649,13 +655,13 @@
       "foot2": "alpha-t/issue-42",
       "ui": {
         "approveTitle": "Implement #42",
-        "limit": "limit R$ 2.00",
+        "limit": "limit US$ 2.00",
         "approve": "Approve",
         "html": "valid HTML",
         "links": "internal links",
         "round": "round 1/3",
         "cost": "job cost",
-        "costValue": "R$ 0.38 of R$ 2.00"
+        "costValue": "US$ 0.38 of US$ 2.00"
       },
       "cap": {
         "aprovacao": {
