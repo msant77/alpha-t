@@ -47,9 +47,17 @@
   }
   /* easeInOutCubic: nothing in the scenes moves linearly */
   function ease(p) { return p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2; }
+  /* strings come from assets/i18n/<locale>.json through window.AlphaI18n */
+  function T(key, vars) { return window.AlphaI18n ? window.AlphaI18n.t(key, vars) : key; }
+  function locale() { return window.AlphaI18n ? window.AlphaI18n.locale() : 'pt-BR'; }
+  var STATUS_KEY = { aguardando: 'wait', rodando: 'run', 'concluído': 'done' };
+  function statusLabel(s) { return STATUS_KEY[s] ? T('common.status.' + STATUS_KEY[s]) : s; }
   function format(v, kind) {
-    if (kind === 'brl') return 'R$ ' + v.toFixed(2).replace('.', ',');
-    return Math.round(v).toLocaleString('pt-BR');
+    if (kind === 'brl') {
+      var txt = v.toFixed(2);
+      return 'R$ ' + (locale() === 'en' ? txt : txt.replace('.', ','));
+    }
+    return Math.round(v).toLocaleString(locale());
   }
   var uid = 0;
   function nextId(prefix) { uid += 1; return prefix + '-' + uid; }
@@ -66,7 +74,7 @@
     this.body = el('div', 'cap-body');
     this.close = el('button', 'cap-close', '×');
     this.close.type = 'button';
-    this.close.setAttribute('aria-label', 'Fechar legenda');
+    this.close.setAttribute('aria-label', T('common.closeCaption'));
     panel.appendChild(this.close);
     panel.appendChild(this.kicker);
     panel.appendChild(this.title);
@@ -112,8 +120,10 @@
 
   /* Wire plain HTML objects (como-funciona cards) to a caption panel.
      objects: [data-cap="id"] inside root; caps: {id: {title, lines}}. */
-  Captions.wire = function (root, panel, caps, hooks) {
+  Captions.wire = function (root, panel, getCaps, hooks) {
+    var caps = typeof getCaps === 'function' ? getCaps() : getCaps;
     var cap = new Captions(root, panel);
+    var descs = [];
     var current = null;
     hooks = hooks || {};
     var nodes = root.querySelectorAll('[data-cap]');
@@ -138,36 +148,46 @@
       node.classList.add('is-sel');
       node.setAttribute('aria-expanded', 'true');
       root.classList.add('has-sel');
-      cap.show(caps[node.getAttribute('data-cap')], rectOf(node), true);
+      cap.show(caps[node.getAttribute('data-cap')], rectOf(node), true, node);
       if (hooks.select) hooks.select(node.getAttribute('data-cap'));
     }
     cap.onClose = clear;
     Array.prototype.forEach.call(nodes, function (node) {
       var id = node.getAttribute('data-cap');
-      var c = caps[id];
-      if (!c) return;
-      var d = el('div', '', (c.title || '') + '. ' + (c.lines || []).join(' '));
+      if (!caps[id]) return;
+      var d = el('div', '');
       d.id = nextId('cap');
       descHost.appendChild(d);
+      descs.push({ node: node, desc: d, id: id });
       node.setAttribute('tabindex', '0');
       node.setAttribute('role', 'button');
       node.setAttribute('aria-expanded', 'false');
       node.setAttribute('aria-describedby', d.id);
-      if (!node.getAttribute('aria-label')) node.setAttribute('aria-label', c.title || id);
       node.addEventListener('click', function (e) { e.stopPropagation(); pin(node); });
       node.addEventListener('keydown', function (e) {
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pin(node); }
       });
       if (!coarse) {
-        node.addEventListener('mouseenter', function () { if (!current) cap.show(c, rectOf(node), false); });
+        node.addEventListener('mouseenter', function () { if (!current) cap.show(caps[id], rectOf(node), false, node); });
         node.addEventListener('mouseleave', function () { if (!current) cap.hide(); });
       }
-      node.addEventListener('focus', function () { if (!current) cap.show(c, rectOf(node), false); });
+      node.addEventListener('focus', function () { if (!current) cap.show(caps[id], rectOf(node), false, node); });
       node.addEventListener('blur', function () { if (!current) cap.hide(); });
     });
     root.addEventListener('click', function () { if (current) clear(); });
     root.addEventListener('keydown', function (e) { if (e.key === 'Escape' && current) { var n = current; clear(); n.focus(); } });
-    return { clear: clear, captions: cap };
+    function refresh() {
+      if (typeof getCaps === 'function') caps = getCaps();
+      descs.forEach(function (x) {
+        var c = caps[x.id] || {};
+        x.desc.textContent = (c.title || '') + '. ' + (c.lines || []).join(' ');
+        x.node.setAttribute('aria-label', c.title || x.id);
+      });
+      cap.close.setAttribute('aria-label', T('common.closeCaption'));
+      if (current) cap.show(caps[current.getAttribute('data-cap')], rectOf(current), true, current);
+    }
+    refresh();
+    return { clear: clear, captions: cap, refresh: refresh };
   };
 
   /* ---------- the story ---------- */
@@ -209,19 +229,24 @@
     this.build();
   }
 
-  Story.prototype.fill = function (str) {
+  /* text of this scene: "<scene>.<path>" in the locale files */
+  Story.prototype.tt = function (path) { return T((this.d.i18n || 'hero') + '.' + path); };
+  /* {stat} placeholders; snap = the values when a log line was written */
+  Story.prototype.fill = function (str, snap) {
     var stats = this.stats;
     return String(str).replace(/\{(\w+)\}/g, function (m, k) {
-      return stats[k] ? format(stats[k].value, stats[k].fmt) : m;
+      if (!stats[k]) return m;
+      return format(snap && snap[k] != null ? snap[k] : stats[k].value, stats[k].fmt);
     });
   };
-  Story.prototype.bind = function (node, str) {
-    node.textContent = this.fill(str);
-    if (String(str).indexOf('{') >= 0) this.bindings.push({ node: node, str: str });
+  /* node text that follows counters and the locale; fn returns the template */
+  Story.prototype.bind = function (node, fn) {
+    node.textContent = this.fill(fn());
+    this.bindings.push({ node: node, fn: fn });
   };
   Story.prototype.statsChanged = function () {
     for (var i = 0; i < this.bindings.length; i++) {
-      var b = this.bindings[i], v = this.fill(b.str);
+      var b = this.bindings[i], v = this.fill(b.fn());
       if (b.node.textContent !== v) b.node.textContent = v;
     }
     if (this.view && this.view.statsChanged) this.view.statsChanged();
@@ -247,14 +272,14 @@
 
     // session log
     this.logEl.setAttribute('aria-hidden', 'true');
-    this.logHead = el('div', 'log-head', 'registro da sessão');
+    this.logHead = el('div', 'log-head', T('common.log.head'));
     this.logList = el('ul', 'log-list');
     this.logEl.appendChild(this.logHead);
     this.logEl.appendChild(this.logList);
 
     // progress rail
     if (this.railEl) {
-      this.railEl.setAttribute('aria-label', d.railLabel || 'Etapas do ciclo');
+      this.railEl.setAttribute('aria-label', T('common.rail.label'));
       var list = el('ol', 'rail-steps');
       this.stepEls = {};
       d.steps.forEach(function (s, i) {
@@ -262,7 +287,7 @@
         var b = el('button', 'rail-btn');
         b.type = 'button';
         b.appendChild(el('span', 'rail-n', pad(i + 1)));
-        b.appendChild(el('span', 'rail-label', s.label));
+        b.appendChild(el('span', 'rail-label', T('common.rail.' + s.id)));
         b.setAttribute('aria-expanded', 'false');
         b.addEventListener('click', function (e) { e.stopPropagation(); self.pick('step', s.id); });
         if (!coarse) {
@@ -282,7 +307,7 @@
 
     // pause control
     this.ctl.type = 'button';
-    this.ctl.textContent = 'pausar';
+    this.ctl.textContent = T('common.pause');
     this.ctl.setAttribute('aria-pressed', 'false');
     this.ctl.addEventListener('click', function (e) { e.stopPropagation(); self.toggle(); });
     if (reduced) this.ctl.hidden = true;
@@ -294,13 +319,14 @@
     this.proxies = {};
     var desc = el('div', 'sr-only');
     this.root.appendChild(desc);
+    this.proxyDescs = {};
     (d.nodes || []).forEach(function (n) {
-      var cap = n.cap || [];
-      var dd = el('div', '', cap.join(' '));
+      var dd = el('div', '', [].concat(self.tt('node.' + n.id + '.cap')).join(' '));
       dd.id = nextId('cap');
       desc.appendChild(dd);
+      self.proxyDescs[n.id] = dd;
       var li = el('li');
-      var b = el('button', 'proxy', n.title);
+      var b = el('button', 'proxy', self.tt('node.' + n.id + '.title'));
       b.type = 'button';
       b.setAttribute('aria-describedby', dd.id);
       b.setAttribute('aria-expanded', 'false');
@@ -321,19 +347,40 @@
     });
   };
 
+  /* the text for the whole scene again, in the new locale */
+  Story.prototype.relocale = function () {
+    var self = this;
+    this.logHead.textContent = T('common.log.head');
+    if (this.railEl) {
+      this.railEl.setAttribute('aria-label', T('common.rail.label'));
+      for (var id in this.stepEls) this.stepEls[id].querySelector('.rail-label').textContent = T('common.rail.' + id);
+    }
+    this.ctl.textContent = T(this.paused ? 'common.resume' : 'common.pause');
+    this.captions.close.setAttribute('aria-label', T('common.closeCaption'));
+    (this.d.nodes || []).forEach(function (n) {
+      self.proxies[n.id].textContent = self.tt('node.' + n.id + '.title');
+      self.proxyDescs[n.id].textContent = [].concat(self.tt('node.' + n.id + '.cap')).join(' ');
+    });
+    if (this.view && this.view.relocale) this.view.relocale();
+    this.statsChanged();
+    this.renderLog();
+    var cur = this.selection || this.hovered;
+    if (cur && !this.captions.panel.hidden) {
+      this.captions.show(this.capFor(cur.kind, cur.id), this.anchor(cur.kind, cur.id), !!this.selection);
+    }
+  };
+
   /* ---------- selection and captions ---------- */
   Story.prototype.capFor = function (kind, id) {
-    if (kind === 'node') {
-      var n = this.nodeById[id];
-      return n && { kicker: n.kicker || '', title: n.title, lines: (n.cap || []).map(this.fill, this) };
+    var self = this, lines = function (v) { return [].concat(v).map(function (l) { return self.fill(l); }); };
+    if (kind === 'node' && this.nodeById[id]) {
+      return { kicker: '', title: this.tt('node.' + id + '.title'), lines: lines(this.tt('node.' + id + '.cap')) };
     }
-    if (kind === 'edge') {
-      var e = this.edgeById[id];
-      return e && { kicker: 'conexão', title: e.title || e.label || '', lines: (e.cap || []).map(this.fill, this) };
+    if (kind === 'edge' && this.edgeById[id]) {
+      return { kicker: T('common.kicker.edge'), title: this.tt('edge.' + id + '.title'), lines: lines(this.tt('edge.' + id + '.cap')) };
     }
-    if (kind === 'step') {
-      var s = this.stepById[id];
-      return s && { kicker: 'etapa', title: s.label, lines: s.cap || [] };
+    if (kind === 'step' && this.stepById[id]) {
+      return { kicker: T('common.kicker.step'), title: T('common.rail.' + id), lines: lines(this.tt('step.' + id)) };
     }
     return null;
   };
@@ -433,9 +480,10 @@
 
   Story.prototype.log = function (entry) {
     var n = this.nodeById[entry.n] || {};
+    var snap = {};
+    for (var k in this.stats) snap[k] = this.stats[k].value;
     var line = { time: clock(this.clock0 + this.elapsed * 1000), n: entry.n,
-                 who: entry.who || n.short || n.title || entry.n, role: n.role || 'core',
-                 text: this.fill(entry.text) };
+                 role: n.role || 'core', key: 'log.' + entry.k, snap: snap };
     this.logAll.push(line);
     if (this.logAll.length > 40) this.logAll.shift();
     var list = this.logByNode[entry.n] = this.logByNode[entry.n] || [];
@@ -449,18 +497,18 @@
     var sel = this.selection && this.selection.kind === 'node' ? this.selection.id : null;
     var lines = sel ? (this.logByNode[sel] || []) : this.logAll;
     this.logHead.textContent = sel
-      ? 'registro · ' + (this.nodeById[sel].short || this.nodeById[sel].title) + ' · fixado'
-      : 'registro da sessão';
+      ? T('common.log.pinned', { name: this.tt('node.' + sel + '.short') })
+      : T('common.log.head');
     this.logEl.classList.toggle('is-pinned', !!sel);
     var view = lines.slice(-max);
     this.logList.textContent = '';
-    if (!view.length) this.logList.appendChild(el('li', 'log-empty', 'nada ainda nesta volta; a próxima linha aparece aqui.'));
+    if (!view.length) this.logList.appendChild(el('li', 'log-empty', T('common.log.empty')));
     for (var i = 0; i < view.length; i++) {
       var l = view[i];
       var li = el('li', fresh && l === fresh ? 'is-new' : '');
       li.appendChild(el('span', 'log-t', l.time));
-      li.appendChild(el('span', 'log-who r-' + l.role, l.who));
-      li.appendChild(el('span', 'log-x', l.text));
+      li.appendChild(el('span', 'log-who r-' + l.role, this.tt('node.' + l.n + '.short')));
+      li.appendChild(el('span', 'log-x', this.fill(this.tt(l.key), l.snap)));
       this.logList.appendChild(li);
     }
   };
@@ -555,7 +603,7 @@
 
   Story.prototype.toggle = function () {
     this.paused = !this.paused;
-    this.ctl.textContent = this.paused ? 'continuar' : 'pausar';
+    this.ctl.textContent = T(this.paused ? 'common.resume' : 'common.pause');
     this.ctl.setAttribute('aria-pressed', this.paused ? 'true' : 'false');
     this.root.classList.toggle('is-paused', this.paused);
     this.sync();
@@ -629,7 +677,9 @@
       d.legend.forEach(function (l) {
         var k = el('span', 'term-key r-' + l.role);
         k.appendChild(el('i'));
-        k.appendChild(document.createTextNode(l.label));
+        var lab = el('span');
+        story.bind(lab, function () { return story.tt('legend.' + l.role); });
+        k.appendChild(lab);
         legend.appendChild(k);
       });
       story.stageEl.insertBefore(legend, stage);
@@ -663,13 +713,20 @@
     var c = el('div', 'node r-' + n.role);
     c.setAttribute('aria-hidden', 'true');
     c.dataset.anchor = n.id;
-    c.appendChild(el('div', 'node-title', n.title));
-    if (n.sub) { var sub = el('div', 'node-sub'); s.bind(sub, n.sub); c.appendChild(sub); }
+    var key = function (f) { return function () { return s.tt('node.' + n.id + '.' + f); }; };
+    var title = el('div', 'node-title');
+    s.bind(title, key('title'));
+    c.appendChild(title);
+    var sub = el('div', 'node-sub');
+    s.bind(sub, key('sub'));
+    c.appendChild(sub);
     var meters = {};
     (n.meters || []).forEach(function (m) {
       var row = el('div', 'm-row is-' + (m.kind || 'text'));
+      var label = el('span', 'm-label');
+      if (m.kind !== 'text') s.bind(label, key('m.' + (m.id || m.stat)));
       if (m.kind === 'bar') {
-        row.appendChild(el('span', 'm-label', m.label || ''));
+        row.appendChild(label);
         var track = el('span', 'm-bar'), fill = el('i');
         track.appendChild(fill);
         row.appendChild(track);
@@ -677,13 +734,13 @@
         row.appendChild(val);
         meters[m.id] = { fill: fill, val: val };
       } else if (m.kind === 'stat') {
-        row.appendChild(el('span', 'm-label', m.label || ''));
+        row.appendChild(label);
         var v = el('span', 'm-val');
-        s.bind(v, '{' + m.stat + '}');
+        s.bind(v, function () { return '{' + m.stat + '}'; });
         row.appendChild(v);
       } else {
         var tx = el('span', 'm-text');
-        s.bind(tx, m.text || '');
+        s.bind(tx, key('m.' + m.key));
         row.appendChild(tx);
       }
       c.appendChild(row);
@@ -795,7 +852,12 @@
     n.el.classList.add(s === 'rodando' ? 'st-run' : s === 'concluído' ? 'st-done' : s === 'aguardando' ? 'st-wait' : 'st-other');
     n.el.classList.toggle('is-active', s === 'rodando');
     n.glyph.textContent = GLYPH[s] || '•';
-    n.label.textContent = s;
+    n.label.textContent = statusLabel(s);
+  };
+
+  DomView.prototype.relocale = function () {
+    for (var id in this.cards) this.setStatus(id, this.cards[id].status);
+    this.layout();
   };
 
   DomView.prototype.setBar = function (id, m, v) {
@@ -899,6 +961,7 @@
       var data = scenes[root.getAttribute('data-story')];
       if (!data) return;
       var story = new Story(root, data);
+      document.addEventListener('alphatester:locale', function () { story.relocale(); });
       var want3d = root.getAttribute('data-view') === '3d' && !reduced && webgl();
       if (!want3d) { story.attach(new DomView()); return; }
       root.classList.add('is-3d');
@@ -926,6 +989,8 @@
     DomView: DomView,
     Captions: Captions,
     ease: ease,
+    T: T,
+    statusLabel: statusLabel,
     makeBot: makeBot,
     moveBot: moveBot,
     reduced: reduced,
@@ -937,6 +1002,10 @@
     }
   };
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount);
-  else mount();
+  function start() {
+    var ready = window.AlphaI18n ? window.AlphaI18n.ready : Promise.resolve();
+    ready.then(mount, mount);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
+  else start();
 })();

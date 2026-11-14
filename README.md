@@ -35,6 +35,25 @@ Scenes pause when the tab is hidden or they are off screen, have a
 "pausar" control, and under `prefers-reduced-motion` draw their final
 frame with captions still interactive.
 
+## Languages
+
+pt-BR (default), en and es. Every visible string, scene captions and log
+lines included, lives in `assets/i18n/<locale>.json` with the same keys;
+markup carries `data-i18n` keys and the scene data (`assets/scenes.js`)
+holds ids only. `assets/i18n.js` picks the locale (`?lang=`, then the
+entry page, then the saved choice, then the browser languages, then
+pt-BR) and the header switcher re-renders in place.
+
+```
+node scripts/i18n-check.mjs   # gate: fails if a key is missing or differs in kind
+node scripts/i18n-pages.mjs   # rewrites en/ and es/ entry pages from the pt-BR pages
+                              # and copies the locale files into apps/ (its own site root)
+```
+
+Run `i18n-pages.mjs` after editing `index.html`, `como-funciona/` or a
+locale file, and commit its output. The generated pages under `en/` and
+`es/` are never edited by hand. The apps privacy page stays pt-BR.
+
 ## Palettes
 
 `assets/site.css` defines two named palettes as CSS custom properties on

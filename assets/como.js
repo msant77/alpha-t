@@ -15,9 +15,10 @@
   'use strict';
   var gsap = window.gsap;
   var loop = window.AlphaLoop;
-  var data = (window.AlphaScenes || {}).como || {};
   var reduced = loop ? loop.reduced : false;
   if (!gsap || !loop) return;
+  var T = loop.T;
+  var ui = function (card, key) { return T('como.' + card + '.ui.' + key); };
 
   function $(root, sel) { return root.querySelector(sel); }
   function $$(root, sel) { return Array.prototype.slice.call(root.querySelectorAll(sel)); }
@@ -71,7 +72,7 @@
         .set(n, { autoAlpha: 0, scale: 0.4 }, 0)
         .set(lines, { autoAlpha: 0, x: -8 }, 0)
         .set(chips, { autoAlpha: 0, y: 6 }, 0);
-      at(tl, 0, function () { qt.textContent = 'online · fila 0'; q.classList.remove('is-off'); });
+      at(tl, 0, function () { qt.textContent = ui('widget', 'online'); q.classList.remove('is-off'); });
       tl.to(cur, { left: '84%', top: '80%', duration: 1.1, ease: 'power2.inOut' }, 0.3)
         .to(fab, { scale: 0.9, duration: 0.15, yoyo: true, repeat: 1, ease: 'power1.inOut' }, 1.4)
         .to(form, rise, 1.7)
@@ -82,8 +83,8 @@
         .to(n, pop, 4.4)
         .to(lines, { autoAlpha: 1, x: 0, duration: 0.45, stagger: 0.35, ease: 'power3.out' }, 5)
         .to(chips, { autoAlpha: 1, y: 0, duration: 0.4, stagger: 0.15, ease: 'power3.out' }, 6.1);
-      at(tl, 7.4, function () { qt.textContent = 'sem conexão · fila 1'; q.classList.add('is-off'); });
-      at(tl, 9.0, function () { qt.textContent = 'conexão voltou · enviado'; q.classList.remove('is-off'); });
+      at(tl, 7.4, function () { qt.textContent = ui('widget', 'offline'); q.classList.add('is-off'); });
+      at(tl, 9.0, function () { qt.textContent = ui('widget', 'back'); q.classList.remove('is-off'); });
       tl.to(q, { scale: 1.06, duration: 0.2, yoyo: true, repeat: 1 }, 9.0)
         .to([sel, n, form], { autoAlpha: 0, duration: 0.6, ease: 'power2.in' }, 11.2);
       return [0.3, 3.3, 5.0, 9.0];
@@ -95,17 +96,17 @@
       tl.set(rows, { autoAlpha: 0, y: -14 }, 0)
         .set(drawer, { autoAlpha: 0, x: 18 }, 0);
       at(tl, 0, function () {
-        pill.textContent = 'novo'; hist.textContent = 'triado';
+        pill.textContent = ui('painel', 'new'); hist.textContent = ui('painel', 'triaged');
         steps.forEach(function (s) { s.classList.remove('is-on'); });
       });
       tl.to(rows.slice().reverse(), { autoAlpha: 1, y: 0, duration: 0.55, stagger: 0.45, ease: 'power3.out' }, 0.4);
       at(tl, 1.4, function () { steps[0].classList.add('is-on'); });
       tl.to(pill, { scale: 1.18, duration: 0.2, yoyo: true, repeat: 1 }, 2.2)
         .to(drawer, { autoAlpha: 1, x: 0, duration: 0.6, ease: 'power3.out' }, 3.2);
-      at(tl, 4.6, function () { pill.textContent = 'triado'; steps[1].classList.add('is-on'); });
+      at(tl, 4.6, function () { pill.textContent = ui('painel', 'triaged'); steps[1].classList.add('is-on'); });
       tl.to(pill, { scale: 1.18, duration: 0.2, yoyo: true, repeat: 1 }, 4.6)
         .to(key, { x: 3, duration: 0.08, yoyo: true, repeat: 3 }, 6.6);
-      at(tl, 8.0, function () { pill.textContent = 'aceito'; steps[2].classList.add('is-on'); });
+      at(tl, 8.0, function () { pill.textContent = ui('painel', 'accepted'); steps[2].classList.add('is-on'); });
       tl.to(pill, { scale: 1.18, duration: 0.2, yoyo: true, repeat: 1 }, 8.0)
         .to([drawer], { autoAlpha: 0, duration: 0.5 }, 11);
       return [0.4, 3.2, 4.6, 7.2];
@@ -141,7 +142,7 @@
       var title = $(c, '.is-title'), kv = $$(c, '.kv'), labs = $$(c, '.issue .labels .lab');
       var num = $(c, '.is-n'), state = $(c, '.is-state'), shackle = $(c, '.shackle');
       var btn = $(c, '.ghbtn'), knob = $(c, '.toggle .sw i'), sw = $(c, '.toggle');
-      var text = title.getAttribute('data-type');
+      var text = T(title.getAttribute('data-type-key'));
       tl.set(kv, { autoAlpha: 0, x: -8 }, 0)
         .set(labs, { autoAlpha: 0, scale: 1.6 }, 0)
         .set([num, state], { autoAlpha: 0, scale: 0.6 }, 0)
@@ -242,36 +243,49 @@
     }
   };
 
+  /* the PR states (Draft, Merged) are the code host's own words and stay as they are */
   function setupCard(card) {
     var id = card.getAttribute('data-card');
-    var d = data[id] || {};
     var panel = $(card, '[data-caption]');
-    loop.Captions.wire(card, panel, d.caps || {});
-
+    var caps = loop.Captions.wire(card, panel, function () { return T('como.' + id + '.cap'); });
     var build = builders[id];
     if (!build) return;
-    var tl = gsap.timeline({ repeat: -1, repeatDelay: 1.6, paused: true, defaults: { overwrite: 'auto' } });
-    var times = build(card, tl);
-    taskLog(card, d.log || [], times || [0, 1, 2, 3])(tl);
-    tl.to({}, { duration: 0.01 }, 12.5); // every card loops on the same ~14 s beat
-
+    var tl = null, userPaused = false, inView = false;
     var ctl = $(card, '[data-ctl]');
-    if (reduced) {
-      tl.progress(1).pause();
-      if (ctl) ctl.hidden = true;
-      return;
+
+    function make() {
+      if (tl) {
+        tl.kill();
+        gsap.set(card.querySelectorAll('.demo, .demo *'), { clearProps: 'all' });
+      }
+      $(card, '.tasklog ul').textContent = '';
+      tl = gsap.timeline({ repeat: -1, repeatDelay: 1.6, paused: true, defaults: { overwrite: 'auto' } });
+      var times = build(card, tl);
+      taskLog(card, [].concat(T('como.' + id + '.log')), times || [0, 1, 2, 3])(tl);
+      tl.to({}, { duration: 0.01 }, 12.5); // every card loops on the same ~14 s beat
+      if (reduced) tl.progress(1).pause();
+      else sync();
     }
-    var userPaused = false, inView = false;
-    function sync() { if (inView && !userPaused) tl.play(); else tl.pause(); }
+    function sync() { if (!tl) return; if (inView && !userPaused) tl.play(); else tl.pause(); }
+    function label() {
+      if (!ctl) return;
+      var name = ($(card, 'h2') || {}).textContent;
+      ctl.textContent = T(userPaused ? 'common.resume' : 'common.pause');
+      ctl.setAttribute('aria-label', T(userPaused ? 'common.resumeScene' : 'common.pauseScene', { name: name }));
+    }
+
+    make();
+    document.addEventListener('alphatester:locale', function () { caps.refresh(); label(); make(); });
+    if (reduced) { if (ctl) ctl.hidden = true; return; }
     if (ctl) {
       ctl.setAttribute('aria-pressed', 'false');
-      ctl.setAttribute('aria-label', 'Pausar a cena: ' + ($(card, 'h2') || {}).textContent);
+      label();
       ctl.addEventListener('click', function (e) {
         e.stopPropagation();
         userPaused = !userPaused;
-        ctl.textContent = userPaused ? 'continuar' : 'pausar';
         ctl.setAttribute('aria-pressed', userPaused ? 'true' : 'false');
         card.classList.toggle('is-paused', userPaused);
+        label();
         sync();
       });
     }
@@ -336,6 +350,10 @@
     Array.prototype.forEach.call(document.querySelectorAll('[data-card]'), setupCard);
     setupRail();
   }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-  else init();
+  function start() {
+    var ready = window.AlphaI18n ? window.AlphaI18n.ready : Promise.resolve();
+    ready.then(init, init);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
+  else start();
 })();

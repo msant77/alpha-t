@@ -224,6 +224,13 @@ p { margin: 0 0 12px; }
 .site-nav a { font-weight: 600; text-decoration: none; padding: 4px 0; color: var(--text); }
 .site-nav a:hover, .site-nav a[aria-current="page"] { text-decoration: underline; text-decoration-color: var(--gold-ink); }
 .header-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.lang-switch { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.lang-switch button {
+  font: 600 12px var(--font-mono); letter-spacing: .04em; min-height: 32px; padding: 4px 9px;
+  background: transparent; color: var(--text); border: 0; cursor: pointer;
+}
+.lang-switch button + button { border-left: 1px solid var(--line); }
+.lang-switch button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); }
 
 /* ---- Buttons ---- */
 .btn {

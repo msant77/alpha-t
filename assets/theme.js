@@ -20,7 +20,9 @@
 
   function render() {
     // The label names the action, so it reads right with or without sight.
-    label.textContent = current() === 'dark' ? 'Usar tema claro' : 'Usar tema escuro';
+    var key = current() === 'dark' ? 'common.theme.toLight' : 'common.theme.toDark';
+    var t = window.AlphaI18n ? window.AlphaI18n.t(key) : null;
+    label.textContent = t && t !== key ? t : (current() === 'dark' ? 'Usar tema claro' : 'Usar tema escuro');
   }
 
   button.addEventListener('click', function () {
@@ -36,6 +38,7 @@
     else if (media.addListener) media.addListener(onChange);
   }
 
+  document.addEventListener('alphatester:locale', render);
   button.hidden = false;
   render();
 })();

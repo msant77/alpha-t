@@ -275,20 +275,21 @@ class ThreeView {
     g.textBaseline = 'alphabetic';
     g.fillStyle = role;
     g.font = '600 48px "Cormorant Garamond", Georgia, serif';
-    g.fillText(n.title, x, y);
+    const tt = (f) => s.tt('node.' + n.id + '.' + f);
+    g.fillText(tt('title'), x, y);
     const mono = '"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace';
     g.font = '400 27px ' + mono;
     if (n.sub) {
       y += 42;
       g.fillStyle = c.muted;
-      g.fillText(s.fill(n.sub), x, y);
+      g.fillText(s.fill(tt('sub')), x, y);
     }
     for (const m of (n.meters || [])) {
       y += 46;
       if (m.kind === 'bar') {
         const v = k.bars[m.id] || 0;
         g.fillStyle = c.text;
-        g.fillText(m.label, x, y);
+        g.fillText(tt('m.' + (m.id || m.stat)), x, y);
         const bx = W * 0.5, bw = W * 0.28, bh = 18;
         g.strokeStyle = c.line;
         g.lineWidth = 2;
@@ -302,7 +303,7 @@ class ThreeView {
         g.font = '400 27px ' + mono;
       } else if (m.kind === 'stat') {
         g.fillStyle = c.text;
-        g.fillText(m.label, x, y);
+        g.fillText(tt('m.' + (m.id || m.stat)), x, y);
         g.font = '700 27px ' + mono;
         g.fillStyle = role;
         g.textAlign = 'right';
@@ -311,14 +312,14 @@ class ThreeView {
         g.font = '400 27px ' + mono;
       } else {
         g.fillStyle = c.text;
-        g.fillText(s.fill(m.text || ''), x, y);
+        g.fillText(s.fill(tt('m.' + m.key)), x, y);
       }
     }
     y += 46;
     const st = k.status;
     const glyph = st === 'rodando' ? SPIN[Math.max(0, this.spinFrame) % 4] : (GLYPH[st] || '•');
     g.fillStyle = st === 'aguardando' ? c.muted : role;
-    g.fillText(glyph + ' ' + st, x, y);
+    g.fillText(glyph + ' ' + (loop ? loop.statusLabel(st) : st), x, y);
     k.tex.needsUpdate = true;
   }
 
@@ -509,6 +510,8 @@ class ThreeView {
   }
 
   statsChanged() { this.markAll(); }
+
+  relocale() { this.markAll(); }
 
   pulse(id) {
     const k = this.cards[id];
