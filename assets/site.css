@@ -196,6 +196,23 @@ main section + section { border-top: 1px solid var(--line); }
   width: 28px; height: 28px; border-radius: 50%;
   background: var(--accent); color: var(--on-accent); font-weight: 800; font-size: 14px;
 }
+.clients {
+  list-style: none; padding: 0; margin: 16px 0 0;
+  display: grid; gap: 12px; grid-template-columns: 1fr;
+}
+@media (min-width: 560px) { .clients { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 960px) { .clients { grid-template-columns: repeat(4, 1fr); } }
+.client {
+  display: flex; align-items: center; gap: 14px; height: 100%;
+  color: var(--text); text-decoration: none; padding: 14px 16px;
+}
+.client:hover strong { text-decoration: underline; }
+.client img {
+  flex: none; width: 56px; height: 56px; border-radius: 12px;
+  background: #FFFFFF; border: 1px solid var(--line); object-fit: contain;
+}
+.client strong { display: block; }
+.client-url { display: block; font-size: 14px; color: var(--accent-ink); overflow-wrap: anywhere; }
 @media (min-width: 960px) { .hero { padding: 72px 0 56px; } }
 
 /* ---- "Como funciona" ---- */
