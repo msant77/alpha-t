@@ -6,8 +6,8 @@
 <title>Alpha Tester — feedback com contexto, de dentro do app</title>
 <meta name="description" content="Alpha Tester: widget de feedback para apps em teste. O relato chega com tela, console e ambiente; um agente faz a triagem e abre a issue no GitHub, outro propõe a correção em um PR em rascunho.">
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#EDE6D6" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0E3B43" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#CDBCA1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#17333A" media="(prefers-color-scheme: dark)">
 <link rel="canonical" href="https://alphatester.app/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Alpha Tester">
@@ -27,11 +27,14 @@
 </script>
 <link rel="stylesheet" href="/assets/site.css">
 <script src="/assets/theme.js" defer></script>
+<script src="/assets/scenes.js" defer></script>
+<script src="/assets/loop.js" defer></script>
+<script type="module" src="/assets/hero3d.js"></script>
 </head>
 <body>
 <a class="skip" href="#conteudo">Pular para o conteúdo</a>
 
-<header class="site-header">
+<header class="site-header is-over">
   <div class="wrap">
     <a class="brand" href="/">ALPHA TESTER</a>
     <nav class="site-nav" aria-label="Principal">
@@ -50,96 +53,22 @@
 </header>
 
 <main id="conteudo">
-  <section class="hero" aria-labelledby="hero-titulo">
-    <div class="wrap">
-      <p class="eyebrow">Para apps em fase de teste</p>
+  <section class="hero" id="ciclo" aria-labelledby="hero-titulo" data-story="hero" data-view="3d">
+    <div class="story-stage" data-stage></div>
+    <div class="hero-copy">
       <h1 id="hero-titulo">Feedback com contexto, de dentro do app</h1>
-      <p class="lead">Quem testa reporta na hora, sem sair do app, e a tela, o
-      console e o ambiente vão junto. Um agente faz a triagem e abre a issue
-      no GitHub; outro propõe a correção em um PR em rascunho; uma pessoa
-      decide o que entra.</p>
-      <p class="loop-line"><strong>O ciclo em uma frase:</strong> o widget
-      captura o feedback com contexto, o agente de triagem o transforma em
-      issue no GitHub e o implementador abre um PR em rascunho para o seu
-      time revisar.</p>
-      <div class="actions">
-        <a class="btn" href="/como-funciona/">Como funciona</a>
-        <a class="btn ghost" href="https://apps.alphatester.app">Apps distribuídos</a>
-        <a class="btn ghost" href="https://github.com/msant77/alpha-t">GitHub</a>
-      </div>
-      <p class="small-print">Em fase piloto com os primeiros clientes. O
-      widget, o painel e as issues no GitHub já funcionam; os agentes, o CLI
-      e o servidor MCP chegam em breve.</p>
+      <p class="hero-hint">passe o mouse ou toque nos cartões · Tab percorre as etapas · Esc volta</p>
     </div>
+    <ul class="proxies" data-proxies></ul>
+    <button type="button" class="scene-ctl" data-ctl>pausar</button>
+    <div class="hero-dock">
+      <div class="story-log" data-log></div>
+      <nav class="rail" data-rail aria-label="Etapas do ciclo"></nav>
+    </div>
+    <div data-caption></div>
   </section>
 
-  <section aria-labelledby="ciclo-titulo">
-    <div class="wrap">
-      <p class="eyebrow">Do relato ao pull request</p>
-      <h2 id="ciclo-titulo">O ciclo</h2>
-      <ol class="grid three steps">
-        <li class="card step">
-          <div class="step-head"><span class="step-n" aria-hidden="true">1</span><h3>Widget</h3><span class="badge">disponível</span></div>
-          <p>Um botão de feedback no seu app web. Quem testa marca o elemento,
-          recorta a região da tela ou anexa um arquivo.</p>
-        </li>
-        <li class="card step">
-          <div class="step-head"><span class="step-n" aria-hidden="true">2</span><h3>Feedback com contexto</h3><span class="badge">disponível</span></div>
-          <p>Chega ao painel com a página, o navegador, o tamanho da tela e os
-          erros do console. Quem reportou acompanha o andamento, do
-          “Enviado” ao “Entregue”.</p>
-        </li>
-        <li class="card step">
-          <div class="step-head"><span class="step-n" aria-hidden="true">3</span><h3>Agente de triagem</h3><span class="badge soon">em breve</span></div>
-          <p>Barra conteúdo malicioso, encontra duplicados, classifica e
-          estima o tamanho, dentro do orçamento diário do projeto.</p>
-        </li>
-        <li class="card step">
-          <div class="step-head"><span class="step-n" aria-hidden="true">4</span><h3>Issue no GitHub</h3><span class="badge">disponível</span></div>
-          <p>Uma issue por feedback, no repositório do projeto, com etiquetas.
-          Hoje, criada do painel: à mão ou ao aceitar o feedback.</p>
-        </li>
-        <li class="card step">
-          <div class="step-head"><span class="step-n" aria-hidden="true">5</span><h3>Implementador</h3><span class="badge soon">em breve</span></div>
-          <p>Começa só com a aprovação de um owner ou admin. Lê a issue, faz a
-          alteração e roda as verificações, dentro de um limite de custo.</p>
-        </li>
-        <li class="card step">
-          <div class="step-head"><span class="step-n" aria-hidden="true">6</span><h3>PR em rascunho</h3><span class="badge soon">em breve</span></div>
-          <p>Um pull request em rascunho por job. O merge é sempre do seu time:
-          o Alpha Tester nunca faz merge.</p>
-        </li>
-      </ol>
-      <p><a href="/como-funciona/">Ver o ciclo em detalhe, com diagramas →</a></p>
-    </div>
-  </section>
-
-  <section aria-labelledby="fase-titulo">
-    <div class="wrap">
-      <p class="eyebrow">Por que de dentro do app</p>
-      <h2 id="fase-titulo">Feito para a fase de teste</h2>
-      <div class="grid three">
-        <div class="card">
-          <h3>Captura por região</h3>
-          <p>A pessoa marca um retângulo sobre o problema. Sem prints
-          inteiros, sem explicação por mensagem: o contexto vai junto do
-          relato.</p>
-        </div>
-        <div class="card">
-          <h3>Triagem em um só lugar</h3>
-          <p>Bugs, melhorias e sugestões chegam por projeto, com histórico de
-          status e vínculo com issues.</p>
-        </div>
-        <div class="card">
-          <h3>Retorno para quem reportou</h3>
-          <p>Do “Enviado” ao “Entregue”: quem contribuiu vê o andamento, como
-          rastreio de encomenda.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="clientes" aria-labelledby="clientes-titulo">
+  <section id="clientes" class="below" aria-labelledby="clientes-titulo">
     <div class="wrap">
       <p class="eyebrow">Quem já usa</p>
       <h2 id="clientes-titulo">Clientes</h2>
@@ -165,7 +94,7 @@
     </div>
   </section>
 
-  <section id="precos" aria-labelledby="precos-titulo">
+  <section id="precos" class="below" aria-labelledby="precos-titulo">
     <div class="wrap">
       <p class="eyebrow">Planos</p>
       <h2 id="precos-titulo">Preços <span class="badge soon">em breve</span></h2>
