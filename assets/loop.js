@@ -667,7 +667,7 @@
     if (n.sub) { var sub = el('div', 'node-sub'); s.bind(sub, n.sub); c.appendChild(sub); }
     var meters = {};
     (n.meters || []).forEach(function (m) {
-      var row = el('div', 'm-row m-' + (m.kind || 'text'));
+      var row = el('div', 'm-row is-' + (m.kind || 'text'));
       if (m.kind === 'bar') {
         row.appendChild(el('span', 'm-label', m.label || ''));
         var track = el('span', 'm-bar'), fill = el('i');

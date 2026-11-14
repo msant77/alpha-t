@@ -9,22 +9,41 @@ The product source lives elsewhere; this repo holds only public content.
 | Path | Serves |
 |------|--------|
 | `index.html` | alphatester.app (landing) |
-| `como-funciona/index.html` | alphatester.app/como-funciona/ (how it works, with diagrams) |
-| `assets/` | styles, theme toggle, favicon and client logos shared by the two pages above |
+| `como-funciona/index.html` | alphatester.app/como-funciona/ (how it works, one live scene per step) |
+| `assets/` | styles, scripts, fonts, vendored libraries and client logos shared by the two pages above |
 | `apps/index.html` | apps.alphatester.app (apps & downloads) |
 
 The landing and "Como funciona" use root-relative paths (`/assets/…`,
 `/como-funciona/`), so their deploy must carry `assets/` and
-`como-funciona/` next to `index.html`.
+`como-funciona/` next to `index.html`. No build step.
+
+## Scenes
+
+The pages are interaction-first: the animations are the content and the
+text appears when someone points at, taps or tabs to an object.
+
+| File | Role |
+|------|------|
+| `assets/scenes.js` | Every story as data: the hero loop (nodes, edges, steps, a timed list of events, captions, log lines) and the captions and task logs of each Como funciona card. Edit the story here. |
+| `assets/loop.js` | Story engine: timeline, counters, session log, progress rail, captions, keyboard proxies; flat HTML/SVG view for no WebGL and reduced motion. |
+| `assets/hero3d.js` | The hero in 3D (three.js): cards on a ring, curved edges, lit packets, camera drift, focus on selection. |
+| `assets/como.js` | Como funciona: one GSAP timeline per card, task logs, fixed progress rail. |
+| `assets/vendor/` | three.js r169 (MIT) and GSAP 3.13.0 (GSAP standard licence), pinned. |
+| `assets/fonts/` | Cormorant Garamond and JetBrains Mono, woff2, SIL OFL 1.1 (licences alongside). |
+
+Scenes pause when the tab is hidden or they are off screen, have a
+"pausar" control, and under `prefers-reduced-motion` draw their final
+frame with captions still interactive.
 
 ## Palettes
 
 `assets/site.css` defines two named palettes as CSS custom properties on
-`:root`, one per theme: light **sage / charcoal / oatmeal** and dark
-**peacock / tobacco / parchment**. The system preference picks one; the
-header toggle overrides it per browser (`localStorage`). Every text, link
-and button pair passes WCAG AA; the ratios are in the stylesheet's
-comments, so a new colour is checked before it lands.
+`:root`, sampled from the owner's swatches: light **sage / charcoal /
+oatmeal** and dark **peacock / tobacco / parchment**, plus one gold from
+the swatches' lettering. The system preference picks one; the header
+toggle overrides it per browser (`localStorage`). Every text, link and
+button pair passes WCAG AA; the ratios are in the stylesheet's comments,
+and every colour of the scenes (3D included) comes from these variables.
 
 Deployed to Cloudflare Pages. Large binaries are **never committed** —
 they are attached to GitHub Releases here.
