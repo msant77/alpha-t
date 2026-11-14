@@ -450,8 +450,10 @@ class ThreeView {
 
   /* ---------- layout ---------- */
   layout() {
-    const r = this.radius = this.narrow ? 3.2 : 4.4;
     const scale = this.cardScale = this.narrow ? 0.86 : 1.25;
+    // room for every step around the circle, whatever their number
+    const n = Math.max(1, this.ringIds.length);
+    const r = this.radius = Math.max(this.narrow ? 3.2 : 4.4, (n * CARD_W * scale * 0.95) / TAU);
     for (const id in this.cards) {
       const k = this.cards[id];
       k.home.set(r * Math.sin(k.angle), 0, r * Math.cos(k.angle));

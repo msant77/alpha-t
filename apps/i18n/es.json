@@ -86,7 +86,8 @@
       "triagem": "Triaje",
       "issue": "Issue",
       "impl": "Implementación",
-      "revisao": "Revisión"
+      "revisao": "Revisión",
+      "deploy": "Desplegado"
     }
   },
   "home": {
@@ -146,7 +147,8 @@
         "items": [
           "Paquetes de US$ 39, US$ 109 o US$ 319 (cerca de 11, 36 o 112 PRs de tamaño medio)",
           "Cada job empieza solo después de una aprobación",
-          "2.000 feedbacks por mes, 10 proyectos, 10 asientos"
+          "2.000 feedbacks por mes, 10 proyectos, 10 asientos",
+          "Próximamente: armar un release con un conjunto de feedbacks implementados"
         ]
       },
       "both": {
@@ -156,7 +158,8 @@
         "items": [
           "Paquetes de US$ 49, US$ 159 o US$ 429",
           "5.000 feedbacks por mes, 20 proyectos, 15 asientos",
-          "Adjuntos guardados por 1 año"
+          "Adjuntos guardados por 1 año",
+          "Próximamente: armar un release con un conjunto de feedbacks implementados"
         ]
       }
     },
@@ -200,7 +203,8 @@
         },
         "cap": [
           "Empresas, proyectos y miembros con roles; feedback con filtros e historial.",
-          "Capturas en almacenamiento privado. Avisa a los agentes con un webhook firmado."
+          "Capturas en almacenamiento privado. Avisa a los agentes con un webhook firmado.",
+          "Próximamente: armar un release con un conjunto de feedbacks implementados (depende del plan)."
         ]
       },
       "cli": {
@@ -284,16 +288,54 @@
         ]
       },
       "revisao": {
-        "title": "Revisión humana",
+        "title": "Merge",
         "short": "el equipo",
-        "sub": "aprueba · revisa · hace el merge",
+        "sub": "aprueba · hace el merge",
         "m": {
           "aprovacoes": "aprobaciones",
-          "entregues": "entregados"
+          "merges": "merges"
         },
         "cap": [
           "El equipo aprueba el job, revisa el diff y hace el merge.",
-          "Quien reportó ve “Entregado” en el widget."
+          "Ningún agente hace merge."
+        ]
+      },
+      "reviewer": {
+        "title": "Agente revisor",
+        "short": "revisor",
+        "sub": "próximamente",
+        "m": {
+          "rev": "revisa el diff",
+          "t1": "próximamente"
+        },
+        "cap": [
+          "Un agente revisa el diff del PR en borrador y comenta antes del equipo.",
+          "Próximamente."
+        ]
+      },
+      "ci": {
+        "title": "CI",
+        "short": "CI",
+        "sub": "GitHub Actions",
+        "m": {
+          "ci": "corre el CI",
+          "t1": "GitHub Actions"
+        },
+        "cap": [
+          "Después del merge, corre el CI del repositorio y publica la nueva versión."
+        ]
+      },
+      "deployed": {
+        "title": "Desplegado",
+        "short": "desplegado",
+        "sub": "estado del feedback",
+        "m": {
+          "entregues": "desplegados",
+          "t1": "quien reportó recibe el aviso"
+        },
+        "cap": [
+          "Un webhook marca el feedback como Desplegado.",
+          "Quien reportó recibe el aviso en el widget."
         ]
       }
     },
@@ -346,16 +388,39 @@
           "Rama client/issue-N; el PR cierra el issue cuando alguien hace el merge."
         ]
       },
-      "pr-r": {
-        "title": "revisión",
+      "pr-rv": {
+        "label": "revisión del agente",
+        "title": "revisión del agente",
         "cap": [
-          "El PR espera al equipo, con el resultado de las verificaciones."
+          "El PR en borrador pasa al agente revisor. Próximamente."
         ]
       },
-      "r-w": {
-        "title": "nueva versión",
+      "rv-r": {
+        "label": "comentarios",
+        "title": "comentarios",
         "cap": [
-          "Merge y deploy los hacen personas; el estado vuelve a quien reportó."
+          "El revisor comenta; decide el equipo."
+        ]
+      },
+      "r-ci": {
+        "label": "merge",
+        "title": "merge",
+        "cap": [
+          "Una persona aprueba y hace el merge; empieza el CI."
+        ]
+      },
+      "ci-d": {
+        "label": "webhook",
+        "title": "webhook",
+        "cap": [
+          "El CI terminado avisa a Alpha Tester con un webhook."
+        ]
+      },
+      "d-w": {
+        "label": "aviso",
+        "title": "aviso",
+        "cap": [
+          "Quien reportó ve “Desplegado” en el widget: el ciclo se cierra."
         ]
       }
     },
@@ -374,6 +439,9 @@
       ],
       "revisao": [
         "El equipo revisa y hace el merge."
+      ],
+      "deploy": [
+        "El merge pasa por el CI y el feedback queda Desplegado; quien reportó recibe el aviso."
       ]
     },
     "log": {
@@ -393,8 +461,12 @@
       "x3": "HTML válido · 0 enlaces rotos · US$ 0,38",
       "pr1": "PR en borrador #{prNo} · client/issue-{issueNo}",
       "r2": "revisa el diff y las verificaciones",
-      "r3": "merge hecho por una persona · deploy",
-      "w3": "estado “Entregado” para quien reportó"
+      "r3": "merge hecho por una persona",
+      "w3": "quien reportó recibe el aviso: “Desplegado”",
+      "rv1": "revisor: 0 bloqueos · 2 sugerencias",
+      "ci1": "GitHub Actions: build · pruebas · deploy",
+      "ci2": "CI en verde · deploy listo",
+      "d1": "feedback marcado “Desplegado”"
     }
   },
   "tech": {
@@ -404,7 +476,8 @@
       "agent": "Agente",
       "tri": "Pipeline · Triaje",
       "imp": "Pipeline · Implementación",
-      "results": "Resultados en GitHub"
+      "results": "Resultados en GitHub",
+      "rev": "Revisión · próximamente"
     },
     "node": {
       "ev-fb": {
@@ -576,6 +649,54 @@
         "cap": [
           "Espera la revisión del equipo; nunca hace merge. Próximamente."
         ]
+      },
+      "v1": {
+        "title": "Revisar el diff",
+        "short": "revisor",
+        "sub": "próximamente",
+        "cap": [
+          "El agente revisor lee el diff del PR en borrador. Próximamente."
+        ]
+      },
+      "v2": {
+        "title": "Comentar en el PR",
+        "short": "revisor",
+        "sub": "próximamente",
+        "cap": [
+          "Comenta en el PR; decide el equipo. Próximamente."
+        ]
+      },
+      "st-dep": {
+        "title": "Desplegado",
+        "short": "panel",
+        "sub": "estado del feedback",
+        "cap": [
+          "El webhook del CI marca el feedback como Desplegado."
+        ]
+      },
+      "ev-notify": {
+        "title": "Aviso",
+        "short": "widget",
+        "sub": "a quien reportó",
+        "cap": [
+          "Quien reportó ve “Desplegado” en el widget."
+        ]
+      },
+      "r-merge": {
+        "title": "Merge",
+        "short": "el equipo",
+        "sub": "una persona aprueba",
+        "cap": [
+          "Una persona aprueba y hace el merge; ningún agente hace merge."
+        ]
+      },
+      "r-ci": {
+        "title": "GitHub Actions",
+        "short": "CI",
+        "sub": "build · pruebas · deploy",
+        "cap": [
+          "El CI del repositorio corre después del merge y publica la versión."
+        ]
       }
     },
     "edge": {
@@ -676,6 +797,41 @@
         "cap": [
           "Rama client/issue-N y un PR en borrador."
         ]
+      },
+      "e-rv": {
+        "label": "PR",
+        "title": "PR",
+        "cap": [
+          "El PR en borrador sigue al agente revisor. Próximamente."
+        ]
+      },
+      "e-rvm": {
+        "label": "aprobación",
+        "title": "aprobación",
+        "cap": [
+          "Los comentarios ayudan al equipo a decidir el merge."
+        ]
+      },
+      "e-ci": {
+        "label": "merge",
+        "title": "merge",
+        "cap": [
+          "El merge dispara GitHub Actions."
+        ]
+      },
+      "e-hook2": {
+        "label": "webhook",
+        "title": "webhook",
+        "cap": [
+          "El CI terminado avisa a Alpha Tester con un webhook."
+        ]
+      },
+      "e-notify": {
+        "label": "aviso",
+        "title": "aviso",
+        "cap": [
+          "El estado vuelve a quien reportó."
+        ]
       }
     },
     "step": {
@@ -683,7 +839,7 @@
         "Feedback nuevo: triaje e issue en GitHub."
       ],
       "s2": [
-        "Aprobación: implementación y PR en borrador."
+        "Aprobación: implementación, PR en borrador, revisión, merge, CI y “Desplegado”."
       ],
       "s3": [
         "Duplicado: ningún issue nuevo, +1 en el original, estado en el panel."
@@ -691,7 +847,7 @@
     },
     "stepLabel": {
       "s1": "Issue",
-      "s2": "PR",
+      "s2": "PR → Desplegado",
       "s3": "Duplicado"
     },
     "log": {
@@ -711,11 +867,16 @@
       "d1": "duplicado de #42 · issue no creado",
       "d2": "+1 comentado en el issue #42",
       "d3": "estado en el panel: duplicado",
-      "c2": "la CLI lista el duplicado"
+      "c2": "la CLI lista el duplicado",
+      "rv1": "el revisor lee el diff (próximamente)",
+      "mg1": "una persona aprueba y hace el merge",
+      "ci1": "GitHub Actions: build · pruebas · deploy",
+      "dp1": "feedback marcado “Desplegado”",
+      "nt1": "quien reportó recibe el aviso en el widget"
     },
     "scenario": {
       "s1": "Escenario 1 · el feedback se vuelve issue",
-      "s2": "Escenario 2 · la aprobación se vuelve PR en borrador",
+      "s2": "Escenario 2 · de la aprobación a “Desplegado”",
       "s3": "Escenario 3 · duplicado, sin issue nuevo"
     }
   },
@@ -823,7 +984,8 @@
         "anexos": {
           "title": "Adjuntos",
           "lines": [
-            "Guardados en almacenamiento privado, abiertos en el panel y en el issue mediante enlaces firmados."
+            "Guardados en almacenamiento privado, abiertos en el panel y en el issue mediante enlaces firmados.",
+            "Próximamente: con la integración de GitHub, imágenes y adjuntos se guardan en el repositorio y quedan referenciados en el feedback original, en vez de vencer."
           ]
         },
         "chaves": {
@@ -836,7 +998,7 @@
         "tracker": {
           "title": "Mis feedbacks",
           "lines": [
-            "Quien reportó sigue el avance: Enviado, En análisis, En curso, Resuelto, Entregado.",
+            "Quien reportó sigue el avance: Enviado, En análisis, En curso, Resuelto, Desplegado.",
             "Sin login: el vínculo queda en el navegador."
           ]
         }
@@ -853,7 +1015,7 @@
       "En análisis",
       "En curso",
       "Resuelto",
-      "Entregado"
+      "Desplegado"
     ],
     "triagem": {
       "path": ">_ alpha tester / triaje",
@@ -1067,7 +1229,7 @@
           ]
         },
         "entregue": {
-          "title": "Entregado",
+          "title": "Desplegado",
           "lines": [
             "Quien reportó ve cambiar el estado en el widget."
           ]
@@ -1077,7 +1239,7 @@
         "push de la rama",
         "abrir el PR en borrador",
         "revisión del equipo",
-        "estado: Entregado"
+        "estado: Desplegado"
       ]
     },
     "terminal": {

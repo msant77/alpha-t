@@ -86,7 +86,8 @@
       "triagem": "Triage",
       "issue": "Issue",
       "impl": "Implementation",
-      "revisao": "Review"
+      "revisao": "Review",
+      "deploy": "Deployed"
     }
   },
   "home": {
@@ -146,7 +147,8 @@
         "items": [
           "Packs of US$ 39, US$ 109 or US$ 319 (about 11, 36 or 112 medium-sized PRs)",
           "Every job starts only after your approval",
-          "2,000 feedback items a month, 10 projects, 10 seats"
+          "2,000 feedback items a month, 10 projects, 10 seats",
+          "Coming soon: compose a release from a set of implemented feedback"
         ]
       },
       "both": {
@@ -156,7 +158,8 @@
         "items": [
           "Packs of US$ 49, US$ 159 or US$ 429",
           "5,000 feedback items a month, 20 projects, 15 seats",
-          "Attachments kept for 1 year"
+          "Attachments kept for 1 year",
+          "Coming soon: compose a release from a set of implemented feedback"
         ]
       }
     },
@@ -200,7 +203,8 @@
         },
         "cap": [
           "Companies, projects and members with roles; feedback with filters and history.",
-          "Screenshots in private storage. Notifies the agents with a signed webhook."
+          "Screenshots in private storage. Notifies the agents with a signed webhook.",
+          "Coming soon: compose a release from a set of implemented feedback (depends on the plan)."
         ]
       },
       "cli": {
@@ -284,16 +288,54 @@
         ]
       },
       "revisao": {
-        "title": "Human review",
+        "title": "Merge",
         "short": "your team",
-        "sub": "approve · review · merge",
+        "sub": "approve · merge",
         "m": {
           "aprovacoes": "approvals",
-          "entregues": "delivered"
+          "merges": "merges"
         },
         "cap": [
           "Your team approves the job, reviews the diff and merges.",
-          "The reporter sees “Delivered” in the widget."
+          "No agent ever merges."
+        ]
+      },
+      "reviewer": {
+        "title": "Reviewer agent",
+        "short": "reviewer",
+        "sub": "coming soon",
+        "m": {
+          "rev": "reviews the diff",
+          "t1": "coming soon"
+        },
+        "cap": [
+          "An agent reviews the draft PR's diff and comments before your team.",
+          "Coming soon."
+        ]
+      },
+      "ci": {
+        "title": "CI",
+        "short": "CI",
+        "sub": "GitHub Actions",
+        "m": {
+          "ci": "runs the CI",
+          "t1": "GitHub Actions"
+        },
+        "cap": [
+          "After the merge, the repository's CI runs and ships the new version."
+        ]
+      },
+      "deployed": {
+        "title": "Deployed",
+        "short": "deployed",
+        "sub": "feedback status",
+        "m": {
+          "entregues": "deployed",
+          "t1": "the reporter is told"
+        },
+        "cap": [
+          "A webhook marks the feedback as Deployed.",
+          "The reporter is told in the widget."
         ]
       }
     },
@@ -346,16 +388,39 @@
           "Branch client/issue-N; the PR closes the issue when someone merges it."
         ]
       },
-      "pr-r": {
-        "title": "review",
+      "pr-rv": {
+        "label": "agent review",
+        "title": "agent review",
         "cap": [
-          "The PR waits for your team, with the check results."
+          "The draft PR goes to the reviewer agent. Coming soon."
         ]
       },
-      "r-w": {
-        "title": "new version",
+      "rv-r": {
+        "label": "comments",
+        "title": "comments",
         "cap": [
-          "Merge and deploy are done by people; the status goes back to the reporter."
+          "The reviewer comments; your team decides."
+        ]
+      },
+      "r-ci": {
+        "label": "merge",
+        "title": "merge",
+        "cap": [
+          "A person approves and merges; CI starts."
+        ]
+      },
+      "ci-d": {
+        "label": "webhook",
+        "title": "webhook",
+        "cap": [
+          "The finished CI tells Alpha Tester with a webhook."
+        ]
+      },
+      "d-w": {
+        "label": "notice",
+        "title": "notice",
+        "cap": [
+          "The reporter sees “Deployed” in the widget: the loop closes."
         ]
       }
     },
@@ -374,6 +439,9 @@
       ],
       "revisao": [
         "Your team reviews and merges."
+      ],
+      "deploy": [
+        "The merge goes through CI and the feedback becomes Deployed; the reporter is told."
       ]
     },
     "log": {
@@ -393,8 +461,12 @@
       "x3": "valid HTML · 0 broken links · US$ 0.38",
       "pr1": "draft PR #{prNo} · client/issue-{issueNo}",
       "r2": "reviews the diff and the checks",
-      "r3": "merged by a person · deploy",
-      "w3": "status “Delivered” for the reporter"
+      "r3": "merged by a person",
+      "w3": "the reporter is told: “Deployed”",
+      "rv1": "reviewer: 0 blockers · 2 suggestions",
+      "ci1": "GitHub Actions: build · tests · deploy",
+      "ci2": "CI green · deploy done",
+      "d1": "feedback marked “Deployed”"
     }
   },
   "tech": {
@@ -404,7 +476,8 @@
       "agent": "Agent",
       "tri": "Pipeline · Triage",
       "imp": "Pipeline · Implementation",
-      "results": "Results on GitHub"
+      "results": "Results on GitHub",
+      "rev": "Review · coming soon"
     },
     "node": {
       "ev-fb": {
@@ -576,6 +649,54 @@
         "cap": [
           "Waits for your team's review; never merges. Coming soon."
         ]
+      },
+      "v1": {
+        "title": "Review the diff",
+        "short": "reviewer",
+        "sub": "coming soon",
+        "cap": [
+          "The reviewer agent reads the draft PR's diff. Coming soon."
+        ]
+      },
+      "v2": {
+        "title": "Comment on the PR",
+        "short": "reviewer",
+        "sub": "coming soon",
+        "cap": [
+          "It comments on the PR; your team decides. Coming soon."
+        ]
+      },
+      "st-dep": {
+        "title": "Deployed",
+        "short": "dashboard",
+        "sub": "feedback status",
+        "cap": [
+          "The CI webhook marks the feedback as Deployed."
+        ]
+      },
+      "ev-notify": {
+        "title": "Notice",
+        "short": "widget",
+        "sub": "to the reporter",
+        "cap": [
+          "The reporter sees “Deployed” in the widget."
+        ]
+      },
+      "r-merge": {
+        "title": "Merge",
+        "short": "your team",
+        "sub": "a person approves",
+        "cap": [
+          "A person approves and merges; no agent ever merges."
+        ]
+      },
+      "r-ci": {
+        "title": "GitHub Actions",
+        "short": "CI",
+        "sub": "build · tests · deploy",
+        "cap": [
+          "The repository's CI runs after the merge and ships the version."
+        ]
       }
     },
     "edge": {
@@ -676,6 +797,41 @@
         "cap": [
           "Branch client/issue-N and a draft PR."
         ]
+      },
+      "e-rv": {
+        "label": "PR",
+        "title": "PR",
+        "cap": [
+          "The draft PR goes on to the reviewer agent. Coming soon."
+        ]
+      },
+      "e-rvm": {
+        "label": "approval",
+        "title": "approval",
+        "cap": [
+          "The comments help your team decide the merge."
+        ]
+      },
+      "e-ci": {
+        "label": "merge",
+        "title": "merge",
+        "cap": [
+          "The merge triggers GitHub Actions."
+        ]
+      },
+      "e-hook2": {
+        "label": "webhook",
+        "title": "webhook",
+        "cap": [
+          "The finished CI tells Alpha Tester with a webhook."
+        ]
+      },
+      "e-notify": {
+        "label": "notice",
+        "title": "notice",
+        "cap": [
+          "The status goes back to the reporter."
+        ]
       }
     },
     "step": {
@@ -683,7 +839,7 @@
         "New feedback: triage and a GitHub issue."
       ],
       "s2": [
-        "Approval: implementation and a draft PR."
+        "Approval: implementation, draft PR, review, merge, CI and “Deployed”."
       ],
       "s3": [
         "Duplicate: no new issue, +1 on the original, status in the dashboard."
@@ -691,7 +847,7 @@
     },
     "stepLabel": {
       "s1": "Issue",
-      "s2": "PR",
+      "s2": "PR → Deployed",
       "s3": "Duplicate"
     },
     "log": {
@@ -711,11 +867,16 @@
       "d1": "duplicate of #42 · no issue created",
       "d2": "+1 posted on issue #42",
       "d3": "status in the dashboard: duplicate",
-      "c2": "the CLI lists the duplicate"
+      "c2": "the CLI lists the duplicate",
+      "rv1": "reviewer reads the diff (coming soon)",
+      "mg1": "a person approves and merges",
+      "ci1": "GitHub Actions: build · tests · deploy",
+      "dp1": "feedback marked “Deployed”",
+      "nt1": "the reporter is told in the widget"
     },
     "scenario": {
       "s1": "Scenario 1 · feedback becomes an issue",
-      "s2": "Scenario 2 · approval becomes a draft PR",
+      "s2": "Scenario 2 · from approval to “Deployed”",
       "s3": "Scenario 3 · a duplicate, no new issue"
     }
   },
@@ -823,7 +984,8 @@
         "anexos": {
           "title": "Attachments",
           "lines": [
-            "Kept in private storage, opened in the dashboard and in the issue through signed links."
+            "Kept in private storage, opened in the dashboard and in the issue through signed links.",
+            "Coming soon: with the GitHub integration, images and attachments are stored in the repository and referenced from the original feedback instead of expiring."
           ]
         },
         "chaves": {
@@ -836,7 +998,7 @@
         "tracker": {
           "title": "My feedback",
           "lines": [
-            "The reporter follows along: Submitted, Under review, In progress, Resolved, Delivered.",
+            "The reporter follows along: Submitted, Under review, In progress, Resolved, Deployed.",
             "No login: the link lives in the browser."
           ]
         }
@@ -853,7 +1015,7 @@
       "Under review",
       "In progress",
       "Resolved",
-      "Delivered"
+      "Deployed"
     ],
     "triagem": {
       "path": ">_ alpha tester / triage",
@@ -1067,7 +1229,7 @@
           ]
         },
         "entregue": {
-          "title": "Delivered",
+          "title": "Deployed",
           "lines": [
             "The reporter sees the status change in the widget."
           ]
@@ -1077,7 +1239,7 @@
         "push the branch",
         "open the draft PR",
         "your team's review",
-        "status: Delivered"
+        "status: Deployed"
       ]
     },
     "terminal": {

@@ -326,6 +326,7 @@
     if (this.railEl) {
       this.railEl.setAttribute('aria-label', T('common.rail.label'));
       var list = el('ol', 'rail-steps');
+      list.style.setProperty('--n', d.steps.length);
       this.stepEls = {};
       d.steps.forEach(function (s, i) {
         var li = el('li', 'rail-step');

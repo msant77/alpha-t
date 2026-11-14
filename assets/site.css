@@ -380,7 +380,7 @@ h2 .badge { margin-left: 6px; }
 .hero-dock {
   position: absolute; z-index: 3; left: 50%; bottom: 16px; transform: translateX(-50%);
   width: min(1120px, calc(100% - 32px));
-  display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 12px; align-items: end;
+  display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.25fr); gap: 12px; align-items: end;
 }
 .story-log {
   font: 11.5px/1.55 var(--font-mono); color: var(--term-text);
@@ -405,7 +405,7 @@ h2 .badge { margin-left: 6px; }
   box-shadow: var(--shadow-card); font-family: var(--font-mono);
 }
 .rail-steps {
-  list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr);
+  list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(var(--n, 5), minmax(0, 1fr));
   position: relative;
 }
 .rail-steps::before {
@@ -422,7 +422,7 @@ h2 .badge { margin-left: 6px; }
   transition: background .4s ease, border-color .4s ease, box-shadow .4s ease;
 }
 .rail-n { opacity: .8; }
-.rail-label { font-family: var(--font-display); font-size: 15px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--term-text); }
+.rail-label { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--font-display); font-size: 14px; font-weight: 600; letter-spacing: .03em; text-transform: uppercase; color: var(--term-text); }
 .rail-btn.is-past::after { background: var(--term-line); }
 .rail-btn.is-on .rail-label, .rail-btn.is-on .rail-n { color: var(--scene-gold); }
 .rail-btn.is-on::after { background: var(--scene-gold); border-color: var(--scene-gold); box-shadow: 0 0 10px var(--scene-gold); }

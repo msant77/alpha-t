@@ -235,7 +235,7 @@
       lx = Math.abs(q[1] - p[1]) < 4 ? (p[0] + q[0]) / 2 : (Math.abs(q[0] - mx) > Math.abs(mx - p[0]) ? (mx + q[0]) / 2 : (p[0] + mx) / 2);
       ly = Math.abs(q[0] - mx) > Math.abs(mx - p[0]) ? q[1] - 6 : p[1] - 6;
     } else if ((fs === 't' || fs === 'b') && (ts === 't' || ts === 'b')) {
-      my = (p[1] + q[1]) / 2;
+      my = (this.narrow && d.viaYN != null) ? d.viaYN : (d.viaY != null ? d.viaY : (p[1] + q[1]) / 2);
       pts = [p, [p[0], my], [q[0], my], q];
       lx = q[0] + 6; ly = (my + q[1]) / 2 + 4;
     } else if (fs === 'r' || fs === 'l') {
