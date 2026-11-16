@@ -106,6 +106,7 @@
 
     (d.groups || []).forEach(function (g) {
       var box = el('div', 'tg tg-' + g.kind);
+      if (g.cls) box.classList.add(g.cls);
       box.setAttribute('aria-hidden', 'true');
       var label = el('div', 'tg-label');
       story.bind(label, function () { return story.tt('group.' + g.id); });
@@ -117,6 +118,7 @@
     (d.nodes || []).forEach(function (n) {
       var b = el('div', 'tn r-' + (n.role || 'core') + (n.step ? ' is-step' : ''));
       b.setAttribute('aria-hidden', 'true');
+      if (n.cls) b.classList.add(n.cls);
       var head = el('div', 'tn-head');
       head.appendChild(icon(n.icon));
       var title = el('span', 'tn-title');
@@ -143,6 +145,7 @@
     });
     (d.edges || []).forEach(function (e) {
       var path = svg('path', { 'class': 'tech-edge', 'marker-end': 'url(#' + self.mid + ')' });
+      if (e.cls) path.classList.add(e.cls);
       var hit = svg('path', { 'class': 'tech-hit' });
       var label = svg('text', { 'class': 'tech-label' });
       hit.addEventListener('click', function (ev) { ev.stopPropagation(); story.pick('edge', e.id); });

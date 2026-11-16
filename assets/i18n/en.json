@@ -30,6 +30,12 @@
       "symbol": "US$",
       "decimal": ".",
       "note": "Prices in US dollars, converted from the proposed BRL prices at the Central Bank of Brazil PTAX rate of 2026-11-13 (1 USD = 5.6518 BRL) and rounded to price points ending in 9."
+    },
+    "mcp": {
+      "title": "Alpha Tester MCP",
+      "description": "Where the Alpha Tester MCP server stands today and where it goes next: your agents, on your own subscription, working the feedback.",
+      "ogTitle": "Alpha Tester MCP",
+      "ogDescription": "Your agents, our feedback: what already works in the MCP server and what comes next."
     }
   },
   "common": {
@@ -1392,6 +1398,356 @@
     "widget": {
       "title": "Alpha Tester feedback widget",
       "text": "The Alpha Tester widget for apps in testing — bug reports and suggestions sent from inside the app, with screenshots and status tracking for the tester. Available for the web and, soon, for Flutter."
+    }
+  },
+  "mcp": {
+    "h1": "Alpha Tester MCP",
+    "lead": "Your agents, our feedback: what already works and what comes next.",
+    "scene": {
+      "title": "Today and the roadmap"
+    },
+    "text": {
+      "label": "Today and why on the client side"
+    },
+    "today": {
+      "title": "Today",
+      "l1": "MCP server over stdio.",
+      "l2": "Secret key with the manage scope.",
+      "l3": "Seven tools in three tiers: T0 read · T1 note and priority · T2 status and issue.",
+      "l4": "A limit per tier and an audit record per session.",
+      "key": "The key comes from the dashboard and lives in the client's own configuration, never in the repository."
+    },
+    "why": {
+      "title": "Why on the client side",
+      "l1": "The budget is the client's own subscription.",
+      "l2": "Credentials stay with them: no repository token on the platform for this path.",
+      "l3": "Harder issues become possible, with a person in the session.",
+      "l4": "No vendor lock: GitHub, GitLab or a self-hosted forge, their choice.",
+      "l5": "Code never leaves the client's machine or CI.",
+      "l6": "Alpha Tester keeps capture, screening, routing, tracking and the status page."
+    },
+    "note": "No roadmap item is a promise of a date; it is the order.",
+    "group": {
+      "tenant": "Client side · own subscription",
+      "server": "MCP server · at-mcp",
+      "tiers": "stdio · secret key · manage scope",
+      "platform": "Alpha Tester",
+      "hosted": "Hosted agents · platform keys",
+      "github": "GitHub",
+      "roadmap": "Roadmap"
+    },
+    "node": {
+      "cc": {
+        "title": "Claude Code",
+        "short": "Claude Code",
+        "sub": "own plan",
+        "cap": [
+          "The client's agent, in their own terminal, calls the MCP server with the secret key kept in their own configuration."
+        ]
+      },
+      "ide": {
+        "title": "IDE assistant",
+        "short": "IDE",
+        "sub": "MCP client",
+        "cap": [
+          "Any client that speaks MCP works; the budget stays the subscription of whoever uses it."
+        ]
+      },
+      "ci": {
+        "title": "CI bot",
+        "short": "CI",
+        "sub": "client job",
+        "cap": [
+          "A job in the client's pipeline can read feedback and add notes, up to the maximum tier they choose."
+        ]
+      },
+      "t0": {
+        "title": "T0 · read",
+        "short": "at-mcp T0",
+        "sub": "read only",
+        "cap": [
+          "Read-only tools, such as list_feedback and get_feedback: list and open feedback.",
+          "Always available, whatever the maximum tier."
+        ]
+      },
+      "t1": {
+        "title": "T1 · note, priority",
+        "short": "at-mcp T1",
+        "sub": "light writes",
+        "cap": [
+          "Light write tools: a note on the feedback and its priority.",
+          "This is the tier of the install command shown below."
+        ]
+      },
+      "t2": {
+        "title": "T2 · status, issue",
+        "short": "at-mcp T2",
+        "sub": "changes state",
+        "cap": [
+          "Tools that change state: set_status on the feedback and create_issue to open the issue.",
+          "With --max-tier T1 they do not even appear; in this scenario the client started the server with T2."
+        ]
+      },
+      "panel": {
+        "title": "Dashboard · feedback page",
+        "short": "dashboard",
+        "sub": "status · notes",
+        "cap": [
+          "The status and notes the server writes show up on the feedback page, for the team and for the reporter."
+        ]
+      },
+      "api": {
+        "title": "API · key routes",
+        "short": "API",
+        "sub": "secret key · manage",
+        "cap": [
+          "The MCP server is just an API client: every call goes through the same routes, with the secret key and the manage scope.",
+          "Every call lands in the session's audit record."
+        ]
+      },
+      "db": {
+        "title": "Database",
+        "short": "database",
+        "sub": "per company and project",
+        "cap": [
+          "Data kept apart per company and project; a key only sees its own project."
+        ]
+      },
+      "gh-issue": {
+        "title": "Issue",
+        "short": "GitHub",
+        "sub": "with labels",
+        "cap": [
+          "The issue made by create_issue, in the project's repository."
+        ]
+      },
+      "gh-pr": {
+        "title": "Pull request",
+        "short": "GitHub",
+        "sub": "opened by the client",
+        "cap": [
+          "The pull request the client's agent opens with their own GitHub MCP; a person does the merge."
+        ]
+      },
+      "h-tri": {
+        "title": "Triage",
+        "short": "triage",
+        "sub": "platform key",
+        "cap": [
+          "The hosted triage agent, with the platform's keys. It is another path, which this server does not use."
+        ]
+      },
+      "h-imp": {
+        "title": "Implementer",
+        "short": "implementer",
+        "sub": "platform key",
+        "cap": [
+          "The hosted implementer. On the roadmap, the MCP server will be able to ask for that work with an implement tool."
+        ]
+      },
+      "r1": {
+        "title": "Seven tools",
+        "short": "roadmap",
+        "sub": "today",
+        "cap": [
+          "Done: seven tools in three tiers, in the MCP server."
+        ]
+      },
+      "r2": {
+        "title": "Tiers and audit",
+        "short": "roadmap",
+        "sub": "today",
+        "cap": [
+          "Done: a limit per tier and an audit record per session."
+        ]
+      },
+      "r3": {
+        "title": "Attach pull request",
+        "short": "roadmap",
+        "sub": "next",
+        "cap": [
+          "Next: link the client's pull request to the feedback page.",
+          "Today the pull request exists on GitHub, but the dashboard does not show it yet."
+        ]
+      },
+      "r4": {
+        "title": "Read scope on keys",
+        "short": "roadmap",
+        "sub": "next",
+        "cap": [
+          "Next: read-only keys, for whoever must not write anything."
+        ]
+      },
+      "r5": {
+        "title": "Implement tool",
+        "short": "roadmap",
+        "sub": "next",
+        "cap": [
+          "Next: a tool that asks the hosted implementer for the work."
+        ]
+      },
+      "r6": {
+        "title": "Webhook for status",
+        "short": "roadmap",
+        "sub": "next",
+        "cap": [
+          "Next: a webhook that carries the job's status back to the feedback page."
+        ]
+      },
+      "r7": {
+        "title": "Similarity and duplicates",
+        "short": "roadmap",
+        "sub": "later",
+        "cap": [
+          "Later: find similar feedback and add up duplicates, through the MCP server too."
+        ]
+      },
+      "r8": {
+        "title": "HTTP transport",
+        "short": "roadmap",
+        "sub": "later",
+        "cap": [
+          "Later: speak MCP over HTTP as well, besides stdio."
+        ]
+      },
+      "r9": {
+        "title": "Published package",
+        "short": "roadmap",
+        "sub": "later",
+        "cap": [
+          "Later: a published package, to install the server without assembling anything."
+        ]
+      }
+    },
+    "edge": {
+      "e-ci-t0": {
+        "label": "",
+        "title": "read",
+        "cap": [
+          "The CI bot reads feedback through tier T0."
+        ]
+      },
+      "e-ide-t1": {
+        "label": "",
+        "title": "note",
+        "cap": [
+          "The IDE assistant adds notes and changes priority through tier T1."
+        ]
+      },
+      "e-cc-t0": {
+        "label": "list_feedback",
+        "title": "list_feedback",
+        "cap": [
+          "Lists the project's feedback; get_feedback opens one of them."
+        ]
+      },
+      "e-cc-t2": {
+        "label": "set_status",
+        "title": "set_status",
+        "cap": [
+          "Changes the feedback's status or creates the issue; it only exists at tier T2."
+        ]
+      },
+      "e-t0-api": {
+        "label": "",
+        "title": "read",
+        "cap": [
+          "The server turns the read call into an API route, with the secret key."
+        ]
+      },
+      "e-t2-api": {
+        "label": "",
+        "title": "write",
+        "cap": [
+          "The same for status and issue calls, within the tier's limit."
+        ]
+      },
+      "e-t2-himp": {
+        "label": "implement",
+        "title": "implement",
+        "cap": [
+          "On the roadmap: ask the hosted implementer for the work. It does not exist yet."
+        ]
+      },
+      "e-api-panel": {
+        "label": "",
+        "title": "status and notes",
+        "cap": [
+          "The status and notes land on the feedback page."
+        ]
+      },
+      "e-api-db": {
+        "label": "",
+        "title": "query",
+        "cap": [
+          "Every query filtered by company and project."
+        ]
+      },
+      "e-api-issue": {
+        "label": "",
+        "title": "issue",
+        "cap": [
+          "The API creates the issue on GitHub when the client asks with create_issue."
+        ]
+      },
+      "e-gh-mcp": {
+        "label": "GitHub MCP",
+        "title": "GitHub MCP",
+        "cap": [
+          "The client's agent uses its own GitHub MCP, with its own credentials, to create the branch and open the pull request.",
+          "None of this goes through the platform."
+        ]
+      },
+      "e-pr-panel": {
+        "label": "attach PR · next",
+        "title": "attach PR · next",
+        "cap": [
+          "The dashed link does not exist yet: linking the pull request to the feedback page is the next roadmap item."
+        ]
+      },
+      "e-htri-himp": {
+        "label": "",
+        "title": "hosted agents",
+        "cap": [
+          "The hosted agents' path, with the platform's keys, stays separate from this one."
+        ]
+      }
+    },
+    "step": {
+      "s1": [
+        "Today: the client's agent reads feedback, changes the status and creates the issue, all through the MCP server."
+      ],
+      "s2": [
+        "The client implements with their own agent and their own GitHub MCP; attaching the pull request to the feedback does not exist yet."
+      ],
+      "s3": [
+        "The roadmap, one item at a time, showing where each one fits in the drawing."
+      ]
+    },
+    "stepLabel": {
+      "s1": "Today",
+      "s2": "The client implements",
+      "s3": "Where it goes"
+    },
+    "scenario": {
+      "s1": "Today, from the client's chair",
+      "s2": "The client implements",
+      "s3": "Where it goes"
+    },
+    "log": {
+      "l1": "list_feedback · 12 items",
+      "l2": "get_feedback · fb_8a1c",
+      "l3": "set_status · accepted",
+      "l4": "create_issue · #142",
+      "l5": "issue #142 opened on GitHub",
+      "b1": "branch fix/fb-8a1c",
+      "b2": "pull request opened",
+      "b3": "attach PR · not yet",
+      "p1": "attach PR · next",
+      "p2": "read scope on keys · next",
+      "p3": "implement · next",
+      "p4": "webhook for status · next",
+      "p5": "similarity · HTTP · package · later"
     }
   }
 }

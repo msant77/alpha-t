@@ -6,7 +6,7 @@ import { readFileSync, writeFileSync, mkdirSync, copyFileSync } from 'node:fs';
 import { dirname } from 'node:path';
 
 const root = new URL('../', import.meta.url).pathname;
-const PAGES = ['index.html', 'como-funciona/index.html', 'precos/index.html'];
+const PAGES = ['index.html', 'como-funciona/index.html', 'precos/index.html', 'mcp/index.html'];
 const LOCALES = ['en', 'es'];
 const SITE = 'https://alphatester.app/';
 
