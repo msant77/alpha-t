@@ -105,9 +105,9 @@
           <h3 data-i18n="mcp.why.title">Por qué del lado del cliente</h3>
           <ul>
             <li data-i18n="mcp.why.l1">El presupuesto es el de la suscripción del propio cliente.</li>
-            <li data-i18n="mcp.why.l2">Las credenciales se quedan con él: ningún token de repositorio en la plataforma en este camino.</li>
+            <li data-i18n="mcp.why.l2">Las credenciales del repositorio se quedan con él: el pull request nace en la máquina del cliente, con sus permisos.</li>
             <li data-i18n="mcp.why.l3">Los issues más difíciles pasan a ser posibles, con una persona en la sesión.</li>
-            <li data-i18n="mcp.why.l4">Sin atadura a un proveedor: GitHub, GitLab o un servidor propio, la elección es suya.</li>
+            <li data-i18n="mcp.why.l4">El código se queda donde el cliente ya trabaja: su agente llega al repositorio por el MCP del propio GitHub, no por la plataforma.</li>
             <li data-i18n="mcp.why.l5">El código no sale de la máquina ni del CI del cliente.</li>
             <li data-i18n="mcp.why.l6">Alpha Tester se encarga de la captura, la clasificación, el enrutamiento, el seguimiento y la página de estado.</li>
           </ul>
@@ -128,33 +128,6 @@
     </nav>
   </div>
 </footer>
-<!-- Alpha Tester feedback widget: hidden unless this browser opted in.
-     ?alpha=1 turns it on (localStorage.alpha = "1"), ?alpha=0 turns it off.
-     Same SDK and dashboard as the testing script (/teste/), on the
-     landing's own project; the key alone selects the project. -->
-<script>
-  (function () {
-    var on = false;
-    try {
-      var q = new URLSearchParams(location.search).get("alpha");
-      if (q === "1") localStorage.setItem("alpha", "1");
-      if (q === "0") localStorage.removeItem("alpha");
-      on = localStorage.getItem("alpha") === "1";
-    } catch (e) { /* storage unavailable: the widget stays hidden */ }
-    if (!on) return;
-    var s = document.createElement("script");
-    s.src = "https://apps.alphatester.app/teste/alpha-tester.umd.js";
-    s.onload = function () {
-      if (!window.AlphaTester) return;
-      AlphaTester.init({
-        projectId: "alpha-tester-landing",
-        apiKey: "at_pub_r1SFXHb8yXUh_sXqehXW86E3AuGcxyxy",
-        endpoint: "https://dev.alphatester.app"
-      });
-    };
-    document.body.appendChild(s);
-  })();
-</script>
 <!-- Alpha Tester feedback widget: hidden unless this browser opted in.
      ?alpha=1 turns it on (localStorage.alpha = "1"), ?alpha=0 turns it off.
      Same SDK and dashboard as the testing script (/teste/), on the

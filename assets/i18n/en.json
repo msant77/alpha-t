@@ -1420,9 +1420,9 @@
     "why": {
       "title": "Why on the client side",
       "l1": "The budget is the client's own subscription.",
-      "l2": "Credentials stay with them: no repository token on the platform for this path.",
+      "l2": "Repository credentials stay with them: the pull request is born on the client's machine, with their permissions.",
       "l3": "Harder issues become possible, with a person in the session.",
-      "l4": "No vendor lock: GitHub, GitLab or a self-hosted forge, their choice.",
+      "l4": "Code stays where the client already works: their agent reaches the repository through GitHub's own MCP, not through the platform.",
       "l5": "Code never leaves the client's machine or CI.",
       "l6": "Alpha Tester keeps capture, screening, routing, tracking and the status page."
     },
@@ -1476,7 +1476,7 @@
         "sub": "light writes",
         "cap": [
           "Light write tools: a note on the feedback and its priority.",
-          "This is the tier of the install command shown below."
+          "With --max-tier T1 the server stops at this tier."
         ]
       },
       "t2": {
@@ -1502,7 +1502,7 @@
         "sub": "secret key · manage",
         "cap": [
           "The MCP server is just an API client: every call goes through the same routes, with the secret key and the manage scope.",
-          "Every call lands in the session's audit record."
+          "Every write lands in the audit record."
         ]
       },
       "db": {
@@ -1726,7 +1726,7 @@
     },
     "stepLabel": {
       "s1": "Today",
-      "s2": "The client implements",
+      "s2": "Client implements",
       "s3": "Where it goes"
     },
     "scenario": {

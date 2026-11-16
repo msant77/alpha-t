@@ -1420,9 +1420,9 @@
     "why": {
       "title": "Por qué del lado del cliente",
       "l1": "El presupuesto es el de la suscripción del propio cliente.",
-      "l2": "Las credenciales se quedan con él: ningún token de repositorio en la plataforma en este camino.",
+      "l2": "Las credenciales del repositorio se quedan con él: el pull request nace en la máquina del cliente, con sus permisos.",
       "l3": "Los issues más difíciles pasan a ser posibles, con una persona en la sesión.",
-      "l4": "Sin atadura a un proveedor: GitHub, GitLab o un servidor propio, la elección es suya.",
+      "l4": "El código se queda donde el cliente ya trabaja: su agente llega al repositorio por el MCP del propio GitHub, no por la plataforma.",
       "l5": "El código no sale de la máquina ni del CI del cliente.",
       "l6": "Alpha Tester se encarga de la captura, la clasificación, el enrutamiento, el seguimiento y la página de estado."
     },
@@ -1476,7 +1476,7 @@
         "sub": "escritura ligera",
         "cap": [
           "Herramientas de escritura ligera: una nota en el feedback y su prioridad.",
-          "Es el nivel del comando de instalación que se muestra abajo."
+          "Con --max-tier T1 el servidor se detiene en este nivel."
         ]
       },
       "t2": {
@@ -1502,7 +1502,7 @@
         "sub": "clave secreta · manage",
         "cap": [
           "El servidor MCP es solo un cliente de la API: cada llamada pasa por las mismas rutas, con la clave secreta y el alcance manage.",
-          "Cada llamada entra en el registro de auditoría de la sesión."
+          "Cada escritura entra en el registro de auditoría."
         ]
       },
       "db": {
@@ -1726,7 +1726,7 @@
     },
     "stepLabel": {
       "s1": "Hoy",
-      "s2": "El cliente implementa",
+      "s2": "Cliente implementa",
       "s3": "Hacia dónde va"
     },
     "scenario": {

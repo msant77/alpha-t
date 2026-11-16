@@ -154,32 +154,5 @@
     document.body.appendChild(s);
   })();
 </script>
-<!-- Alpha Tester feedback widget: hidden unless this browser opted in.
-     ?alpha=1 turns it on (localStorage.alpha = "1"), ?alpha=0 turns it off.
-     Same SDK and dashboard as the testing script (/teste/), on the
-     landing's own project; the key alone selects the project. -->
-<script>
-  (function () {
-    var on = false;
-    try {
-      var q = new URLSearchParams(location.search).get("alpha");
-      if (q === "1") localStorage.setItem("alpha", "1");
-      if (q === "0") localStorage.removeItem("alpha");
-      on = localStorage.getItem("alpha") === "1";
-    } catch (e) { /* storage unavailable: the widget stays hidden */ }
-    if (!on) return;
-    var s = document.createElement("script");
-    s.src = "https://apps.alphatester.app/teste/alpha-tester.umd.js";
-    s.onload = function () {
-      if (!window.AlphaTester) return;
-      AlphaTester.init({
-        projectId: "alpha-tester-landing",
-        apiKey: "at_pub_r1SFXHb8yXUh_sXqehXW86E3AuGcxyxy",
-        endpoint: "https://dev.alphatester.app"
-      });
-    };
-    document.body.appendChild(s);
-  })();
-</script>
 </body>
 </html>
