@@ -748,7 +748,7 @@ main .precos-plans { border-top: 0; padding-top: 16px; }
 .mcp-cols ul { padding-left: 20px; margin: 0 0 14px; }
 .mcp-cols li { margin: 4px 0; }
 .mcp-cols pre { margin: 0 0 12px; padding: 10px 12px; overflow-x: auto; border-radius: 8px; background: var(--term-bg); color: var(--term-text); }
-.mcp-cols pre code { background: transparent; padding: 0; color: inherit; }
+.mcp-cols pre code { background: transparent; padding: 0; color: inherit; white-space: pre-wrap; overflow-wrap: anywhere; }
 .mcp-note { margin-top: 18px; }
 
 /* ---- Como funciona: one live card per step ---- */
