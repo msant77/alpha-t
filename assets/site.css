@@ -622,11 +622,14 @@ h2 .badge { margin-left: 6px; }
 .tn.st-run { border-color: var(--tech-accent); box-shadow: 0 0 0 1px var(--tech-accent), 0 0 16px -4px var(--tech-glow); }
 .tn.st-done { border-color: var(--tech-accent); }
 .tn.st-skip { opacity: .7; border-style: dashed; }
+.tn.is-later { border-style: dashed; }
+.tg.is-dim { opacity: .55; }
 .tn.st-skip .tn-title { text-decoration: line-through; }
 .tn.is-hover, .tn.is-sel { box-shadow: 0 0 0 1.5px var(--tech-glow), 0 0 18px -4px var(--tech-glow); }
 .is-live .tn:not(.is-lit):not(.is-sel) { opacity: .58; }
 .tech-edge { fill: none; stroke: var(--tech-line); stroke-width: 1.4; transition: opacity .4s ease; }
 .is-live .tech-edge:not(.is-lit) { opacity: .45; }
+.tech-edge.is-dashed { stroke-dasharray: 5 4; }
 .tech-edge.is-lit { stroke: var(--tech-accent); }
 .tech-edge.is-hot { stroke: var(--tech-glow); stroke-width: 2.2; stroke-dasharray: 6 4; animation: tech-flow .6s linear infinite; }
 .tech-edge.is-sel { stroke: var(--tech-glow); stroke-width: 2.2; }
@@ -735,6 +738,18 @@ main .precos-plans { border-top: 0; padding-top: 16px; }
 .plan-cta { margin-top: auto; align-self: flex-start; }
 .credits h3 { margin-bottom: 8px; color: var(--on-card); }
 .below { padding: 56px 0; }
+
+/* ---- MCP page (unlisted): intro and the two text columns ---- */
+.mcp-page { padding-bottom: 72px; }
+.mcp-intro { padding: 40px 0 8px; }
+.mcp-intro h1 { margin-bottom: 6px; }
+.mcp-cols > * { min-width: 0; }
+.mcp-cols h3 { color: var(--on-card); }
+.mcp-cols ul { padding-left: 20px; margin: 0 0 14px; }
+.mcp-cols li { margin: 4px 0; }
+.mcp-cols pre { margin: 0 0 12px; padding: 10px 12px; overflow-x: auto; border-radius: 8px; background: var(--term-bg); color: var(--term-text); }
+.mcp-cols pre code { background: transparent; padding: 0; color: inherit; white-space: pre-wrap; overflow-wrap: anywhere; }
+.mcp-note { margin-top: 18px; }
 
 /* ---- Como funciona: one live card per step ---- */
 .como { padding-bottom: 96px; }

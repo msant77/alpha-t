@@ -30,6 +30,12 @@
       "symbol": "US$",
       "decimal": ",",
       "note": "Precios en dólares, convertidos de los precios propuestos en reales con la tasa PTAX del Banco Central de Brasil del 13/11/2026 (1 USD = 5,6518 BRL) y redondeados a valores terminados en 9."
+    },
+    "mcp": {
+      "title": "Alpha Tester MCP",
+      "description": "Dónde está hoy el servidor MCP de Alpha Tester y hacia dónde va: tus agentes, con tu propia suscripción, trabajando los feedbacks.",
+      "ogTitle": "Alpha Tester MCP",
+      "ogDescription": "Tus agentes, nuestros feedbacks: lo que ya funciona en el servidor MCP y lo que viene después."
     }
   },
   "common": {
@@ -1392,6 +1398,356 @@
     "widget": {
       "title": "Widget de feedback Alpha Tester",
       "text": "El widget de Alpha Tester para aplicaciones en prueba — reportes de bugs y sugerencias enviados desde dentro de la app, con captura de pantalla y seguimiento del estado para quien prueba. Disponible para la web y, pronto, para Flutter."
+    }
+  },
+  "mcp": {
+    "h1": "Alpha Tester MCP",
+    "lead": "Tus agentes, nuestros feedbacks: lo que ya funciona y lo que viene después.",
+    "scene": {
+      "title": "Hoy y la hoja de ruta"
+    },
+    "text": {
+      "label": "Hoy y por qué del lado del cliente"
+    },
+    "today": {
+      "title": "Hoy",
+      "l1": "Servidor MCP por stdio.",
+      "l2": "Clave secreta con el alcance manage.",
+      "l3": "Siete herramientas en tres niveles: T0 lectura · T1 nota y prioridad · T2 estado e issue.",
+      "l4": "Un límite por nivel y un registro de auditoría por sesión.",
+      "key": "La clave sale del panel y vive en la configuración del propio cliente, nunca en el repositorio."
+    },
+    "why": {
+      "title": "Por qué del lado del cliente",
+      "l1": "El presupuesto es el de la suscripción del propio cliente.",
+      "l2": "Las credenciales del repositorio se quedan con él: el pull request nace en la máquina del cliente, con sus permisos.",
+      "l3": "Los issues más difíciles pasan a ser posibles, con una persona en la sesión.",
+      "l4": "El código se queda donde el cliente ya trabaja: su agente llega al repositorio por el MCP del propio GitHub, no por la plataforma.",
+      "l5": "El código no sale de la máquina ni del CI del cliente.",
+      "l6": "Alpha Tester se encarga de la captura, la clasificación, el enrutamiento, el seguimiento y la página de estado."
+    },
+    "note": "Ningún elemento de la hoja de ruta es promesa de fecha; es el orden.",
+    "group": {
+      "tenant": "Lado del cliente · suscripción propia",
+      "server": "Servidor MCP · at-mcp",
+      "tiers": "stdio · clave secreta · alcance manage",
+      "platform": "Alpha Tester",
+      "hosted": "Agentes alojados · claves de la plataforma",
+      "github": "GitHub",
+      "roadmap": "Hoja de ruta"
+    },
+    "node": {
+      "cc": {
+        "title": "Claude Code",
+        "short": "Claude Code",
+        "sub": "su suscripción",
+        "cap": [
+          "El agente del cliente, en su propia terminal, llama al servidor MCP con la clave secreta guardada en su propia configuración."
+        ]
+      },
+      "ide": {
+        "title": "Asistente en el IDE",
+        "short": "IDE",
+        "sub": "cliente MCP",
+        "cap": [
+          "Sirve cualquier cliente que hable MCP; el presupuesto sigue siendo la suscripción de quien lo usa."
+        ]
+      },
+      "ci": {
+        "title": "Bot de CI",
+        "short": "CI",
+        "sub": "job del cliente",
+        "cap": [
+          "Un job del pipeline del cliente puede leer feedbacks y registrar notas, hasta el nivel máximo que él elija."
+        ]
+      },
+      "t0": {
+        "title": "T0 · lectura",
+        "short": "at-mcp T0",
+        "sub": "solo lectura",
+        "cap": [
+          "Herramientas solo de lectura, como list_feedback y get_feedback: listar y abrir feedbacks.",
+          "Siempre disponible, sea cual sea el nivel máximo."
+        ]
+      },
+      "t1": {
+        "title": "T1 · nota, prioridad",
+        "short": "at-mcp T1",
+        "sub": "escritura ligera",
+        "cap": [
+          "Herramientas de escritura ligera: una nota en el feedback y su prioridad.",
+          "Con --max-tier T1 el servidor se detiene en este nivel."
+        ]
+      },
+      "t2": {
+        "title": "T2 · estado, issue",
+        "short": "at-mcp T2",
+        "sub": "cambia el estado",
+        "cap": [
+          "Herramientas que cambian el estado: set_status en el feedback y create_issue para abrir el issue.",
+          "Con --max-tier T1 ni siquiera aparecen; en este escenario el cliente inició el servidor con T2."
+        ]
+      },
+      "panel": {
+        "title": "Panel · página del feedback",
+        "short": "panel",
+        "sub": "estado · notas",
+        "cap": [
+          "El estado y las notas que escribe el servidor aparecen en la página del feedback, para el equipo y para quien lo reportó."
+        ]
+      },
+      "api": {
+        "title": "API · rutas con clave",
+        "short": "API",
+        "sub": "clave secreta · manage",
+        "cap": [
+          "El servidor MCP es solo un cliente de la API: cada llamada pasa por las mismas rutas, con la clave secreta y el alcance manage.",
+          "Cada escritura entra en el registro de auditoría."
+        ]
+      },
+      "db": {
+        "title": "Base de datos",
+        "short": "base",
+        "sub": "por empresa y proyecto",
+        "cap": [
+          "Datos separados por empresa y proyecto; una clave solo ve su propio proyecto."
+        ]
+      },
+      "gh-issue": {
+        "title": "Issue",
+        "short": "GitHub",
+        "sub": "con etiquetas",
+        "cap": [
+          "El issue creado por create_issue, en el repositorio del proyecto."
+        ]
+      },
+      "gh-pr": {
+        "title": "Pull request",
+        "short": "GitHub",
+        "sub": "abierto por el cliente",
+        "cap": [
+          "El pull request que el agente del cliente abre con su propio GitHub MCP; el merge lo hace una persona."
+        ]
+      },
+      "h-tri": {
+        "title": "Clasificación",
+        "short": "clasificación",
+        "sub": "clave de la plataforma",
+        "cap": [
+          "El agente de clasificación alojado, con las claves de la plataforma. Es otro camino, que este servidor no usa."
+        ]
+      },
+      "h-imp": {
+        "title": "Implementador",
+        "short": "implementador",
+        "sub": "clave de la plataforma",
+        "cap": [
+          "El implementador alojado. En la hoja de ruta, el servidor MCP podrá pedir ese trabajo con una herramienta implementar."
+        ]
+      },
+      "r1": {
+        "title": "Siete herramientas",
+        "short": "hoja de ruta",
+        "sub": "hoy",
+        "cap": [
+          "Terminado: siete herramientas en tres niveles, en el servidor MCP."
+        ]
+      },
+      "r2": {
+        "title": "Niveles y auditoría",
+        "short": "hoja de ruta",
+        "sub": "hoy",
+        "cap": [
+          "Terminado: un límite por nivel y un registro de auditoría por sesión."
+        ]
+      },
+      "r3": {
+        "title": "Adjuntar pull request",
+        "short": "hoja de ruta",
+        "sub": "próximo",
+        "cap": [
+          "Próximo: vincular el pull request del cliente a la página del feedback.",
+          "Hoy el pull request existe en GitHub, pero el panel todavía no lo muestra."
+        ]
+      },
+      "r4": {
+        "title": "Alcance de lectura en las claves",
+        "short": "hoja de ruta",
+        "sub": "próximo",
+        "cap": [
+          "Próximo: claves que solo leen, para quien no debe escribir nada."
+        ]
+      },
+      "r5": {
+        "title": "Herramienta implementar",
+        "short": "hoja de ruta",
+        "sub": "próximo",
+        "cap": [
+          "Próximo: una herramienta que le pide el trabajo al implementador alojado."
+        ]
+      },
+      "r6": {
+        "title": "Webhook para el estado",
+        "short": "hoja de ruta",
+        "sub": "próximo",
+        "cap": [
+          "Próximo: un webhook que lleva el estado del trabajo de vuelta a la página del feedback."
+        ]
+      },
+      "r7": {
+        "title": "Similitud y duplicados",
+        "short": "hoja de ruta",
+        "sub": "después",
+        "cap": [
+          "Después: encontrar feedbacks parecidos y sumar duplicados, también por el servidor MCP."
+        ]
+      },
+      "r8": {
+        "title": "Transporte HTTP",
+        "short": "hoja de ruta",
+        "sub": "después",
+        "cap": [
+          "Después: hablar MCP también por HTTP, además de stdio."
+        ]
+      },
+      "r9": {
+        "title": "Paquete publicado",
+        "short": "hoja de ruta",
+        "sub": "después",
+        "cap": [
+          "Después: un paquete publicado, para instalar el servidor sin armar nada."
+        ]
+      }
+    },
+    "edge": {
+      "e-ci-t0": {
+        "label": "",
+        "title": "leer",
+        "cap": [
+          "El bot de CI lee feedbacks por el nivel T0."
+        ]
+      },
+      "e-ide-t1": {
+        "label": "",
+        "title": "nota",
+        "cap": [
+          "El asistente en el IDE anota y cambia la prioridad por el nivel T1."
+        ]
+      },
+      "e-cc-t0": {
+        "label": "list_feedback",
+        "title": "list_feedback",
+        "cap": [
+          "Lista los feedbacks del proyecto; get_feedback abre uno de ellos."
+        ]
+      },
+      "e-cc-t2": {
+        "label": "set_status",
+        "title": "set_status",
+        "cap": [
+          "Cambia el estado del feedback o crea el issue; solo existe con el nivel T2."
+        ]
+      },
+      "e-t0-api": {
+        "label": "",
+        "title": "lectura",
+        "cap": [
+          "El servidor traduce la llamada de lectura en una ruta de la API, con la clave secreta."
+        ]
+      },
+      "e-t2-api": {
+        "label": "",
+        "title": "escritura",
+        "cap": [
+          "Lo mismo para las llamadas de estado y de issue, dentro del límite del nivel."
+        ]
+      },
+      "e-t2-himp": {
+        "label": "implementar",
+        "title": "implementar",
+        "cap": [
+          "En la hoja de ruta: pedirle el trabajo al implementador alojado. Todavía no existe."
+        ]
+      },
+      "e-api-panel": {
+        "label": "",
+        "title": "estado y notas",
+        "cap": [
+          "El estado y las notas quedan en la página del feedback."
+        ]
+      },
+      "e-api-db": {
+        "label": "",
+        "title": "consulta",
+        "cap": [
+          "Cada consulta filtrada por empresa y proyecto."
+        ]
+      },
+      "e-api-issue": {
+        "label": "",
+        "title": "issue",
+        "cap": [
+          "La API crea el issue en GitHub cuando el cliente lo pide con create_issue."
+        ]
+      },
+      "e-gh-mcp": {
+        "label": "GitHub MCP",
+        "title": "GitHub MCP",
+        "cap": [
+          "El agente del cliente usa su propio GitHub MCP, con sus propias credenciales, para crear la rama y abrir el pull request.",
+          "Nada de esto pasa por la plataforma."
+        ]
+      },
+      "e-pr-panel": {
+        "label": "adjuntar PR · próximo",
+        "title": "adjuntar PR · próximo",
+        "cap": [
+          "El vínculo punteado todavía no existe: unir el pull request a la página del feedback es el próximo elemento de la hoja de ruta."
+        ]
+      },
+      "e-htri-himp": {
+        "label": "",
+        "title": "agentes alojados",
+        "cap": [
+          "El camino de los agentes alojados, con las claves de la plataforma, sigue separado de este."
+        ]
+      }
+    },
+    "step": {
+      "s1": [
+        "Hoy: el agente del cliente lee feedbacks, cambia el estado y crea el issue, todo por el servidor MCP."
+      ],
+      "s2": [
+        "El cliente implementa con su propio agente y su propio GitHub MCP; adjuntar el pull request al feedback todavía no existe."
+      ],
+      "s3": [
+        "La hoja de ruta, un elemento a la vez, mostrando dónde encaja cada uno en el dibujo."
+      ]
+    },
+    "stepLabel": {
+      "s1": "Hoy",
+      "s2": "Cliente implementa",
+      "s3": "Hacia dónde va"
+    },
+    "scenario": {
+      "s1": "Hoy, desde la silla del cliente",
+      "s2": "El cliente implementa",
+      "s3": "Hacia dónde va"
+    },
+    "log": {
+      "l1": "list_feedback · 12 elementos",
+      "l2": "get_feedback · fb_8a1c",
+      "l3": "set_status · aceptado",
+      "l4": "create_issue · #142",
+      "l5": "issue #142 abierto en GitHub",
+      "b1": "rama fix/fb-8a1c",
+      "b2": "pull request abierto",
+      "b3": "adjuntar PR · todavía no",
+      "p1": "adjuntar PR · próximo",
+      "p2": "alcance de lectura en las claves · próximo",
+      "p3": "implementar · próximo",
+      "p4": "webhook para el estado · próximo",
+      "p5": "similitud · HTTP · paquete · después"
     }
   }
 }
