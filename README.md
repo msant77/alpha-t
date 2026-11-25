@@ -12,7 +12,6 @@ The product source lives elsewhere; this repo holds only public content.
 | `como-funciona/index.html` | alphatester.app/como-funciona/ (how it works, one live scene per step) |
 | `precos/index.html` | alphatester.app/precos/ (pricing: plans and credits) |
 | `assets/` | styles, scripts, fonts, vendored libraries and client logos shared by the pages above |
-| `apps/index.html` | apps.alphatester.app (apps & downloads) |
 
 The landing and "Como funciona" use root-relative paths (`/assets/…`,
 `/como-funciona/`), so their deploy must carry `assets/`, `como-funciona/`,
