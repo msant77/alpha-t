@@ -6,7 +6,7 @@
  *   data-i18n="key"            text content
  *   data-i18n-html="key"       trusted markup from our own files (<code>, <em>)
  *   data-i18n-attr="attr:key;attr:key"
- *   data-href="home|como|precos|apps"   internal links that follow the locale
+ *   data-href="home|como|precos"   internal links that follow the locale
  *   data-lang-btn="pt-BR|en|es"         the header switcher
  *
  * Locale: ?lang= wins, then the page's preset (/en/, /es/ entry pages), then
@@ -77,7 +77,6 @@
     if (name === 'home') return origin + pre + '/';
     if (name === 'como') return origin + pre + '/como-funciona/';
     if (name === 'precos') return origin + pre + '/precos/';
-    if (name === 'apps') return 'https://apps.alphatester.app/' + (loc === 'pt-BR' ? '' : '?lang=' + loc);
     return null;
   }
 

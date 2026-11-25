@@ -16,8 +16,7 @@ const get = (d, key) => key.split('.').reduce((v, k) => (v == null ? v : v[k]), 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const escAttr = (s) => esc(s).replace(/"/g, '&quot;');
 const HREF = {
-  home: (l) => `/${l}/`, como: (l) => `/${l}/como-funciona/`, precos: (l) => `/${l}/precos/`,
-  apps: (l) => `https://apps.alphatester.app/?lang=${l}`
+  home: (l) => `/${l}/`, como: (l) => `/${l}/como-funciona/`, precos: (l) => `/${l}/precos/`
 };
 
 function value(d, key) {
